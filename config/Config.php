@@ -64,7 +64,7 @@ class Config extends AbstractConfig
      * @param  ParserInterface $parser Configuration parser
      * @param  bool            $string Enable loading from string
      */
-    public function __construct($values, ParserInterface $parser = null, $string = false)
+    public function __construct($values, ?ParserInterface $parser = null, $string = false)
     {
         if ($string === true) {
             $this->loadFromString($values, $parser);
@@ -83,7 +83,7 @@ class Config extends AbstractConfig
      *
      * @throws EmptyDirectoryException If `$path` is an empty directory
      */
-    protected function loadFromFile($path, ParserInterface $parser = null)
+    protected function loadFromFile($path, ?ParserInterface $parser = null)
     {
         $paths      = $this->getValidPath($path);
         $this->data = [];
@@ -123,7 +123,7 @@ class Config extends AbstractConfig
      *
      * @throws WriteException if the data could not be written to the file
      */
-    public function toFile($filename, WriterInterface $writer = null)
+    public function toFile($filename, ?WriterInterface $writer = null)
     {
         if ($writer === null) {
             // Get file information

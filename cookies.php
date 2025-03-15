@@ -1,32 +1,39 @@
 <?php
 function ywbsetcookie($name,$value,$path='/'){
 	$expires = time()+60*60*24*5; //время, на которое ставятся куки, по умолчанию - 5 дней
-	header("Set-Cookie: {$name}={$value}; Expires={$expires}; Path={$path}; SameSite=None; Secure",false);
+	// Verificar se os cabeçalhos já foram enviados
+	if (!headers_sent()) {
+		header("Set-Cookie: {$name}={$value}; Expires={$expires}; Path={$path}; SameSite=None; Secure", false);
+	}
 }
 
 function get_cookie($name){
-	if (session_status()!==PHP_SESSION_ACTIVE) {
-		session_start(['read_and_close'=>true]);
+	// Iniciar sessão apenas se ainda não foi iniciada e os cabeçalhos não foram enviados
+	if (session_status() !== PHP_SESSION_ACTIVE && !headers_sent()) {
+		session_start(['read_and_close' => true]);
     }
-    $c=(isset($_COOKIE[$name])?$_COOKIE[$name]:(isset($_SESSION[$name])?$_SESSION[$name]:''));
+    $c = (isset($_COOKIE[$name]) ? $_COOKIE[$name] : (isset($_SESSION[$name]) ? $_SESSION[$name] : ''));
 	return $c;
 }
 
 function get_subid(){
-    $subid=get_cookie('subid');
+    $subid = get_cookie('subid');
 	return $subid;
 }
 
 function set_subid(){
-	if (session_status()!==PHP_SESSION_ACTIVE) {
+	// Iniciar sessão apenas se ainda não foi iniciada e os cabeçalhos não foram enviados
+	if (session_status() !== PHP_SESSION_ACTIVE && !headers_sent()) {
 		ini_set("session.cookie_secure", 1);
 		session_start();
     }
     //устанавливаем пользователю в куки уникальный subid, либо берём его из куки, если он уже есть
-    $cursubid=isset($_COOKIE['subid'])?$_COOKIE['subid']:uniqid();
-    ywbsetcookie('subid',$cursubid,'/');
-	$_SESSION['subid']=$cursubid;
-	session_write_close();
+    $cursubid = isset($_COOKIE['subid']) ? $_COOKIE['subid'] : uniqid();
+    ywbsetcookie('subid', $cursubid, '/');
+	$_SESSION['subid'] = $cursubid;
+	if (session_status() === PHP_SESSION_ACTIVE) {
+		session_write_close();
+	}
     return $cursubid;
 }
 

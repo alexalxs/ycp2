@@ -54,22 +54,27 @@ function serve_file($folder, $requested_file) {
             'wav' => 'audio/wav'
         ];
         
-        if (isset($mime_types[$ext])) {
-            header('Content-Type: ' . $mime_types[$ext]);
-        }
-        
-        // Preserva cookies e headers existentes
-        if (isset($_COOKIE)) {
-            foreach ($_COOKIE as $key => $value) {
-                setcookie($key, $value);
+        // Verifica se os cabeçalhos já foram enviados antes de tentar defini-los
+        if (!headers_sent()) {
+            if (isset($mime_types[$ext])) {
+                header('Content-Type: ' . $mime_types[$ext]);
+            }
+            
+            // Cache control para arquivos estáticos
+            if ($ext !== 'php' && $ext !== 'html') {
+                header('Cache-Control: public, max-age=31536000');
+            } else {
+                header('Cache-Control: no-store, no-cache, must-revalidate');
+                header('Pragma: no-cache');
+                header('Expires: Thu, 19 Nov 1981 08:52:00 GMT');
             }
         }
         
-        // Cache control para arquivos estáticos
-        if ($ext !== 'php' && $ext !== 'html') {
-            header('Cache-Control: public, max-age=31536000');
-        } else {
-            header('Cache-Control: no-store, no-cache, must-revalidate');
+        // Preserva cookies
+        if (isset($_COOKIE) && !headers_sent()) {
+            foreach ($_COOKIE as $key => $value) {
+                setcookie($key, $value);
+            }
         }
         
         if ($ext === 'php') {
@@ -79,7 +84,7 @@ function serve_file($folder, $requested_file) {
             $content = file_get_contents($file_path);
             $base_path = '/' . $folder_name . '/';
             
-            // Ajusta src e href
+            // Ajusta src e href para usar caminhos relativos
             $content = preg_replace('/\ssrc=[\'\"](?!http|\/\/|data:|\/|#)([^\'\"]+)[\'\"]/', " src=\"$base_path\\1\"", $content);
             $content = preg_replace('/\shref=[\'\"](?!http|\/\/|data:|\/|#|mailto:|tel:)([^\'\"]+)[\'\"]/', " href=\"$base_path\\1\"", $content);
             

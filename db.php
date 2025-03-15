@@ -24,7 +24,10 @@ function add_white_click($data, $reason)
     $isp = str_replace(',', ' ', $data->isp);
     $user_agent = str_replace(',', ' ', $data->ua);
 
-    parse_str($_SERVER['QUERY_STRING'], $queryarr);
+    $queryarr = [];
+    if (isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING'] !== '') {
+        parse_str($_SERVER['QUERY_STRING'], $queryarr);
+    }
 
     $click = [
         "time" => $time,
@@ -60,7 +63,10 @@ function add_black_click($subid, $data, $preland, $land)
     $prelanding = empty($preland) ? 'unknown' : $preland;
     $landing = empty($land) ? 'unknown' : $land;
 
-    parse_str($_SERVER['QUERY_STRING'], $queryarr);
+    $queryarr = [];
+    if (isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING'] !== '') {
+        parse_str($_SERVER['QUERY_STRING'], $queryarr);
+    }
 
     $click = [
         "subid" => $subid,
