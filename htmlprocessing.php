@@ -237,32 +237,43 @@ function add_images_lazy_load($html){
 function load_white_content($url, $add_js_check)
 {
     global $fb_use_pageview;
-    $fullpath = get_abs_from_rel($url,true);
-
-    $html = get_html($fullpath);
-    $baseurl = '/'.$url.'/';
-    //переписываем все относительные src и href (не начинающиеся с http)
-	$html = rewrite_relative_urls($html,$baseurl);
-    //добавляем в страницу скрипт GTM
+    $html = get_html($url . '/index.html');
+    
+    //não precisamos mais reescrever URLs pois serão servidas diretamente
+    //mantemos apenas os scripts necessários
     $html = insert_gtm_script($html);
-    //добавляем в страницу скрипт Yandex Metrika
     $html = insert_yandex_script($html);
-    //добавляем в страницу скрипт Facebook Pixel с событием PageView
     if ($fb_use_pageview) {
-        $html = insert_fbpixel_script($html, 'PageView');
+        $html = insert_fbpixel_pageview($html);
     }
-
-    //если на вайте есть форма, то меняем её обработчик, чтобы у вайта и блэка была одна thankyou page
-    $html = preg_replace('/\saction=[\'\"]([^\'\"]+)[\'\"]/', " action=\"../worder.php?".http_build_query($_GET)."\"", $html);
-
-    //добавляем в <head> пару доп. метатегов
-    $html= str_replace('<head>', '<head><meta name="referrer" content="no-referrer"><meta name="robots" content="noindex, nofollow">', $html);
-    $html= remove_scrapbook($html);
-
+    
     if ($add_js_check) {
         $html = add_js_testcode($html);
     }
+    
     return $html;
+}
+
+//Função auxiliar para servir arquivos estáticos
+function serve_static_file($file_path) {
+    if (file_exists($file_path)) {
+        $ext = pathinfo($file_path, PATHINFO_EXTENSION);
+        $mime_types = [
+            'html' => 'text/html',
+            'css' => 'text/css',
+            'js' => 'application/javascript',
+            'png' => 'image/png',
+            'jpg' => 'image/jpeg',
+            'jpeg' => 'image/jpeg',
+            'gif' => 'image/gif'
+        ];
+        if (isset($mime_types[$ext])) {
+            header('Content-Type: ' . $mime_types[$ext]);
+        }
+        readfile($file_path);
+        return true;
+    }
+    return false;
 }
 
 //когда подгружаем вайт методом CURL
