@@ -1,0 +1,13 @@
+{  
+    "folders": [
+		{
+			"path": "."
+		}
+	],  
+    "settings": {  
+        "workbench.colorTheme": "Default Dark+",  // Exemplo de tema  
+        "editor.fontSize": 14,  // Tamanho de fonte do editor  
+        "editor.tabSize": 4,  // Tamanho do tab  
+        "files.useExperimentalFileWatcher": true  // Exemplo de outra configuração  
+    }  
+}  

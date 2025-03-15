@@ -1,15 +1,14 @@
 {
     "white": {
-        "action": "curl",
+        "action": "folder",
         "folder": {
             "names": [
-                "white"
+                "white2"
             ]
         },
         "redirect": {
             "type": "303",
             "urls": [
-                "https://ya.ru",
                 "https://google.com"
             ]
         },
@@ -58,7 +57,8 @@
             "action": "folder",
             "folder": {
                 "names": [
-                    "land"
+                    "offer3",
+                    "offer4"
                 ],
                 "conversions": {
                     "script": "order.php",
@@ -126,7 +126,9 @@
             "allowed": {
                 "countries": [],
                 "os": [],
-                "inurl": [],
+                "inurl": [
+                    "key=2"
+                ],
                 "languages": []
             },
             "blocked": {
@@ -217,7 +219,7 @@
                 "value": "Placement"
             }
         ],
-        "timezone": "Europe/Moscow"
+        "timezone": "America/Sao_Paulo"
     },
     "postback": {
         "lead": "Lead",
