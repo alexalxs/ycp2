@@ -1,81 +1,241 @@
-# Sequence Diagram for Conversion Registration
+# Diagrama de Sequência para Registro de Conversão
 
 ```mermaid
 sequenceDiagram
-    participant User as User
-    participant System as System
-    participant PP as Payment Provider/Partner Program
-    participant Database as Database/JSON Mockup
+    participant Usuário as Usuário
+    participant Sistema as Sistema
+    participant CB as ClickBank
+    participant LP as Landing Page
+    participant PP as Provedor de Pagamento/Programa de Parceiros
+    participant BD as Banco de Dados/Mockup JSON
 
-    User->>System: Submits form with name and phone
-    System->>System: Checks for duplicate conversion
-    alt Not a duplicate
-        System->>System: Sets conversion cookies
-        System->>PP: Sends form data to conversion script
-        alt PP responds with 302
-            PP-->>System: Redirects to thank you page
-            System->>Database: Logs conversion
-            System-->>User: Redirects to custom thank you page
-        else PP responds with 200
-            PP-->>System: Returns thank you page content
-            System->>Database: Logs conversion
-            System-->>User: Displays thank you page
-        else Other response
-            System->>System: Logs error
-            System-->>User: Displays error message
+    %% Fluxo de registro de lead pelo formulário da landing page
+    Usuário->>LP: Preenche formulário com nome e telefone
+    LP->>Sistema: Envia dados do formulário
+    Sistema->>Sistema: Verifica duplicidade de lead
+    alt Não é duplicado
+        Sistema->>Sistema: Define cookies de conversão de lead
+        Sistema->>BD: Registra lead (nome, telefone, timestamp)
+        Sistema->>PP: Envia dados do lead (opcional)
+        Sistema-->>Usuário: Exibe confirmação ou página de agradecimento
+    else Duplicado
+        Sistema-->>Usuário: Redireciona para página de agradecimento
+    end
+
+    %% Fluxo de registro de conversão via ClickBank
+    CB->>Sistema: Envia notificação IPN de venda
+    Sistema->>Sistema: Valida autenticidade da notificação
+    alt Notificação válida
+        Sistema->>Sistema: Extrai dados da transação (valor, produto, cliente)
+        Sistema->>BD: Registra conversão do ClickBank
+        Sistema->>Sistema: Atualiza status do lead se já existir
+        alt Lead já existe no sistema
+            Sistema->>BD: Vincula conversão ao lead existente
+        else Lead não existe
+            Sistema->>BD: Cria novo registro de cliente
         end
-    else Duplicate
-        System-->>User: Redirects to thank you page without pixel
+        Sistema-->>CB: Confirma recebimento da notificação
+    else Notificação inválida
+        Sistema->>Sistema: Registra erro
+        Sistema-->>CB: Retorna erro
     end
 ```
 
-# Supporting Documentation
+# Documentação de Suporte
 
-## Roles and Responsibilities
+## Papéis e Responsabilidades
 
-- **User**: Submits the form with personal information to register a conversion.
-- **System**: Processes the form submission, checks for duplicates, sets cookies, sends data to the PP, and handles the response.
-- **Payment Provider/Partner Program (PP)**: Receives the form data and processes the conversion, returning a response to the system.
-- **Database/JSON Mockup**: Stores the conversion data for future reference.
+- **Usuário**: Preenche o formulário com informações pessoais para registrar um
+  lead.
+- **Sistema**: Processa o envio do formulário, verifica duplicidades, configura
+  cookies, gerencia notificações do ClickBank, e registra conversões.
+- **ClickBank (CB)**: Plataforma de afiliados que envia notificações IPN
+  (Instant Payment Notification) quando uma venda é realizada.
+- **Landing Page (LP)**: Página que contém o formulário de captura de leads.
+- **Provedor de Pagamento/Programa de Parceiros (PP)**: Recebe os dados do
+  formulário e processa a conversão inicial de lead.
+- **Banco de Dados/Mockup JSON (BD)**: Armazena os dados de leads e conversões
+  para referência futura.
 
-## Request and Response Content
+## Conteúdo das Requisições e Respostas
 
-- **User to System**:
-  - **Form Submission**: Includes name and phone number.
+### Registro de Lead pelo Formulário:
 
-- **System to System**:
-  - **Duplicate Check**: Uses the `has_conversion_cookies` function to check if the conversion is a duplicate.
-  - **Cookie Setting**: Sets cookies for the user's name, phone, and conversion timestamp.
+- **Usuário para Landing Page**:
+  - **Submissão do Formulário**: Inclui nome, telefone e possivelmente outros
+    campos.
 
-- **System to PP**:
-  - **Form Data**: Sends the form data to the conversion script specified by `$black_land_conversion_script`.
+- **Landing Page para Sistema**:
+  - **Dados do Formulário**: Envia os dados capturados para processamento.
 
-- **PP to System**:
-  - **HTTP Response**: Returns an HTTP response code (302, 200, or other) and potentially a redirect URL or thank you page content.
+- **Sistema para Sistema**:
+  - **Verificação de Duplicidade**: Usa a função `has_conversion_cookies` para
+    verificar se o lead já foi registrado.
+  - **Configuração de Cookies**: Define cookies para o nome, telefone e
+    timestamp da conversão do lead.
 
-- **System to Database**:
-  - **Conversion Logging**: Logs the conversion data, including the subid, name, and phone number.
+- **Sistema para Banco de Dados**:
+  - **Registro de Lead**: Armazena os dados do lead, incluindo subid, nome e
+    telefone.
 
-- **System to User**:
-  - **Redirect to Thank You Page**: Redirects the user to a custom thank you page if using KLO, or to the PP's thank you page if using PP.
-  - **Display Thank You Page**: Displays the thank you page content returned by the PP.
-  - **Error Message**: Displays an error message if the PP's response is not as expected.
+- **Sistema para Usuário**:
+  - **Redirecionamento para Página de Agradecimento**: Redireciona o usuário
+    para uma página de agradecimento personalizada.
 
-## Additional Context
+### Registro de Conversão via ClickBank:
 
-- **Conversion Script**: The script used to send form data to the PP is specified by the `$black_land_conversion_script` variable. This can be a local script or a URL.
-- **Subid Handling**: The system checks and potentially sets the subid before sending the form data to the PP.
+- **ClickBank para Sistema**:
+  - **Notificação IPN**: Envia uma notificação contendo dados da transação
+    (valor, produto, cliente).
 
-## When to Use PP or KLO
+- **Sistema para Sistema**:
+  - **Validação da Notificação**: Verifica a autenticidade da notificação IPN
+    usando a chave secreta.
+  - **Extração de Dados**: Extrai informações relevantes da notificação.
 
-- **PP (Payment Provider/Partner Program)**:
-  - Use when you want to leverage the PP's thank you page and conversion tracking capabilities.
-  - Suitable for scenarios where the PP handles the conversion tracking and provides a thank you page.
-  - Requires configuration of the conversion script and tracking pixels.
+- **Sistema para Banco de Dados**:
+  - **Registro de Conversão**: Armazena os dados da conversão do ClickBank.
+  - **Atualização de Lead**: Atualiza o status do lead para "convertido" se o
+    lead já existir.
+
+- **Sistema para ClickBank**:
+  - **Confirmação de Recebimento**: Envia confirmação de processamento da
+    notificação.
+
+## Contexto Adicional
+
+- **Script de Conversão de Lead**: O script usado para enviar dados do
+  formulário é especificado pela variável `$black_land_conversion_script`.
+- **Manipulação de Subid**: O sistema verifica e potencialmente configura o
+  subid antes de enviar os dados do formulário.
+- **Integração com ClickBank**: O sistema processa notificações IPN do ClickBank
+  para registrar vendas realizadas.
+
+## Quando Usar PP ou KLO
+
+- **PP (Provedor de Pagamento/Programa de Parceiros)**:
+  - Use quando quiser aproveitar a página de agradecimento e recursos de
+    rastreamento de conversão do PP.
+  - Adequado para cenários onde o PP gerencia o rastreamento de conversão e
+    fornece uma página de agradecimento.
+  - Requer configuração do script de conversão e pixels de rastreamento.
 
 - **KLO (Keitaro Landing Optimization)**:
-  - Use when you need more control over the thank you page and conversion tracking.
-  - Suitable for scenarios where you want to customize the thank you page and handle conversion tracking locally.
-  - Does not require a separate conversion script, as the system handles it internally.
+  - Use quando precisar de mais controle sobre a página de agradecimento e
+    rastreamento de conversão.
+  - Adequado para cenários onde você deseja personalizar a página de
+    agradecimento e gerenciar o rastreamento de conversão localmente.
+  - Não requer um script de conversão separado, pois o sistema o gerencia
+    internamente.
 
-This documentation covers the process of registering a conversion, starting from `index.php`, and details the roles, data flow, and state changes involved in the process.
+- **ClickBank**:
+  - Use para registrar conversões de vendas processadas através da plataforma
+    ClickBank.
+  - Requer configuração do IPN (Instant Payment Notification) no painel do
+    ClickBank.
+  - Permite vincular conversões de vendas a leads previamente capturados.
+
+Esta documentação abrange o processo de registro de leads através do formulário
+da landing page e o registro de conversões recebidas do ClickBank, detalhando os
+papéis, fluxo de dados e mudanças de estado envolvidas no processo.
+
+# Fluxo Completo: Captura de Lead até Conversão no ClickBank
+
+```mermaid
+sequenceDiagram
+    participant Usuário as Usuário
+    participant LP as Landing Page
+    participant Sistema as Sistema
+    participant BD as Banco de Dados
+    participant CB as ClickBank
+    participant Email as Sistema de Email
+
+    %% Captura de email na landing page
+    Usuário->>LP: Acessa landing page
+    LP->>Usuário: Exibe formulário de captura de email
+    Usuário->>LP: Preenche com email, nome e telefone
+    LP->>Sistema: Envia dados do formulário
+    
+    %% Registro de lead no sistema
+    Sistema->>Sistema: Verifica duplicidade (cookies)
+    alt Não é duplicado
+        Sistema->>BD: Registra novo lead
+        Sistema->>Sistema: Gera ID de rastreamento (tid)
+        Sistema->>Sistema: Define cookies de rastreamento
+    else Duplicado
+        Sistema->>BD: Atualiza lead existente
+    end
+    
+    %% Envio de confirmação e redirecionamento
+    Sistema->>Email: Envia email de confirmação (opcional)
+    Sistema->>Usuário: Redireciona para página de agradecimento
+    
+    %% Direcionamento para checkout do ClickBank
+    Sistema->>Usuário: Exibe oferta e botão para checkout
+    Usuário->>Sistema: Clica no botão de compra
+    Sistema->>Sistema: Prepara URL de afiliado com parâmetros de rastreamento
+    Sistema->>Usuário: Redireciona para página de checkout do ClickBank
+    
+    %% Processo de compra no ClickBank
+    Usuário->>CB: Preenche informações de pagamento
+    CB->>CB: Processa pagamento
+    alt Pagamento bem-sucedido
+        CB->>Usuário: Exibe página de confirmação de compra
+        CB->>Sistema: Envia notificação IPN para URL configurada
+        Note over CB,Sistema: URL IPN: https://seu-dominio.com/ipn-handler.php
+        
+        %% Processamento do postback do ClickBank
+        Sistema->>Sistema: Valida autenticidade da notificação IPN
+        Sistema->>Sistema: Extrai dados da transação
+        Sistema->>BD: Registra conversão e vincula ao lead
+        Sistema->>Sistema: Atualiza status do lead para "convertido"
+        Sistema->>Email: Envia email de boas-vindas ao produto (opcional)
+        Sistema->>CB: Confirma recebimento da notificação IPN
+    else Pagamento falhou
+        CB->>Usuário: Exibe mensagem de erro no pagamento
+    end
+```
+
+## Configuração da URL IPN no ClickBank
+
+Para configurar corretamente o recebimento de notificações IPN do ClickBank:
+
+1. Acesse sua conta de vendedor no ClickBank
+2. Navegue até **Configurações da Conta** > **Configurações Avançadas** >
+   **Notificações de Pagamento Instantâneo**
+3. Configure a URL para onde o ClickBank enviará as notificações, geralmente:
+   ```
+   https://seu-dominio.com/ipn-handler.php
+   ```
+4. Selecione os eventos para os quais deseja receber notificações (SALE, RFND,
+   BILL, etc.)
+5. Defina parâmetros adicionais como segurança, formato da notificação
+   (JSON/XML)
+6. Salve as configurações
+
+## Parâmetros importantes para rastreamento
+
+Para vincular corretamente as conversões aos leads, é essencial incluir
+parâmetros de rastreamento na URL do ClickBank:
+
+- **tid**: ID de rastreamento único do lead em seu sistema
+- **subid**: Pode ser usado para rastrear a fonte do tráfego
+- **email**: Endereço de email do lead (codificado para URL)
+- **name**: Nome do lead (codificado para URL)
+
+Exemplo de URL de redirecionamento para checkout:
+
+```
+https://[VENDEDOR].clickbank.net/?tid=[ID_RASTREAMENTO]&subid=[SUBID]&name=[NOME_CODIFICADO]&email=[EMAIL_CODIFICADO]
+```
+
+## Relação entre PP, KLO e Cloaker
+
+- **Cloaker**: Sistema que direciona tráfego com base em regras predefinidas.
+- **PP (Provedor de Pagamento)**: Sistema externo de processamento de
+  pagamentos.
+- **KLO (Keitaro Landing Optimization)**: Recurso de otimização de landing pages
+  do Keitaro.
+
+Estes sistemas **não** são partes integrantes uns dos outros, mas componentes
+que interagem entre si na arquitetura completa de conversão e rastreamento.
