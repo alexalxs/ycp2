@@ -1,13 +1,29 @@
 {  
-    "folders": [
-		{
-			"path": "."
-		}
-	],  
+    "folders": [  
+        {  
+            "path": "."  
+        }  
+    ],  
     "settings": {  
-        "workbench.colorTheme": "Default Dark+",  // Exemplo de tema  
-        "editor.fontSize": 14,  // Tamanho de fonte do editor  
-        "editor.tabSize": 4,  // Tamanho do tab  
-        "files.useExperimentalFileWatcher": true  // Exemplo de outra configuração  
+        "workbench.colorTheme": "Monokai", // Exemplo de tema  
+        "editor.fontSize": 14, // Tamanho de fonte do editor  
+        "editor.tabSize": 4, // Tamanho do tab  
+        "files.useExperimentalFileWatcher": true, // Exemplo de outra configuração  
+
+        // Lista completa de temas disponíveis:  
+        // "Default Light+"  // Tema claro padrão do Visual Studio Code  
+        // "Default Dark+"   // Tema escuro padrão do Visual Studio Code  
+        // "Light+ (Default Light)" // Tema claro simples  
+        // "Dark+ (Default Dark)" // Tema escuro simples  
+        // "Solarized Light"  // Tema Solarized claro  
+        // "Solarized Dark"   // Tema Solarized escuro  
+        // "Monokai"         // Tema Monokai clássico  
+        // "Ayu"             // Tema Ayu (claro, meio e escuro)  
+        // "Dracula"         // Tema Dracula popular  
+        // "One Dark Pro"    // Um dos temas escuros mais populares  
+        // "Night Owl"       // Tema noturno para desenvolvedores noturnos  
+        // "GitHub Dark"     // Tema baseado na paleta de cores do GitHub  
+        // "Nord"            // Tema Nord com cores frias  
+        // "Material Theme"  // Vários temas baseados no Material Design  
     }  
 }  

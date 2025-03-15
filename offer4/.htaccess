@@ -1,0 +1,137 @@
+# Configurações de Performance e Segurança para Exemplo4
+# Inspirado no estilo Harper's Bazaar - Performance Premium
+
+# Performance - Caching
+<IfModule mod_expires.c>
+    ExpiresActive On
+    
+    # Configuração padrão - 1 mês para a maioria dos recursos estáticos
+    ExpiresDefault "access plus 1 month"
+    
+    # HTML e XML
+    ExpiresByType text/html "access plus 1 hour"
+    ExpiresByType application/xml "access plus 1 day"
+    
+    # Dados
+    ExpiresByType application/json "access plus 0 seconds"
+    ExpiresByType application/ld+json "access plus 0 seconds"
+    
+    # Feed
+    ExpiresByType application/rss+xml "access plus 1 hour"
+    ExpiresByType application/atom+xml "access plus 1 hour"
+    
+    # Favicon
+    ExpiresByType image/x-icon "access plus 1 week"
+    
+    # Mídia: imagens, vídeo, áudio
+    ExpiresByType image/gif "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/jpg "access plus 1 month"
+    ExpiresByType image/webp "access plus 1 month"
+    ExpiresByType image/svg+xml "access plus 1 month"
+    ExpiresByType image/avif "access plus 1 month"
+    ExpiresByType video/mp4 "access plus 1 month"
+    ExpiresByType video/ogg "access plus 1 month"
+    ExpiresByType video/webm "access plus 1 month"
+    ExpiresByType audio/ogg "access plus 1 month"
+    ExpiresByType audio/mp3 "access plus 1 month"
+    
+    # Arquivos CSS e JavaScript
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType text/javascript "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    
+    # Fontes
+    ExpiresByType font/ttf "access plus 1 year"
+    ExpiresByType font/otf "access plus 1 year"
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType application/vnd.ms-fontobject "access plus 1 year"
+    ExpiresByType application/font-woff "access plus 1 year"
+    ExpiresByType application/x-font-ttf "access plus 1 year"
+    ExpiresByType application/x-font-woff "access plus 1 year"
+</IfModule>
+
+# Compressão Gzip
+<IfModule mod_deflate.c>
+    # Ativar compressão para os seguintes tipos MIME
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css
+    AddOutputFilterByType DEFLATE application/xml application/xhtml+xml application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript application/x-javascript
+    AddOutputFilterByType DEFLATE application/json
+    AddOutputFilterByType DEFLATE image/svg+xml
+    
+    # Fontes
+    AddOutputFilterByType DEFLATE font/ttf font/otf font/woff font/woff2
+    AddOutputFilterByType DEFLATE application/vnd.ms-fontobject
+    AddOutputFilterByType DEFLATE application/x-font-ttf
+    
+    # Para navegadores antigos
+    BrowserMatch ^Mozilla/4 gzip-only-text/html
+    BrowserMatch ^Mozilla/4\.0[678] no-gzip
+    BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+    
+    # Evitar compressão de itens já comprimidos
+    SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png|rar|zip|exe|flv|mov|wma|mp3|mp4|pdf|webp|avif)$ no-gzip dont-vary
+</IfModule>
+
+# Headers de Segurança
+<IfModule mod_headers.c>
+    # Proteção contra Sniffing de MIME
+    Header always set X-Content-Type-Options "nosniff"
+    
+    # Proteção XSS
+    Header always set X-XSS-Protection "1; mode=block"
+    
+    # Proteção contra Clickjacking
+    Header always set X-Frame-Options "SAMEORIGIN"
+    
+    # Referrer Policy
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # Segurança de Transporte (HSTS) - Comentado por padrão, descomente se usar HTTPS
+    # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    
+    # Content Security Policy - Versão básica (personalize conforme necessário)
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'"
+</IfModule>
+
+# Proteção de arquivos sensíveis
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+<FilesMatch "^(composer\.json|composer\.lock|package\.json|package-lock\.json|\.gitignore|\.env.*)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Desativar listagem de diretórios
+Options -Indexes
+
+# Prevenção de acesso a arquivos críticos
+<FilesMatch "(^\.htaccess|config\.php|wp-config\.php|config\.json)">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Força HTTPS (descomentado se o site estiver sob SSL)
+# <IfModule mod_rewrite.c>
+#     RewriteEngine On
+#     RewriteCond %{HTTPS} off
+#     RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# </IfModule>
+
+# Prevenção de Hotlinking (descomentado para ativar)
+# <IfModule mod_rewrite.c>
+#     RewriteEngine On
+#     RewriteCond %{HTTP_REFERER} !^$
+#     RewriteCond %{HTTP_REFERER} !^https?://(www\.)?seudominio\.com [NC]
+#     RewriteRule \.(jpg|jpeg|png|gif|webp)$ - [F]
+# </IfModule>
+
+# Páginas de erro personalizadas (descomentado para ativar)
+# ErrorDocument 404 /404.html
+# ErrorDocument 500 /500.html 
