@@ -90,7 +90,7 @@ sequenceDiagram
   - Allowed languages: en, ru, de (or any for all)
   - Blacklisted IP file: `blackbase.txt` in the `bases` folder
   - Blacklisted IP in CIDR format: Optional
-  - URL tokens to check: `key=2`
+  - URL tokens to check: `key=2` ( variável de acordo com a configuração do usuário)
   - Blacklisted user agents: facebook, Facebot, curl, gce-spider, yandex.com/bots, OdklBot
   - Blacklisted ISPs: facebook, google, yandex, amazon, azure, digitalocean, microsoft
   - Block requests without referer: Optional
