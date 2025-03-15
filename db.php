@@ -16,13 +16,13 @@ function add_white_click($data, $reason)
     $dataDir = __DIR__ . "/logs";
     $wclicksStore = new Store("whiteclicks", $dataDir);
 
-    $calledIp = $data['ip'];
-    $country = $data['country'];
+    $calledIp = $data->ip;
+    $country = $data->country;
     $dt = new DateTime();
     $time = $dt->getTimestamp();
-    $os = $data['os'];
-    $isp = str_replace(',', ' ', $data['isp']);
-    $user_agent = str_replace(',', ' ', $data['ua']);
+    $os = $data->os;
+    $isp = str_replace(',', ' ', $data->isp);
+    $user_agent = str_replace(',', ' ', $data->ua);
 
     parse_str($_SERVER['QUERY_STRING'], $queryarr);
 
@@ -36,7 +36,13 @@ function add_white_click($data, $reason)
         "reason" => $reason,
         "subs" => $queryarr
     ];
-    $wclicksStore->insert($click);
+
+    try {
+        $wclicksStore->insert($click);
+    } catch (Exception $e) {
+        error_log("Error in add_white_click: " . $e->getMessage());
+        throw $e;
+    }
 }
 
 function add_black_click($subid, $data, $preland, $land)
@@ -44,13 +50,13 @@ function add_black_click($subid, $data, $preland, $land)
     $dataDir = __DIR__ . "/logs";
     $bclicksStore = new Store("blackclicks", $dataDir);
 
-    $calledIp = $data['ip'];
-    $country = $data['country'];
+    $calledIp = is_object($data) ? $data->ip : $data['ip'];
+    $country = is_object($data) ? $data->country : $data['country'];
     $dt = new DateTime();
     $time = $dt->getTimestamp();
-    $os = $data['os'];
-    $isp = str_replace(',', ' ', $data['isp']);
-    $user_agent = str_replace(',', ' ', $data['ua']);
+    $os = is_object($data) ? $data->os : $data['os'];
+    $isp = is_object($data) ? str_replace(',', ' ', $data->isp) : str_replace(',', ' ', $data['isp']);
+    $user_agent = is_object($data) ? str_replace(',', ' ', $data->ua) : str_replace(',', ' ', $data['ua']);
     $prelanding = empty($preland) ? 'unknown' : $preland;
     $landing = empty($land) ? 'unknown' : $land;
 
@@ -68,7 +74,13 @@ function add_black_click($subid, $data, $preland, $land)
         "preland" => $prelanding,
         "land" => $landing
     ];
-    $bclicksStore->insert($click);
+
+    try {
+        $bclicksStore->insert($click);
+    } catch (Exception $e) {
+        error_log("Error in add_black_click: " . $e->getMessage());
+        throw $e;
+    }
 }
 
 function add_lead($subid, $name, $phone, $status = 'Lead')
@@ -182,4 +194,3 @@ function lead_is_duplicate($subid, $phone)
         return true;
     }
 }
-

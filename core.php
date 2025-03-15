@@ -15,6 +15,7 @@ class Cloaker{
 	var $os_white;
 	var $country_white;
 	var $lang_white;
+	var $detect;
 	var $tokens_black;
 	var $url_should_contain;
 	var $ua_black;
@@ -65,7 +66,15 @@ class Cloaker{
 		$a['ua']=isset($_SERVER['HTTP_USER_AGENT'])?$_SERVER['HTTP_USER_AGENT']:'Not Found!';
 		$a['country'] = getcountry($a['ip']);
 		$a['isp'] = getisp($a['ip']);
-		$this->detect=$a;
+		$this->detect = new stdClass();
+$this->detect->os = $a['os'];
+$this->detect->country = $a['country'];
+$this->detect->language = $a['language'];
+$this->detect->referer = $a['referer'];
+$this->detect->lang = $a['lang'];
+$this->detect->ip = $a['ip'];
+$this->detect->ua = $a['ua'];
+$this->detect->isp = $a['isp'];
 	}
 
 	private function blackbox($ip){
@@ -86,7 +95,7 @@ class Cloaker{
 	public function check(){
 		$result=0;
 
-		$current_ip=$this->detect['ip'];
+		$current_ip=$this->detect->ip;
 		$cidr = file(__DIR__."/bases/bots.txt", FILE_IGNORE_NEW_LINES);
 		$checked=IpUtils::checkIp($current_ip, $cidr);
 
@@ -126,7 +135,7 @@ class Cloaker{
 
 		if($this->ua_black!=[])
 		{
-			$ua=$this->detect['ua'];
+			$ua=$this->detect->ua;
 			foreach($this->ua_black as $ua_black_single){
 				if(!empty(stristr($ua,$ua_black_single))){
 					$result=1;
@@ -135,13 +144,13 @@ class Cloaker{
 			}
 		}
 
-		$os_white_checker = in_array($this->detect['os'],$this->os_white);
+		$os_white_checker = in_array($this->detect->os,$this->os_white);
 		if(!empty($this->os_white) && $os_white_checker===false){
 			$result=1;
 			$this->result[]='os';
 		}
 
-		$country_white_checker = in_array($this->detect['country'],$this->country_white);
+		$country_white_checker = in_array($this->detect->country,$this->country_white);
 		if($this->country_white!=[] &&
 			in_array('WW',$this->country_white)===false &&
 			$country_white_checker===false){
@@ -149,21 +158,21 @@ class Cloaker{
 			$this->result[]='country';
 		}
 
-		$lang_white_checker = in_array($this->detect['lang'],$this->lang_white);
+		$lang_white_checker = in_array($this->detect->lang,$this->lang_white);
 		if($this->lang_white!==[] &&
 			in_array('any',$this->lang_white)===false &&
 			$lang_white_checker===false){
 			$result=1;
-			$buf=strtoupper($this->detect['lang']);
+			$buf=strtoupper($this->detect->lang);
 			$this->result[]='language:'.$buf;
 		}
 
-		if($this->block_without_referer===true &&$this->detect['referer']===''){
+		if($this->block_without_referer===true &&$this->detect->referer===''){
 			$result=1;
 			$this->result[]='referer';
 		}
 
-		if($this->referer_stopwords!==[] &&$this->detect['referer']!==''){
+		if($this->referer_stopwords!==[] &&$this->detect->referer!==''){
 			foreach($this->referer_stopwords AS $stop){
 				if ($stop==='')continue;
 				if (stripos($this->detect['referer'],$stop)!==false){
@@ -198,7 +207,7 @@ class Cloaker{
 
 		if(!empty($this->isp_black))
 		{
-			$isp=$this->detect['isp'];
+			$isp=$this->detect->isp;
 			foreach($this->isp_black as $isp_black_single){
 				if(!empty(stristr($isp,$isp_black_single))){
 					$result=1;

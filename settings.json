@@ -1,6 +1,6 @@
 {
     "white": {
-        "action": "folder",
+        "action": "curl",
         "folder": {
             "names": [
                 "white"
@@ -15,7 +15,7 @@
         },
         "curl": {
             "urls": [
-                "https://www.9111.ru/"
+                "https://dekoola.com/"
             ]
         },
         "error": {
@@ -124,16 +124,8 @@
         "saveuserflow": false,
         "filters": {
             "allowed": {
-                "countries": [
-                    "UA",
-                    "BY"
-                ],
-                "os": [
-                    "Android",
-                    "iOS",
-                    "Windows",
-                    "OS X"
-                ],
+                "countries": [],
+                "os": [],
                 "inurl": [],
                 "languages": []
             },
