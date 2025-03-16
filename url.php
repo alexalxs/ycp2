@@ -23,7 +23,7 @@ function replace_all_macros($url)
 function add_querystring($url)
 {
     $delimiter= (strpos($url, '?')===false?"?":"&");
-    $querystr = $_SERVER['QUERY_STRING'];
+    $querystr = $_SERVER['QUERY_STRING'] ?? '';
     if (!empty($querystr)) {
         $url = $url.$delimiter.$querystr;
     }
