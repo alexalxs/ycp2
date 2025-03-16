@@ -1,4 +1,10 @@
 <?php
+//Включение отладочной информации
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+//Конец включения отладочной информации
+date_default_timezone_set('UTC');
 require_once __DIR__ . "/db/Exceptions/IOException.php";
 require_once __DIR__ . "/db/Exceptions/JsonException.php";
 require_once __DIR__ . "/db/Classes/IoHelper.php";
@@ -14,7 +20,7 @@ use SleekDB\Store;
 function add_white_click($data, $reason)
 {
     $dataDir = __DIR__ . "/logs";
-    $wclicksStore = new Store("whiteclicks", $dataDir);
+    $wclicksStore = new \SleekDB\Store("whiteclicks", $dataDir);
 
     $calledIp = $data->ip;
     $country = $data->country;
@@ -51,7 +57,7 @@ function add_white_click($data, $reason)
 function add_black_click($subid, $data, $preland, $land)
 {
     $dataDir = __DIR__ . "/logs";
-    $bclicksStore = new Store("blackclicks", $dataDir);
+    $bclicksStore = new \SleekDB\Store("blackclicks", $dataDir);
 
     $calledIp = is_object($data) ? $data->ip : $data['ip'];
     $country = is_object($data) ? $data->country : $data['country'];
@@ -92,7 +98,7 @@ function add_black_click($subid, $data, $preland, $land)
 function add_lead($subid, $name, $phone, $status = 'Lead')
 {
     $dataDir = __DIR__ . "/logs";
-    $leadsStore = new Store("leads", $dataDir);
+    $leadsStore = new \SleekDB\Store("leads", $dataDir);
 
     $fbp = get_cookie('_fbp');
     $fbclid = get_cookie('fbclid');
@@ -119,31 +125,96 @@ function add_lead($subid, $name, $phone, $status = 'Lead')
         "preland" => $preland,
         "land" => $land
     ];
-    return $leadsStore->insert($lead);
+
+    try {
+        $leadsStore->insert($lead);
+    } catch (Exception $e) {
+        error_log("Error in add_lead: " . $e->getMessage());
+        throw $e;
+    }
+
+    if (has_conversion_cookies($name, $phone)) {
+        error_log("Conversion has already been done");
+        return 0;
+    }
+
+    //добавляем в куку информацию о состоявшейся конверсии. Будем хранить 24 часа.
+    ywbsetcookie('conversion',$name."||".$phone,(time()+86400));
+    return 1;
 }
 
-function update_lead($subid, $status, $payout)
+function lead_exists($subid)
 {
     $dataDir = __DIR__ . "/logs";
-    $leadsStore = new Store("leads", $dataDir);
+    $leadsStore = new \SleekDB\Store("leads", $dataDir);
+    $bclicksStore = new \SleekDB\Store("blackclicks", $dataDir);
+
+    $clkinfo = $bclicksStore->findBy([["subid","=",$subid]], ["time" => "desc"]);
+    $leadinfo = $leadsStore->findBy([["subid","=",$subid]], ["time" => "desc"]);
+
+    return (!empty($leadinfo)&&!empty($clkinfo));
+}
+
+function update_lead_status($subid, $status)
+{
+    $dataDir = __DIR__ . "/logs";
+    $leadsStore = new \SleekDB\Store("leads", $dataDir);
+
+    $lead = $leadsStore->findOneBy(["subid", "=", $subid]);
+
+    if (!empty($lead)) {
+        $lead['status'] = $status;
+        return $leadsStore->update($lead);
+    }
+    return false;
+}
+
+function add_lpctr($subid, $preland, $land = '')
+{
+    $dataDir = __DIR__ . "/logs";
+    $lpctrStore = new \SleekDB\Store("lpctr", $dataDir);
+    $dt = new DateTime();
+    $time = $dt->getTimestamp();
+
+    $lpctr = [
+        "time" => $time,
+        "subid" => $subid,
+        "preland" => $preland,
+        "land" => $land
+    ];
+    $lpctrStore->insert($lpctr);
+}
+
+function update_lead($subid, $status, $payout = '')
+{
+    $dataDir = __DIR__ . "/logs";
+    $leadsStore = new \SleekDB\Store("leads", $dataDir);
     $lead = $leadsStore->findOneBy([["subid", "=", $subid]]);
     if ($lead === null) {
-        $bclicksStore = new Store("blackclicks", $dataDir);
+        $bclicksStore = new \SleekDB\Store("blackclicks", $dataDir);
         $click = $bclicksStore->findOneBy([["subid", "=", $subid]]);
         if ($click === null) return false;
         $lead = add_lead($subid, '', '');
     }
 
     $lead["status"] = $status;
-    $lead["payout"] = $payout;
-    $leadsStore->update($lead);
-    return true;
+    if ($payout !== '') {
+        $lead["payout"] = $payout;
+    }
+    
+    try {
+        $leadsStore->update($lead);
+        return true;
+    } catch (Exception $e) {
+        error_log("Error in update_lead: " . $e->getMessage());
+        return false;
+    }
 }
 
 function email_exists_for_subid($subid)
 {
     $dataDir = __DIR__ . "/logs";
-    $leadsStore = new Store("leads", $dataDir);
+    $leadsStore = new \SleekDB\Store("leads", $dataDir);
     $lead = $leadsStore->findOneBy([["subid", "=", $subid]]);
     if ($lead === null) return false;
     if (array_key_exists("email", $lead)) return true;
@@ -153,26 +224,11 @@ function email_exists_for_subid($subid)
 function add_email($subid, $email)
 {
     $dataDir = __DIR__ . "/logs";
-    $leadsStore = new Store("leads", $dataDir);
+    $leadsStore = new \SleekDB\Store("leads", $dataDir);
     $lead = $leadsStore->findOneBy([["subid", "=", $subid]]);
     if ($lead === null) return;
     $lead["email"] = $email;
     $leadsStore->update($lead);
-}
-
-function add_lpctr($subid, $preland)
-{
-    $dataDir = __DIR__ . "/logs";
-    $lpctrStore = new Store("lpctr", $dataDir);
-    $dt = new DateTime();
-    $time = $dt->getTimestamp();
-
-    $lpctr = [
-        "time" => $time,
-        "subid" => $subid,
-        "preland" => $preland
-    ];
-    $lpctrStore->insert($lpctr);
 }
 
 //проверяем, есть ли в файле лидов subid текущего пользователя
@@ -181,7 +237,7 @@ function add_lpctr($subid, $preland)
 function lead_is_duplicate($subid, $phone)
 {
     $dataDir = __DIR__ . "/logs";
-    $leadsStore = new Store("leads", $dataDir);
+    $leadsStore = new \SleekDB\Store("leads", $dataDir);
     if ($subid != '') {
         $lead = $leadsStore->findOneBy([["subid", "=", $subid]]);
         if ($lead === null) return false;

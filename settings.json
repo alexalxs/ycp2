@@ -57,7 +57,8 @@
             "action": "folder",
             "folder": {
                 "names": [
-                    "offer4"
+                    "site3",
+                    "site4"
                 ],
                 "conversions": {
                     "script": "order.php",
@@ -119,7 +120,7 @@
         }
     },
     "tds": {
-        "mode": "off",
+        "mode": "full",
         "saveuserflow": false,
         "filters": {
             "allowed": {
