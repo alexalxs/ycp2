@@ -16,14 +16,15 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 
-// Log para depuração
-if (defined('DEBUG_LOG') && DEBUG_LOG) {
-    error_log("==== INÍCIO DO PROCESSAMENTO SEND.PHP ====");
-    error_log("Método: " . $_SERVER['REQUEST_METHOD']);
-    error_log("Dados: " . print_r($_POST, true));
-}
+// Registrar todas as requisições para depuração
+error_log("==== REQUISIÇÃO PARA SEND.PHP ====");
+error_log("Método: " . $_SERVER['REQUEST_METHOD']);
+error_log("Headers: " . json_encode(getallheaders()));
+error_log("POST: " . json_encode($_POST));
+error_log("GET: " . json_encode($_GET));
+error_log("RAW: " . file_get_contents('php://input'));
 
-// Lidar com solicitações OPTIONS (preflight CORS)
+// Se for uma requisição OPTIONS (preflight CORS), responder imediatamente
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit;
@@ -31,8 +32,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 // Verifica se é uma ação de captura de email
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'email') {
+    error_log("==== PROCESSANDO CAPTURA DE EMAIL ====");
+    
     // Verificar e processar o email
     if (!isset($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+        error_log("ERRO: Email inválido ou ausente: " . (isset($_POST['email']) ? $_POST['email'] : 'não definido'));
         http_response_code(400);
         echo json_encode(['error' => 'Email inválido']);
         exit;
@@ -42,73 +46,84 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $name = isset($_POST['name']) ? $_POST['name'] : '';
     $subid = isset($_POST['subid']) ? $_POST['subid'] : (isset($_COOKIE['subid']) ? $_COOKIE['subid'] : '');
 
+    // Debug detalhado
+    error_log("Email capturado: $email");
+    error_log("Nome capturado: $name");
+    error_log("SubID: $subid");
+
     if (empty($subid)) {
         // Se não tiver subid, gerar um novo
         $subid = md5(uniqid(rand(), true));
         ywbsetcookie('subid', $subid, '/');
-    }
-
-    // Log para depuração
-    if (defined('DEBUG_LOG') && DEBUG_LOG) {
-        error_log("Processando email: $email para subid: $subid");
-        error_log("Nome do usuário: $name");
+        error_log("Novo SubID gerado: $subid");
     }
 
     // Registrar o lead no banco de dados (incluindo o nome)
     // Usar o nome padrão se não for fornecido
     $user_name = !empty($name) ? $name : 'Lead de Email';
+    error_log("Nome final para registro: $user_name");
     
     // Registrar o lead (com um número de telefone fictício para compatibilidade)
     $phone = '00000000000'; // Telefone fictício para manter compatibilidade
-    add_lead($subid, $user_name, $phone, 'Lead');
     
-    // Registrar o email no banco de dados
-    add_email($subid, $email);
-    
-    // Enviar para o webhook do Autonami via proxy
-    $webhook_url = 'https://dekoola.com/wp-json/autonami/v1/webhook/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a';
-    
-    // Preparar os dados para envio
-    $webhook_data = array(
-        'email' => $email,
-        'name' => $user_name
-    );
-    
-    // Adicionar outros parâmetros da URL original
-    foreach ($_POST as $key => $value) {
-        if ($key != 'action' && $key != 'email' && $key != 'name' && $key != 'subid') {
-            $webhook_data[$key] = $value;
+    // TRATAMENTO DE ERROS COMPLETO
+    try {
+        // Verificar permissões e existência de diretórios
+        $dataDir = __DIR__ . "/logs";
+        if (!is_dir($dataDir)) {
+            error_log("ERRO CRÍTICO: Diretório logs não existe: $dataDir");
+            throw new Exception("Diretório logs não existe");
         }
+        
+        if (!is_writable($dataDir)) {
+            error_log("ERRO CRÍTICO: Diretório logs sem permissão de escrita: $dataDir");
+            throw new Exception("Diretório logs sem permissão de escrita");
+        }
+        
+        // Verificar diretório de leads especificamente
+        $leadsDir = $dataDir . "/leads";
+        if (!is_dir($leadsDir)) {
+            error_log("ERRO CRÍTICO: Diretório de leads não existe: $leadsDir");
+            throw new Exception("Diretório de leads não existe");
+        }
+        
+        if (!is_writable($leadsDir)) {
+            error_log("ERRO CRÍTICO: Diretório de leads sem permissão de escrita: $leadsDir");
+            throw new Exception("Diretório de leads sem permissão de escrita");
+        }
+        
+        error_log("TENTANDO: add_lead($subid, $user_name, $phone, 'Lead')");
+        
+        // Testar o add_lead com log detalhado
+        $lead_result = add_lead($subid, $user_name, $phone, 'Lead');
+        error_log("Resultado add_lead: " . ($lead_result ? "Sucesso" : "Falha"));
+        
+        // Registrar o email no banco de dados
+        error_log("TENTANDO: add_email($subid, $email)");
+        add_email($subid, $email);
+        error_log("Email registrado com sucesso para subid: $subid");
+        
+        // Responder com sucesso
+        http_response_code(200);
+        echo json_encode([
+            'success' => true, 
+            'message' => 'Lead registrado com sucesso',
+            'subid' => $subid,
+            'name' => $user_name,
+            'email' => $email
+        ]);
+    } catch (Exception $e) {
+        // Registrar erro detalhado
+        error_log("ERRO CRÍTICO ao registrar lead: " . $e->getMessage());
+        error_log("Stack trace: " . $e->getTraceAsString());
+        
+        http_response_code(500); // Mudar para erro real para facilitar debug
+        echo json_encode([
+            'success' => false,
+            'error' => $e->getMessage(),
+            'details' => 'Erro ao processar o lead. Por favor contate o suporte.'
+        ]);
     }
-    
-    // Log para depuração
-    if (defined('DEBUG_LOG') && DEBUG_LOG) {
-        error_log("Enviando dados para webhook: " . print_r($webhook_data, true));
-    }
-    
-    // Fazer a requisição para o webhook
-    $ch = curl_init($webhook_url);
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($webhook_data));
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-    
-    $webhook_response = curl_exec($ch);
-    $webhook_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-    
-    // Log da resposta do webhook
-    if (defined('DEBUG_LOG') && DEBUG_LOG) {
-        error_log("Resposta do webhook (status $webhook_status): $webhook_response");
-    }
-
-    // Responder com sucesso
-    http_response_code(200);
-    echo json_encode([
-        'success' => true, 
-        'message' => 'Lead registrado com sucesso',
-        'webhook_status' => $webhook_status
-    ]);
     exit;
 }
 
@@ -248,5 +263,10 @@ else
 {
     redirect('thankyou/thankyou.php?nopixel=1');
 }
+
+// Nota: A integração com webhook externo foi removida deste arquivo.
+// Agora o navegador/cliente envia os dados diretamente para o webhook,
+// enquanto este script (send.php) apenas registra os leads no banco de dados local.
+// Esta arquitetura reduz a carga no servidor e elimina pontos de falha.
 
 ?>
