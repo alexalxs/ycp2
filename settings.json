@@ -119,7 +119,7 @@
         }
     },
     "tds": {
-        "mode": "full",
+        "mode": "off",
         "saveuserflow": false,
         "filters": {
             "allowed": {

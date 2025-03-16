@@ -70,21 +70,15 @@ function serve_file($folder, $requested_file) {
             }
         }
         
-        // Preserva cookies
-        if (isset($_COOKIE) && !headers_sent()) {
-            foreach ($_COOKIE as $key => $value) {
-                setcookie($key, $value);
-            }
-        }
-        
         if ($ext === 'php') {
             include($file_path);
         } else if ($ext === 'html') {
-            // Ajusta caminhos relativos no HTML
+            // Ajusta caminhos relativos no HTML apenas quando necessário
+            // Mantém os caminhos originais para preservar compatibilidade
             $content = file_get_contents($file_path);
             $base_path = '/' . $folder_name . '/';
             
-            // Ajusta src e href para usar caminhos relativos
+            // Só ajusta links que não começam com http, //, /, #, data:
             $content = preg_replace('/\ssrc=[\'\"](?!http|\/\/|data:|\/|#)([^\'\"]+)[\'\"]/', " src=\"$base_path\\1\"", $content);
             $content = preg_replace('/\shref=[\'\"](?!http|\/\/|data:|\/|#|mailto:|tel:)([^\'\"]+)[\'\"]/', " href=\"$base_path\\1\"", $content);
             
@@ -97,14 +91,28 @@ function serve_file($folder, $requested_file) {
     return false;
 }
 
+// Forçar recarregamento das configurações para evitar problemas de cache
+clearstatcache(true, __DIR__.'/settings.json');
+
 //передаём все параметры в кло
 $cloaker = new Cloaker($os_white,$country_white,$lang_white,$ip_black_filename,$ip_black_cidr,$tokens_black,$url_should_contain,$ua_black,$isp_black,$block_without_referer,$referer_stopwords,$block_vpnandtor);
 
-//если включен full_cloak_on, то шлём всех на white page, полностью набрасываем плащ)
+// Limpar cookies que possam estar interferindo quando no modo full
 if ($tds_mode=='full') {
+    if (isset($_COOKIE['black'])) {
+        setcookie('black', '', time() - 3600, '/');
+    }
+    if (isset($_COOKIE['landing'])) {
+        setcookie('landing', '', time() - 3600, '/');
+    }
+    if (isset($_COOKIE['prelanding'])) {
+        setcookie('prelanding', '', time() - 3600, '/');
+    }
+    
+    error_log("TDS Mode Full: Redirecionando para white");
     add_white_click($cloaker->detect, ['fullcloak']);
     white(false);
-    return;
+    exit; // Garantir que nenhum código adicional seja executado
 }
 
 //если используются js-проверки, то сначала используются они
@@ -149,5 +157,6 @@ else{
 		}
 		add_white_click($cloaker->detect, $cloaker->result);
 		white(false);
+		exit; // Garantir que nenhum código adicional seja executado
 	}
 }

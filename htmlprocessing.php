@@ -237,10 +237,22 @@ function add_images_lazy_load($html){
 function load_white_content($url, $add_js_check)
 {
     global $fb_use_pageview;
-    $html = get_html($url . '/index.html');
     
-    //não precisamos mais reescrever URLs pois serão servidas diretamente
-    //mantemos apenas os scripts necessários
+    // Verificar se o arquivo existe
+    $html_file = $url . '/index.html';
+    if (!file_exists($html_file)) {
+        error_log("Arquivo não encontrado: " . $html_file);
+        return "<h1>Erro: Arquivo white não encontrado!</h1>";
+    }
+    
+    // Usar file_get_contents em vez de get_html para ler arquivos locais
+    $html = file_get_contents($html_file);
+    if (empty($html)) {
+        error_log("Conteúdo vazio em: " . $html_file);
+        return "<h1>Erro: Conteúdo white vazio!</h1>";
+    }
+    
+    // Inserir scripts necessários
     $html = insert_gtm_script($html);
     $html = insert_yandex_script($html);
     if ($fb_use_pageview) {
@@ -250,6 +262,11 @@ function load_white_content($url, $add_js_check)
     if ($add_js_check) {
         $html = add_js_testcode($html);
     }
+    
+    // Reescrever URLs relativas para apontar para a pasta correta
+    $folder_name = basename($url);
+    $html = preg_replace('/\ssrc=[\'\"](?!http|\/\/|data:|\/|#)([^\'\"]+)[\'\"]/', " src=\"/$folder_name/\\1\"", $html);
+    $html = preg_replace('/\shref=[\'\"](?!http|\/\/|data:|\/|#|mailto:|tel:)([^\'\"]+)[\'\"]/', " href=\"/$folder_name/\\1\"", $html);
     
     return $html;
 }
