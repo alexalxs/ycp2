@@ -43,7 +43,7 @@ function load_prelanding($url, $land_number)
     $html = insert_fbpixel_id($html);
 
     $domain = get_domain_with_prefix();
-    $querystr = $_SERVER['QUERY_STRING'];
+    $querystr = isset($_SERVER['QUERY_STRING']) ? $_SERVER['QUERY_STRING'] : '';
     //замена всех ссылок на прокле на универсальную ссылку ленда landing.php
     $replacement = "\\1".$domain.'/landing.php?l='.$land_number.(!empty($querystr)?'&'.$querystr:'');
 

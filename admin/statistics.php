@@ -154,7 +154,7 @@ while ($date>=$startdate) {
 			}
 			//count landing clicks
 			$subid_lp = $ctritem['subid'];
-			$dest_land = $sub_land_dest[$subid_lp];
+			$dest_land = isset($sub_land_dest[$subid_lp]) ? $sub_land_dest[$subid_lp] : '';
 			if (array_key_exists($dest_land, $landclicks_array)) {
 				$landclicks_array[$dest_land]++;
 			} else {
@@ -265,7 +265,7 @@ $tcr_all=($total_uniques===0?0:$total_leads/$total_uniques*100);
 $tableOutput.="<TD scope='col'>".number_format($tcr_all, 2, '.', '')."</TD>";
 $tcr_sales=($total_uniques===0?0:$total_purchases/$total_uniques*100);
 $tableOutput.="<TD scope='col'>".number_format($tcr_sales, 2, '.', '')."</TD>";
-$tapprove_wo_trash=($total_leads-$total_leads===0?0:$total_purchases*100/($total_leads-$total_trash));
+$tapprove_wo_trash=($total_leads-$total_trash===0?0:$total_purchases*100/($total_leads-$total_trash));
 $tableOutput.="<TD scope='col'>".number_format($tapprove_wo_trash, 2, '.', '')."</TD>";
 $tapprove=($total_leads===0?0:$total_purchases*100/$total_leads);
 $tableOutput.="<TD scope='col'>".number_format($tapprove, 2, '.', '')."</TD>";
@@ -283,7 +283,10 @@ if (!$noprelanding){
         $variations = [];
 
         foreach ($lpctr_array as $lp_name => $lp_count) {
-            $variations[]= new Variation($lp_name,$lpdest_array[$lp_name], $lp_count);
+            // Certifique-se de que o número de ações bem-sucedidas (lp_count) nunca exceda o número total (lpdest_array[$lp_name])
+            $total_actions = isset($lpdest_array[$lp_name]) ? $lpdest_array[$lp_name] : 0;
+            $successful_actions = min($lp_count, $total_actions);
+            $variations[]= new Variation($lp_name, $total_actions, $successful_actions);
         }
         $predictor = SplitTestAnalyzer::create()->withVariations(...$variations);
         $preland_split_probability=$predictor->getResult();

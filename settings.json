@@ -48,16 +48,18 @@
     },
     "black": {
         "prelanding": {
-            "action": "none",
+            "action": "folder",
             "folders": [
-                "preland"
+                "preland1",
+                "preland2"
             ]
         },
         "landing": {
             "action": "folder",
             "folder": {
                 "names": [
-                    "offer2"
+                    "site3",
+                    "site4"
                 ],
                 "conversions": {
                     "script": "order.php",
@@ -65,7 +67,7 @@
                 },
                 "customthankyoupage": {
                     "use": true,
-                    "language": "RU",
+                    "language": "PT",
                     "upsell": {
                         "use": false,
                         "imgdir": "img",
