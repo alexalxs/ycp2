@@ -66,22 +66,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         // Para redirecionar o usuário para a landing page após o clique
         if (isset($black_land_folder_names) && !empty($black_land_folder_names)) {
-            // Se save_user_flow está ativado E temos um cookie 'landing', usar o mesmo
-            if ($save_user_flow && isset($_COOKIE['landing']) && in_array($_COOKIE['landing'], $black_land_folder_names)) {
+            // Verificar se a landing foi especificada no payload ou usar cookie existente
+            $landing = '';
+            
+            // Opção 1: Landing especificada diretamente no JSON
+            if (isset($data['landing']) && in_array($data['landing'], $black_land_folder_names)) {
+                $landing = $data['landing'];
+            } 
+            // Opção 2: Se save_user_flow está ativado E temos um cookie 'landing'
+            else if ($save_user_flow && isset($_COOKIE['landing']) && in_array($_COOKIE['landing'], $black_land_folder_names)) {
                 $landing = $_COOKIE['landing'];
             } 
-            // Caso contrário, selecionar uma landing aleatoriamente para teste A/B
+            // Opção 3: Selecionar uma landing aleatoriamente para teste A/B
             else {
                 $index = rand(0, count($black_land_folder_names) - 1);
                 $landing = $black_land_folder_names[$index];
-                ywbsetcookie('landing', $landing, '/');
             }
             
-            // Registrar clique no LPCTR com o nome da landing correto
+            // Verificar se a landing ainda é válida
+            if (empty($landing) || !in_array($landing, $black_land_folder_names)) {
+                $index = rand(0, count($black_land_folder_names) - 1);
+                $landing = $black_land_folder_names[$index];
+            }
+            
+            // Definir ou atualizar o cookie de landing
+            ywbsetcookie('landing', $landing, '/');
+            
+            // Registrar a landing corretamente para estatísticas
             add_lpctr($subid, $prelanding, $landing);
             
             // NÃO registrar como um novo acesso (Traffic), apenas retornar a landing
-            // Removido: add_black_click($subid, $detect_data, $prelanding, $landing);
+            // add_black_click seria usado aqui, mas foi removido para evitar contagem dupla
             
             // Retornar a URL da landing para o JavaScript
             echo json_encode(['success' => true, 'redirect' => "/{$landing}/"]);

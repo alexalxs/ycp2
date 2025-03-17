@@ -318,7 +318,6 @@ if (!$noprelanding){
 	$lpctrTableOutput.="</tbody></TABLE>";
 }
 
-
 $land_splittest=(count($landclicks_array)>1);
 $land_split_probability=[];
 if ($land_splittest){
@@ -331,6 +330,35 @@ if ($land_splittest){
     }
     $predictor = SplitTestAnalyzer::create()->withVariations(...$variations);
     $land_split_probability=$predictor->getResult();
+}
+
+// Garantir que todas as landings configuradas tenham uma entrada nas estatísticas
+$dataDir = __DIR__ . "/../logs";
+$lpctrStore = new \SleekDB\Store("lpctr", $dataDir);
+$all_lpctr = $lpctrStore->findAll(["time" => "desc"]);
+
+// Contar todos os cliques por landing
+$all_land_clicks = [];
+foreach ($all_lpctr as $ctr_record) {
+    if (!empty($ctr_record['land'])) {
+        $land_name = $ctr_record['land'];
+        if (!array_key_exists($land_name, $all_land_clicks)) {
+            $all_land_clicks[$land_name] = 0;
+        }
+        $all_land_clicks[$land_name]++;
+    }
+}
+
+// Substituir as contagens de landing pelos valores reais do banco de dados
+$landclicks_array = $all_land_clicks;
+
+// Adicionar todas as landings do $black_land_folder_names à lista de landings, se não existirem
+if (isset($black_land_folder_names) && is_array($black_land_folder_names)) {
+    foreach ($black_land_folder_names as $land_name) {
+        if (!array_key_exists($land_name, $landclicks_array)) {
+            $landclicks_array[$land_name] = 0;
+        }
+    }
 }
 
 //Open the landcr table tag

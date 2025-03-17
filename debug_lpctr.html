@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug LPCTR</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1, h2 { color: #333; }
+        table { border-collapse: collapse; margin-bottom: 30px; }
+        th { background-color: #f2f2f2; }
+        td, th { padding: 8px; text-align: left; }
+        .section { margin-bottom: 40px; }
+    </style>
+</head>
+<body>
+    <h1>Debug LPCTR</h1>
+    
+    <div class="section">
+        <h2>Contagem por Landing Page</h2>
+        <table border="1">
+            <tr>
+                <th>Landing</th>
+                <th>Contagem</th>
+            </tr>
+                        <tr>
+                <td>site3</td>
+                <td>10</td>
+            </tr>
+                        <tr>
+                <td>site4</td>
+                <td>11</td>
+            </tr>
+                        <tr>
+                <td>(vazio)</td>
+                <td>42</td>
+            </tr>
+                    </table>
+    </div>
+    
+    <div class="section">
+        <h2>Contagem por Prelanding -> Landing</h2>
+        <table border="1">
+            <tr>
+                <th>Combinação</th>
+                <th>Contagem</th>
+            </tr>
+                        <tr>
+                <td>preland1 -&gt; site3</td>
+                <td>7</td>
+            </tr>
+                        <tr>
+                <td>preland1 -&gt; site4</td>
+                <td>5</td>
+            </tr>
+                        <tr>
+                <td>preland2 -&gt; site4</td>
+                <td>2</td>
+            </tr>
+                        <tr>
+                <td>preland2 -&gt; site3</td>
+                <td>1</td>
+            </tr>
+                        <tr>
+                <td>preland1 -&gt; (vazio)</td>
+                <td>21</td>
+            </tr>
+                        <tr>
+                <td>demo -&gt; site4</td>
+                <td>4</td>
+            </tr>
+                        <tr>
+                <td>demo -&gt; site3</td>
+                <td>2</td>
+            </tr>
+                        <tr>
+                <td>preland2 -&gt; (vazio)</td>
+                <td>21</td>
+            </tr>
+                    </table>
+    </div>
+    
+    <div class="section">
+        <h2>Últimos 20 Registros LPCTR</h2>
+        <table border="1" cellpadding="5" cellspacing="0"><tr><th>time</th><th>subid</th><th>preland</th><th>land</th><th>_id</th></tr><tr><td>2025-03-17 23:31:54</td><td>67d8b0eac82bd</td><td>preland1</td><td>site3</td><td>63</td></tr><tr><td>2025-03-17 23:31:09</td><td>67d8b0ab266d3</td><td>preland1</td><td>site4</td><td>62</td></tr><tr><td>2025-03-17 23:29:55</td><td>67d8b07316f18</td><td>preland1</td><td>site3</td><td>61</td></tr><tr><td>2025-03-17 23:29:16</td><td>67d8b04cee16a</td><td>preland1</td><td>site4</td><td>60</td></tr><tr><td>2025-03-17 23:28:52</td><td>67d8b0342160e</td><td>preland2</td><td>site4</td><td>59</td></tr><tr><td>2025-03-17 23:28:30</td><td>67d8b01e3269d</td><td>preland1</td><td>site3</td><td>58</td></tr><tr><td>2025-03-17 23:27:33</td><td>67d8afe54d876</td><td>preland1</td><td>site3</td><td>57</td></tr><tr><td>2025-03-17 23:23:15</td><td>67d8aee1bfa14</td><td>preland1</td><td>site3</td><td>56</td></tr><tr><td>2025-03-17 23:21:41</td><td>67d8ae7508f79</td><td>preland2</td><td>site3</td><td>55</td></tr><tr><td>2025-03-17 23:20:14</td><td>67d8ae2e10dcb</td><td>preland1</td><td>site3</td><td>54</td></tr><tr><td>2025-03-17 23:17:33</td><td>67d8ad8d6c4e5</td><td>preland1</td><td>site4</td><td>53</td></tr><tr><td>2025-03-17 23:16:54</td><td>67d8ad669b369</td><td>preland1</td><td></td><td>52</td></tr><tr><td>2025-03-17 23:08:51</td><td>67d8ab83b24fd</td><td>demo</td><td>site4</td><td>51</td></tr><tr><td>2025-03-17 23:06:52</td><td>67d8ab0cd5f95</td><td>demo</td><td>site4</td><td>50</td></tr><tr><td>2025-03-17 23:06:16</td><td>67d8aae86047d</td><td>demo</td><td>site3</td><td>49</td></tr><tr><td>2025-03-17 23:05:48</td><td>67d8aacc87b0d</td><td>demo</td><td>site3</td><td>48</td></tr><tr><td>2025-03-17 23:05:27</td><td>67d8aab7dbded</td><td>demo</td><td>site4</td><td>47</td></tr><tr><td>2025-03-17 23:04:59</td><td>67d8aa9b2799e</td><td>demo</td><td>site4</td><td>46</td></tr><tr><td>2025-03-17 23:03:46</td><td>67d8aa52951cc</td><td>preland1</td><td>site3</td><td>45</td></tr><tr><td>2025-03-17 23:03:40</td><td>subid_m8d9wl97immt8qd20oj</td><td>preland2</td><td>site4</td><td>44</td></tr></table>    </div>
+</body>
+</html> 
