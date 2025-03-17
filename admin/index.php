@@ -40,6 +40,19 @@ switch ($filter) {
     case 'leads':
         $header = ["Subid","Time","Name","Phone","Email","Status","Preland","Land","Fbp","Fbclid"];
         $dataset=get_leads($startdate->getTimestamp(),$enddate->getTimestamp());
+        
+        // Verificar se há dados para exibir
+        if (empty($dataset)) {
+            // Se não houver dados, exibir mensagem de aviso
+            $tableOutput = "<div class='alert alert-warning'>Nenhum lead encontrado no período selecionado. Verifique as datas ou se existem leads cadastrados.</div>";
+            $tableOutput .= "<TABLE class='table w-auto table-striped'>";
+            $tableOutput .= "<thead class='thead-dark'><TR><TH scope='col'>Row</TH>";
+            foreach ($header as $field) {
+                $tableOutput .= "<TH scope='col'>".$field."</TH>";
+            }
+            $tableOutput .= "</TR></thead><tbody></tbody></TABLE>";
+            break;
+        }
         break;
     case 'blocked':
         $header = ["IP","Country","ISP","Time","Reason","OS","UA","QueryString"];

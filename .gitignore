@@ -1,0 +1,7 @@
+logs/blackclicks/data/*
+logs/whiteclicks/data/*
+logs/blackclicks/cache/*
+logs/leads/cache/*
+logs/whiteclicks/cache/*
+logs/leads/data/*
+logs/lpctr/cache/*
