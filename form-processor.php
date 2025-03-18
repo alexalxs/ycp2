@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     error_log("Lead registrado com sucesso: $name, $email, $phone (subid: $subid)");
     
     // Verificar se existe uma URL de redirecionamento personalizada nas configurações
-    $redirect_url = '/thankyou.php'; // URL padrão
+    $redirect_url = '/thankyou.html'; // URL padrão
     
     // Obter URL personalizada das configurações
     $custom_redirect_url = $black_land_redirect_url;
@@ -74,19 +74,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($custom_redirect_url)) {
         $redirect_url = $custom_redirect_url;
         error_log("Usando URL de redirecionamento personalizada: $redirect_url");
-    } else {
-        // Usar a configuração de thankyou page personalizada
-        if ($black_land_use_custom_thankyou_page) {
-            // Verificar primeiro se thankyou.php existe antes de redirecionar
-            if (file_exists(__DIR__ . '/thankyou.php')) {
-                $redirect_url = '/thankyou.php';
-            } else {
-                // Fallback para thankyou.html se thankyou.php não existir
-                $redirect_url = '/thankyou.html';
-            }
-        } else {
-            $redirect_url = '/thankyou.html';
-        }
     }
     
     // Enviar postback S2S, se configurado

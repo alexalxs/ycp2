@@ -64,7 +64,7 @@
                     "script": "order.php",
                     "logonbuttonclick": false
                 },
-                "redirect_url": "https://dekoola.com/ch/hack/",
+                "redirect_url": "https://dekoola.com/ch/hack",
                 "customthankyoupage": {
                     "use": "1",
                     "language": "PT",
@@ -77,7 +77,7 @@
                     }
                 },
                 "redirect": {
-                    "url": "https://dekoola.com/ch/hack/222"
+                    "url": "https://dekoola.com/ch/hacksdf"
                 }
             },
             "redirect": {
