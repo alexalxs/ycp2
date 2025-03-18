@@ -84,43 +84,54 @@ function serve_file($folder, $requested_file) {
             $base_url = "/{$folder_name}/";
             $content = preg_replace('/<head([^>]*)>/', '<head$1><base href="' . $base_url . '">', $content);
             
-            // Modifica os links para buttonlog.php para registrar cliques
-            $content = str_replace('id="ctaButton"', 'id="ctaButton" onclick="logButtonClick(\'' . $folder_name . '\')"', $content);
+            // Adiciona atributo data-prelanding ao botão para identificar a prelanding de origem
+            // Não modificaremos o href original do botão, respeitando o link definido pelo usuário
+            $content = str_replace('id="ctaButton"', 'id="ctaButton" data-prelanding="' . $folder_name . '"', $content);
             
             // Adiciona script para registrar cliques
             $buttonlog_script = '<script>
-                function logButtonClick(prelanding) {
-                    // Desabilitar o botão para evitar cliques múltiplos
-                    const button = document.getElementById("ctaButton");
-                    if (button) button.disabled = true;
-                    
-                    fetch("/buttonlog.php", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                            event: "lead_click",
-                            prelanding: prelanding,
-                            timestamp: new Date().toISOString()
-                        }),
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log("Lead registrado com sucesso");
-                        if (data.redirect) {
-                            window.location.href = data.redirect;
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Erro ao registrar lead:", error);
-                        // Re-habilitar o botão em caso de erro
-                        if (button) button.disabled = false;
-                    });
-                    
-                    // Prevenir navegação padrão
-                    return false;
-                }
+                document.addEventListener("DOMContentLoaded", function() {
+                    const ctaButton = document.getElementById("ctaButton");
+                    if (ctaButton) {
+                        ctaButton.addEventListener("click", function(e) {
+                            // Registrar o clique
+                            const prelanding = this.getAttribute("data-prelanding");
+                            
+                            // Desabilitar o botão para evitar cliques múltiplos
+                            this.disabled = true;
+                            
+                            // Obter o URL de destino original definido pelo usuário
+                            const originalHref = this.getAttribute("href");
+                            
+                            // Registrar o clique via buttonlog.php
+                            fetch("/buttonlog.php", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify({
+                                    event: "lead_click",
+                                    prelanding: prelanding,
+                                    timestamp: new Date().toISOString()
+                                }),
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log("Lead registrado com sucesso");
+                                // Redirecionar para o URL original definido pelo usuário
+                                window.location.href = originalHref;
+                            })
+                            .catch(error => {
+                                console.error("Erro ao registrar lead:", error);
+                                // Re-habilitar o botão em caso de erro
+                                this.disabled = false;
+                            });
+                            
+                            // Prevenir navegação padrão para permitir o processamento assíncrono
+                            e.preventDefault();
+                        });
+                    }
+                });
             </script>';
             
             $content = str_replace('</body>', $buttonlog_script . '</body>', $content);

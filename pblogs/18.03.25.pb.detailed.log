@@ -1,0 +1,19 @@
+==== 2025-03-18 02:46:44 ENVIANDO POSTBACK ====
+URL: https://dekoola.com/wp-json/autonami/v1/webhook/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a
+METHOD: GET
+PAYLOAD:
+{
+    "subid": "67d8d028a6bb5",
+    "status": "Lead",
+    "prelanding": "preland2",
+    "landing": "offer2",
+    "name": "a",
+    "email": "offer2",
+    "phone": "a@potencialize.me"
+}
+
+==== 2025-03-18 02:46:47 RESPOSTA DO WEBHOOK ====
+HTTP CODE: 200
+CONTEÚDO: {"success":true}
+ERRO: Nenhum erro
+

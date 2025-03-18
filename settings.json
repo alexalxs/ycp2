@@ -58,8 +58,7 @@
             "action": "folder",
             "folder": {
                 "names": [
-                    "site3",
-                    "site4"
+                    "offer2"
                 ],
                 "conversions": {
                     "script": "order.php",
@@ -229,11 +228,13 @@
         "trash": "Trash",
         "s2s": [
             {
-                "url": "",
-                "method": "POST",
+                "url": "https://dekoola.com/wp-json/autonami/v1/webhook/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a",
+                "method": "GET",
                 "events": [
                     "Lead",
-                    "Purchase"
+                    "Purchase",
+                    "Reject",
+                    "Trash"
                 ]
             }
         ]

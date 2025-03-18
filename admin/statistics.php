@@ -396,7 +396,7 @@ foreach ($landclicks_array as $land_name => $land_clicks) {
     $landcrTableOutput.="<TD scope='col'>".$land_trash."</TD>";
     $landcrTableOutput.="<TD scope='col'>".number_format($cur_cr, 2, '.', '')."</TD>";
     if ($land_splittest)
-        $landcrTableOutput.="<TD scope='col'>".$land_split_probability[$land_name]."</TD>";
+        $landcrTableOutput.="<TD scope='col'>".(array_key_exists($land_name, $land_split_probability) ? $land_split_probability[$land_name] : '0')."</TD>";
     $landcrTableOutput.="</TR>";
 }
 $landcrTableOutput.="</tbody></TABLE>";

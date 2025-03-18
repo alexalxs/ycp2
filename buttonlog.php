@@ -69,18 +69,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Verificar se a landing foi especificada no payload ou usar cookie existente
             $landing = '';
             
-            // Opção 1: Landing especificada diretamente no JSON
-            if (isset($data['landing']) && in_array($data['landing'], $black_land_folder_names)) {
-                $landing = $data['landing'];
-            } 
-            // Opção 2: Se save_user_flow está ativado E temos um cookie 'landing'
-            else if ($save_user_flow && isset($_COOKIE['landing']) && in_array($_COOKIE['landing'], $black_land_folder_names)) {
-                $landing = $_COOKIE['landing'];
-            } 
-            // Opção 3: Selecionar uma landing aleatoriamente para teste A/B
-            else {
-                $index = rand(0, count($black_land_folder_names) - 1);
-                $landing = $black_land_folder_names[$index];
+            // Primeiro verificar se devemos usar a landing conforme configuração em settings.json
+            if ($black_land_action === 'folder') {
+                // Verificar se há apenas uma landing em settings.json (caso de offer2 como no erro reportado)
+                if (count($black_land_folder_names) === 1) {
+                    $landing = $black_land_folder_names[0];
+                } else {
+                    // Opção 1: Landing especificada diretamente no JSON
+                    if (isset($data['landing']) && in_array($data['landing'], $black_land_folder_names)) {
+                        $landing = $data['landing'];
+                    } 
+                    // Opção 2: Se save_user_flow está ativado E temos um cookie 'landing'
+                    else if ($save_user_flow && isset($_COOKIE['landing']) && in_array($_COOKIE['landing'], $black_land_folder_names)) {
+                        $landing = $_COOKIE['landing'];
+                    } 
+                    // Opção 3: Selecionar uma landing aleatoriamente para teste A/B
+                    else {
+                        $index = rand(0, count($black_land_folder_names) - 1);
+                        $landing = $black_land_folder_names[$index];
+                    }
+                }
             }
             
             // Verificar se a landing ainda é válida
@@ -95,11 +103,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Registrar a landing corretamente para estatísticas
             add_lpctr($subid, $prelanding, $landing);
             
-            // NÃO registrar como um novo acesso (Traffic), apenas retornar a landing
-            // add_black_click seria usado aqui, mas foi removido para evitar contagem dupla
-            
-            // Retornar a URL da landing para o JavaScript
-            echo json_encode(['success' => true, 'redirect' => "/{$landing}/"]);
+            // Não retornamos mais um redirecionamento, apenas confirmamos que o clique foi registrado
+            echo json_encode(['success' => true]);
         } else {
             // Se não houver landing pages configuradas, registrar o clique sem landing
             add_lpctr($subid, $prelanding);
