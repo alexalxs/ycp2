@@ -2,8 +2,6 @@
 
 ## To Fix (deve alterar a funcionalidade pois está incorreta):
 
-- não esta permitindo editar "Redirect URL after form submission" (corrigido ajustando o processamento de campos em savesettings.php)
-A pasta thankyou foi removida então não tenha nenhuma dependÊncia dela.
 ## To Do (deve criar a funcionalidade pois está faltando):
 
 ## Test (não deve alterar a funcionalidade pois está em fase de teste pelo usuário):
@@ -14,4 +12,6 @@ A pasta thankyou foi removida então não tenha nenhuma dependÊncia dela.
 - Processamento e validação dos dados do formulário estão corretos
 - Armazenamento dos dados de lead no banco de dados está funcionando
 - Mecanismo de geração e rastreamento de subid está funcional
+- Correção do campo "Redirect URL after form submission" permitindo edição e salvamento das configurações
+- Removida dependência da pasta thankyou, utilizando apenas a URL de redirecionamento configurada
 

@@ -309,7 +309,7 @@ if (!$noprelanding){
 		$lpctrTableOutput.="<TD scope='col'>".$lp_name."</TD>";
 		$lpctrTableOutput.="<TD scope='col'>".$lpdest_array[$lp_name]."</TD>";
 		$lpctrTableOutput.="<TD scope='col'>".$lp_count."</TD>";
-		$cur_ctr = $lp_count*100/$lpdest_array[$lp_name];
+		$cur_ctr = isset($lpdest_array[$lp_name]) && $lpdest_array[$lp_name] > 0 ? $lp_count*100/$lpdest_array[$lp_name] : 0;
 		$lpctrTableOutput.="<TD scope='col'>".number_format($cur_ctr, 2, '.', '')."%</TD>";
         if ($preland_splittest)
             $lpctrTableOutput.="<TD scope='col'>".$preland_split_probability[$lp_name]."</TD>";
@@ -384,7 +384,7 @@ foreach ($landclicks_array as $land_name => $land_clicks) {
     $land_purchase = array_key_exists('Purchase',$cur_land_arr)?$cur_land_arr['Purchase']:0;
     $land_reject = array_key_exists('Reject',$cur_land_arr)?$cur_land_arr['Reject']:0;
     $land_trash = array_key_exists('Trash',$cur_land_arr)?$cur_land_arr['Trash']:0;
-    $cur_cr = $land_conv*100/$land_clicks;
+    $cur_cr = $land_clicks > 0 ? $land_conv*100/$land_clicks : 0;
 
     $landcrTableOutput.="<TR>";
     $landcrTableOutput.="<TD scope='col'>".$land_name."</TD>";
@@ -521,6 +521,11 @@ foreach ($subs_array as $sub_key=>$sub_values)
                                 <li>
                                     <a title="Análise de Landing" href="landing_efficiency.php?password=<?=$_GET['password']?><?=$date_str!==''?$date_str:''?>">
                                         <span class="mini-sub-pro">Eficiência de Landing</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a title="Limpar Estatísticas" href="reset_statistics.php?password=<?=$_GET['password']?><?=$date_str!==''?$date_str:''?>">
+                                        <span class="mini-sub-pro">Limpar Estatísticas</span>
                                     </a>
                                 </li>
                                 <li>

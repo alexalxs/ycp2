@@ -3,7 +3,7 @@
 ## To Fix (deve alterar a funcionalidade pois está incorreta):
 
 ## To Do (deve criar a funcionalidade pois está faltando):
-- Adicionar código para calcular o custo por lead para cada landing page (quando dados de custo estiverem disponíveis)
+- Adicione um botão para apagar todos os dados estatíticos que aparcem em estatísticas, leads, bloqueados, allowed. Deixe equivalente a começar a usar o sistema do zero.
 
 ## Test (não deve alterar a funcionalidade pois está em fase de teste pelo usuário):
 
