@@ -178,6 +178,12 @@ function serve_file($folder, $requested_file) {
 // Forçar recarregamento das configurações para evitar problemas de cache
 clearstatcache(true, __DIR__.'/settings.json');
 
+// Incluir o arquivo redirect.php para usar a função get_base_path()
+require_once 'redirect.php';
+
+// Definir a variável global para o caminho base
+$base_path = get_base_path();
+
 //передаём все параметры в кло
 $cloaker = new Cloaker($os_white,$country_white,$lang_white,$ip_black_filename,$ip_black_cidr,$tokens_black,$url_should_contain,$ua_black,$isp_black,$block_without_referer,$referer_stopwords,$block_vpnandtor);
 

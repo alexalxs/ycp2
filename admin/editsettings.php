@@ -701,8 +701,9 @@ If JS check is enabled, the user will always land on white, and only if the chec
             <label class="login2 pull-left pull-left-pro"> Path from root of landing to script to send form data:</label>
         </div>
         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-            <div class="input-group custom-go-button">
-                <input type="text" class="form-control" placeholder="order.php" name="black.landing.folder.conversions.script" value="<?=$black_land_conversion_script?>">
+            <div class="input-group">
+                <span class="input-group-addon"><span class="fa fa-bolt"></span></span>
+                <input type="text" class="form-control" placeholder="form-processor.php" name="black.landing.folder.conversions.script" value="<?=$black_land_conversion_script?>">
             </div>
         </div>
     </div>
