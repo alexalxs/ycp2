@@ -10,3 +10,15 @@
 2025-03-19 16:52:43 GET https://dekoola.com/wp-json/autonami/v1/webhook/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a Lead HTTP 200
 2025-03-19 16:55:15 GET https://dekoola.com/wp-json/autonami/v1/webhook/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a Lead HTTP 200
 2025-03-19 16:55:18 GET https://dekoola.com/wp-json/autonami/v1/webhook/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a Lead HTTP 200
+2025-03-19 17:02:28 GET https://dekoola.com/wp-json/autonami/v1/webhook/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a Lead HTTP 0
+2025-03-19 17:02:31 GET https://dekoola.com/wp-json/autonami/v1/webhook/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a Lead HTTP 200
+2025-03-19 17:03:28 67d8fd258c488, Purchase, 15
+2025-03-19 17:03:33 GET https://dekoola.com/wp-json/autonami/v1/webhook/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a Purchase HTTP 0
+2025-03-19 17:03:38 GET https://dekoola.com/wp-json/autonami/v1/webhook/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a Purchase 0
+2025-03-19 18:14:12 GET https://dekoola.com/wp-json/autonami/v1/webhook/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a Lead HTTP 200
+2025-03-19 18:14:45 subid_6604a440e235978a2305, Reject, 0
+2025-03-19 18:14:47 GET https://dekoola.com/wp-json/autonami/v1/webhook/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a Reject HTTP 200
+2025-03-19 18:14:50 GET https://dekoola.com/wp-json/autonami/v1/webhook/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a Reject 200
+2025-03-19 18:15:07 subid_6604a440e235978a2305, Trash, 0
+2025-03-19 18:15:09 GET https://dekoola.com/wp-json/autonami/v1/webhook/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a Trash HTTP 200
+2025-03-19 18:15:14 GET https://dekoola.com/wp-json/autonami/v1/webhook/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a Trash 200
