@@ -1,0 +1,14 @@
+# Whitelist de IPs em formato CIDR
+# Adicione um IP ou rede por linha
+# Exemplo de IPs individuais:
+192.168.1.1
+10.0.0.1
+127.0.0.1
+# Exemplo de redes em formato CIDR:
+192.168.0.0/16
+10.0.0.0/8
+127.0.0.0/8
+# Para testes locais
+::1/128
+localhost 
+2001:0db8:0000:0000:0000:ff00:0042:8329

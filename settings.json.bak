@@ -48,7 +48,7 @@
     },
     "black": {
         "prelanding": {
-            "action": "none",
+            "action": "folder",
             "folders": [
                 "preland1",
                 "preland2"
@@ -131,9 +131,7 @@
             "allowed": {
                 "countries": [],
                 "os": [],
-                "inurl": [
-                    "key=2"
-                ],
+                "inurl": [],
                 "languages": []
             },
             "blocked": {
@@ -142,23 +140,8 @@
                     "cidrformat": false
                 },
                 "tokens": [],
-                "useragents": [
-                    "facebook",
-                    "Facebot",
-                    "curl",
-                    "gce-spider",
-                    "yandex.com\/bots",
-                    "OdklBot"
-                ],
-                "isps": [
-                    "facebook",
-                    "google",
-                    "yandex",
-                    "amazon",
-                    "azure",
-                    "digitalocean",
-                    "microsoft"
-                ],
+                "useragents": [],
+                "isps": [],
                 "referer": {
                     "empty": false,
                     "stopwords": []

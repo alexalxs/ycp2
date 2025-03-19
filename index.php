@@ -183,56 +183,76 @@ else{
 	$check_result = $cloaker->check();
 
 	if ($check_result == 0 || $tds_mode==='off') { //Обычный юзверь или отключена фильтрация
+		// Verificar se a whitelist de IPs foi validada, o que evita verificação das demais condições
+		if ($cloaker->whitelist_match) {
+			// Se o IP está na whitelist, vamos diretamente para a black page
+			if ($black_land_action === 'folder') {
+				$folder = select_item($black_land_folder_names, $save_user_flow, 'black', true)[0];
+				$cursubid = set_subid();
+				add_black_click($cursubid, $cloaker->detect, '', $folder);
+				
+				$requested_file = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+				if ($requested_file === '/' || $requested_file === '') {
+					$requested_file = '/index.html';
+				}
+				
+				// Servir os arquivos diretamente da pasta black
+				if (serve_file($folder, $requested_file)) {
+					exit;
+				}
+			}
+		}
+		
 		// Verificar primeiro se usa prelanding
 		if ($black_preland_action === 'folder') {
-            // Garantir que temos um subid válido para rastreamento
-            $cursubid = set_subid();
-            
-            // Verificar se há um parâmetro key na URL que deve forçar uma prelanding específica
-            $force_prelanding = null;
-            if (isset($_GET['key']) && is_numeric($_GET['key']) && $_GET['key'] >= 1 && $_GET['key'] <= count($black_preland_folder_names)) {
-                $force_prelanding = $black_preland_folder_names[$_GET['key'] - 1];
-            }
-            
-            // Selecionar prelanding com base nas regras de teste A/B
-            if ($force_prelanding !== null) {
-                // Forçar uma prelanding específica pelo parâmetro key
-                $folder = $force_prelanding;
-                ywbsetcookie('prelanding', $folder, '/');
-            } else if ($save_user_flow && isset($_COOKIE['prelanding']) && in_array($_COOKIE['prelanding'], $black_preland_folder_names)) {
-                // Usar prelanding salva no cookie se save_user_flow estiver ativado
-                $folder = $_COOKIE['prelanding'];
-            } else {
-                // Selecionar aleatoriamente para teste A/B
-                $index = rand(0, count($black_preland_folder_names) - 1);
-                $folder = $black_preland_folder_names[$index];
-                ywbsetcookie('prelanding', $folder, '/');
-            }
-            
-            // Registrar visualização para estatísticas apenas para visitantes que não acessaram
-            // esta prelanding antes (evita contar duas vezes o mesmo visitante no Traffic)
-            $cookie_name = 'visited_' . $folder;
-            if (!isset($_COOKIE[$cookie_name])) {
-                // Primeiro acesso a esta prelanding
-                add_black_click($cursubid, $cloaker->detect, $folder, '');
-                // Definir cookie para marcar que o usuário já acessou esta prelanding
-                ywbsetcookie($cookie_name, '1', '/');
-            }
-            
-            // Obter o arquivo solicitado da URL
-            $requested_file = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-            if ($requested_file === '/' || $requested_file === '') {
-                $requested_file = '/index.html';
-            }
-            
-            // Servir o arquivo da pasta prelanding
-            if (serve_file($folder, $requested_file)) {
-                exit;
-            } else {
-                header("HTTP/1.0 404 Not Found");
-                echo "<h1>404 Not Found</h1>";
-                exit;
-            }
+			// Garantir que temos um subid válido para rastreamento
+			$cursubid = set_subid();
+			
+			// Verificar se há um parâmetro key na URL que deve forçar uma prelanding específica
+			$force_prelanding = null;
+			if (isset($_GET['key']) && is_numeric($_GET['key']) && $_GET['key'] >= 1 && $_GET['key'] <= count($black_preland_folder_names)) {
+				$force_prelanding = $black_preland_folder_names[$_GET['key'] - 1];
+			}
+			
+			// Selecionar prelanding com base nas regras de teste A/B
+			if ($force_prelanding !== null) {
+				// Forçar uma prelanding específica pelo parâmetro key
+				$folder = $force_prelanding;
+				ywbsetcookie('prelanding', $folder, '/');
+			} else if ($save_user_flow && isset($_COOKIE['prelanding']) && in_array($_COOKIE['prelanding'], $black_preland_folder_names)) {
+				// Usar prelanding salva no cookie se save_user_flow estiver ativado
+				$folder = $_COOKIE['prelanding'];
+			} else {
+				// Selecionar aleatoriamente para teste A/B
+				$index = rand(0, count($black_preland_folder_names) - 1);
+				$folder = $black_preland_folder_names[$index];
+				ywbsetcookie('prelanding', $folder, '/');
+			}
+			
+			// Registrar visualização para estatísticas apenas para visitantes que não acessaram
+			// esta prelanding antes (evita contar duas vezes o mesmo visitante no Traffic)
+			$cookie_name = 'visited_' . $folder;
+			if (!isset($_COOKIE[$cookie_name])) {
+				// Primeiro acesso a esta prelanding
+				add_black_click($cursubid, $cloaker->detect, $folder, '');
+				// Definir cookie para marcar que o usuário já acessou esta prelanding
+				ywbsetcookie($cookie_name, '1', '/');
+			}
+			
+			// Obter o arquivo solicitado da URL
+			$requested_file = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+			if ($requested_file === '/' || $requested_file === '') {
+				$requested_file = '/index.html';
+			}
+			
+			// Servir o arquivo da pasta prelanding diretamente (sem redirecionamento)
+			if (serve_file($folder, $requested_file)) {
+				exit;
+			} else {
+				header("HTTP/1.0 404 Not Found");
+				echo "<h1>404 Not Found</h1>";
+				exit;
+			}
 		}
 		// Se não usar prelanding, então processar a landing conforme o original
 		else if ($black_land_action === 'folder') {
@@ -253,12 +273,14 @@ else{
 				ywbsetcookie($cookie_name, '1', '/');
 			}
 			
-			if (!serve_file($folder, $requested_file)) {
+			// Servir o arquivo da pasta landing diretamente (sem redirecionamento)
+			if (serve_file($folder, $requested_file)) {
+				exit;
+			} else {
 				header("HTTP/1.0 404 Not Found");
 				echo "<h1>404 Not Found</h1>";
 				exit;
 			}
-			exit;
 		}
 		// Se não usar folder para landing, usar black() para outros casos
 		black($cloaker->detect);

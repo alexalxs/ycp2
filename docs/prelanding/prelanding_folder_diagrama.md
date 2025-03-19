@@ -31,7 +31,7 @@ sequenceDiagram
     I->>C: Verifica filtros TDS (se habilitados)
     C-->>I: Resultado da verificação: 0 (usuário normal)
     
-    rect rgb(220, 250, 220)
+    rect rgb(22, 32, 22)
     Note over I,SF: Verificação Prioritária de Prelanding
     I->>I: Verifica se black_preland_action="folder"
     

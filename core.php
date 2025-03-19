@@ -26,6 +26,7 @@ class Cloaker{
     var $block_vpnandtor;
     var $isp_black;
     var $result=[];
+    var $whitelist_match = false;
 
 	public function __construct($os_white,$country_white,$lang_white,$ip_black_filename,$ip_black_cidr,$tokens_black,$url_should_contain,$ua_black,$isp_black,$block_without_referer,$referer_stopwords,$block_vpnandtor){
 		$this->os_white = $os_white;
@@ -93,15 +94,44 @@ $this->detect->isp = $a['isp'];
     }
 
 	public function check(){
-		$result=0;
+		$result = 0;
+		$current_ip = $this->detect->ip;
+        
+        // Debug para identificar o IP do cliente
+        error_log("Verificando IP cliente: {$current_ip}");
+        
+        // Verificar primeiro se o IP está na whitelist
+        if (file_exists(__DIR__."/bases/whitelist.txt")) {
+            $whitelist_ips = file(__DIR__."/bases/whitelist.txt", FILE_IGNORE_NEW_LINES);
+            // Filtrar comentários e linhas vazias
+            $whitelist_ips = array_filter($whitelist_ips, function($line) {
+                return trim($line) !== '' && substr(trim($line), 0, 1) !== '#';
+            });
+            
+            if (!empty($whitelist_ips)) {
+                $this->whitelist_match = IpUtils::checkIp($current_ip, $whitelist_ips);
+                error_log("Whitelist verificada para IP {$current_ip}: " . ($this->whitelist_match ? "MATCH" : "NO MATCH"));
+                
+                if ($this->whitelist_match) {
+                    error_log("IP {$current_ip} está na whitelist, enviando para black page diretamente");
+                    $this->result[] = 'whitelist';
+                    return 0; // Retorna 0 para direcionar para black page
+                }
+            } else {
+                error_log("Arquivo whitelist.txt está vazio ou contém apenas comentários");
+            }
+        } else {
+            error_log("Arquivo whitelist.txt não encontrado");
+        }
+        
+        // Continua com as verificações normais
+        $cidr = file(__DIR__."/bases/bots.txt", FILE_IGNORE_NEW_LINES);
+		$checked = IpUtils::checkIp($current_ip, $cidr);
 
-		$current_ip=$this->detect->ip;
-		$cidr = file(__DIR__."/bases/bots.txt", FILE_IGNORE_NEW_LINES);
-		$checked=IpUtils::checkIp($current_ip, $cidr);
-
-		if ($checked===true){
-            $result=1;
-			$this->result[]='ipbase';
+		if ($checked === true) {
+            $result = 1;
+			$this->result[] = 'ipbase';
+            error_log("IP {$current_ip} identificado como bot");
         }
 
 		if(!$checked &&
