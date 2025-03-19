@@ -4,11 +4,26 @@ require_once 'url.php';
 /**
  * Determina o caminho base do projeto em relação ao servidor
  * 
- * @return string O caminho base, por exemplo: /volume
+ * @return string O caminho base, por exemplo: /volumex
  */
 function get_base_path() {
     $script_name = $_SERVER['SCRIPT_NAME'] ?? '';
     $script_filename = $_SERVER['SCRIPT_FILENAME'] ?? '';
+    $request_uri = $_SERVER['REQUEST_URI'] ?? '';
+    
+    // Adicionar log para depuração
+    error_log("get_base_path - SCRIPT_NAME: $script_name");
+    error_log("get_base_path - SCRIPT_FILENAME: $script_filename");
+    error_log("get_base_path - REQUEST_URI: $request_uri");
+    
+    // Obter o nome da pasta atual dinamicamente
+    $dir_name = basename(dirname(__FILE__));
+    error_log("get_base_path - DIR_NAME: $dir_name");
+    
+    // Verificar se estamos acessando via /$dir_name/ no REQUEST_URI
+    if (strpos($request_uri, "/$dir_name/") === 0 || $request_uri === "/$dir_name") {
+        return "/$dir_name";
+    }
     
     if (empty($script_name) || empty($script_filename)) {
         return '';
@@ -19,7 +34,16 @@ function get_base_path() {
     
     // Se estiver na raiz, retorna uma string vazia
     if ($script_dir == '/' || $script_dir == '\\') {
+        // Verificar se estamos acessando através de /$dir_name
+        if (strpos($script_name, "/$dir_name/") === 0) {
+            return "/$dir_name";
+        }
         return '';
+    }
+    
+    // Verificar se o script está sendo executado através de /$dir_name
+    if (strpos($script_name, "/$dir_name/") === 0) {
+        return "/$dir_name";
     }
     
     return $script_dir;

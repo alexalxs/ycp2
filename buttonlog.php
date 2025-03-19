@@ -52,61 +52,65 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $log_file = __DIR__ . '/logs/button_clicks.log';
         file_put_contents($log_file, $log_entry, FILE_APPEND);
         
-        // Registrar o clique nas estatísticas do sistema
-        // Primeiro, obter informações básicas do visitor para estatísticas
-        $ip = $_SERVER['REMOTE_ADDR'];
-        $ua = $_SERVER['HTTP_USER_AGENT'];
-        $detect_data = [
-            'ip' => $ip,
-            'ua' => $ua,
-            'country' => 'unknown', // Pode ser melhorado com geolocalização
-            'os' => 'unknown',      // Pode ser melhorado com detecção de OS
-            'isp' => 'unknown'      // Pode ser melhorado com detecção de ISP
-        ];
-        
-        // Para redirecionar o usuário para a landing page após o clique
-        if (isset($black_land_folder_names) && !empty($black_land_folder_names)) {
-            // Verificar se a landing foi especificada no payload ou usar cookie existente
-            $landing = '';
+        // Se for um evento de clique na prelanding, preparar redirecionamento para landing
+        if ($event === 'lead_click') {
+            // Registrar que este usuário clicou na prelanding
+            ywbsetcookie('black', 'landing', '/');
             
-            // Primeiro verificar se devemos usar a landing conforme configuração em settings.json
-            if ($black_land_action === 'folder') {
-                // Verificar se há apenas uma landing em settings.json (caso de offer2 como no erro reportado)
-                if (count($black_land_folder_names) === 1) {
-                    $landing = $black_land_folder_names[0];
+            // Selecionar uma landing page de acordo com a configuração
+            // Primeiro carregamos as configurações necessárias
+            if (!isset($black_land_folder_names) && file_exists(__DIR__ . '/settings.php')) {
+                include_once __DIR__ . '/settings.php';
+            }
+            
+            // Selecionar uma landing aleatória da lista de landing pages
+            if (isset($black_land_folder_names) && !empty($black_land_folder_names)) {
+                if (function_exists('select_item')) {
+                    $landing = select_item($black_land_folder_names, $save_user_flow, 'landing', true)[0];
                 } else {
-                    // Opção 1: Landing especificada diretamente no JSON
-                    if (isset($data['landing']) && in_array($data['landing'], $black_land_folder_names)) {
-                        $landing = $data['landing'];
-                    } 
-                    // Opção 2: Se save_user_flow está ativado E temos um cookie 'landing'
-                    else if ($save_user_flow && isset($_COOKIE['landing']) && in_array($_COOKIE['landing'], $black_land_folder_names)) {
-                        $landing = $_COOKIE['landing'];
-                    } 
-                    // Opção 3: Selecionar uma landing aleatoriamente para teste A/B
-                    else {
-                        $index = rand(0, count($black_land_folder_names) - 1);
-                        $landing = $black_land_folder_names[$index];
-                    }
+                    // Fallback se a função select_item não estiver disponível
+                    $index = rand(0, count($black_land_folder_names) - 1);
+                    $landing = $black_land_folder_names[$index];
                 }
+                ywbsetcookie('landing', $landing, '/');
+            } else {
+                // Se não houver landing pages configuradas, usar 'landing' como padrão
+                $landing = 'landing';
+                ywbsetcookie('landing', $landing, '/');
             }
             
-            // Verificar se a landing ainda é válida
-            if (empty($landing) || !in_array($landing, $black_land_folder_names)) {
-                $index = rand(0, count($black_land_folder_names) - 1);
-                $landing = $black_land_folder_names[$index];
+            // Obter o nome da pasta dinamicamente
+            $dir_name = basename(dirname(__FILE__));
+            
+            // Construir a URL de redirecionamento para a landing selecionada
+            $landing_redirect = "/{$dir_name}/{$landing}/";
+            
+            // Incluir informações necessárias para o redirecionamento
+            $response = [
+                'success' => true,
+                'redirect' => $landing_redirect,
+                'landing' => $landing,
+                'status' => 'clicked'
+            ];
+            
+            // Registrar o clique no banco de dados para estatísticas
+            try {
+                // Registrar o clique
+                $click_id = add_black_click($subid, isset($cloaker) ? $cloaker->detect : [], $prelanding, $landing, 'Clicked');
+                $response['click_id'] = $click_id;
+            } catch (Exception $e) {
+                error_log("Erro ao registrar clique: " . $e->getMessage());
             }
             
-            // Definir ou atualizar o cookie de landing
-            ywbsetcookie('landing', $landing, '/');
+            // Registrar informações de debug
+            error_log("Redirecionamento para landing após clique na prelanding: $landing_redirect");
             
-            // Registrar a landing corretamente para estatísticas
-            add_lpctr($subid, $prelanding, $landing);
-            
-            // Não retornamos mais um redirecionamento, apenas confirmamos que o clique foi registrado
-            echo json_encode(['success' => true]);
+            // Enviar a resposta como JSON
+            header('Content-Type: application/json');
+            echo json_encode($response);
+            return;
         } else {
-            // Se não houver landing pages configuradas, registrar o clique sem landing
+            // Se não for um evento de clique de lead, registrar o clique sem landing
             add_lpctr($subid, $prelanding);
             echo json_encode(['success' => true]);
         }

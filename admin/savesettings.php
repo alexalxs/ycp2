@@ -122,33 +122,34 @@ try {
     
     // Salvar configuração usando o método da biblioteca
     $conf->toFile($settings_file, new Json());
-    file_put_contents($log_file, date('[Y-m-d H:i:s] ') . "Configuração salva com sucesso usando toFile()\n", FILE_APPEND);
+    file_put_contents($log_file, date('[Y-m-d H:i:s] ') . "Configurações salvas com sucesso\n", FILE_APPEND);
+    file_put_contents($log_file, date('[Y-m-d H:i:s] ') . "--- FIM DO PROCESSAMENTO ---\n\n", FILE_APPEND);
     
-    // Verificar se o arquivo foi realmente salvo
-    $new_conf = new Config($settings_file);
-    $new_redirect_url = $new_conf['black.landing.folder.redirect_url'] ?? null;
-    file_put_contents($log_file, date('[Y-m-d H:i:s] ') . "Verificação pós-salvamento: black.landing.folder.redirect_url = " . ($new_redirect_url ?? 'não definido') . "\n", FILE_APPEND);
+    // Obter o nome da pasta dinamicamente
+    $dir_name = basename(dirname(dirname(__FILE__)));
+    file_put_contents($log_file, date('[Y-m-d H:i:s] ') . "Nome da pasta: $dir_name\n", FILE_APPEND);
     
-    // Também salvar usando file_put_contents para garantir
-    $json_content = json_encode($conf->all(), JSON_PRETTY_PRINT);
-    if (file_put_contents($settings_file, $json_content) === false) {
-        file_put_contents($log_file, date('[Y-m-d H:i:s] ') . "ERRO: Falha ao salvar usando file_put_contents()\n", FILE_APPEND);
-    } else {
-        file_put_contents($log_file, date('[Y-m-d H:i:s] ') . "Configuração também salva usando file_put_contents()\n", FILE_APPEND);
-    }
+    // Adicionar informações sobre o redirecionamento de sucesso para debug
+    $success_url = 'admin/editsettings.php?password=' . $log_password . '&success=1';
+    file_put_contents($log_file, date('[Y-m-d H:i:s] ') . "Redirecionando para (sucesso): $success_url\n", FILE_APPEND);
     
-    file_put_contents($log_file, date('[Y-m-d H:i:s] ') . "--- FIM DO PROCESSAMENTO COM SUCESSO ---\n\n", FILE_APPEND);
-    
-    // Redirecionar de volta para a página de configurações, usando o caminho relativo
-    // para garantir que funcione em subpastas
-    redirect('editsettings.php?password=' . $log_password . '&saved=true', 302, false);
+    // Redirecionar com mensagem de sucesso
+    redirect($success_url, 302, false);
 } catch (Exception $e) {
     // Registrar o erro no log
     file_put_contents($log_file, date('[Y-m-d H:i:s] ') . "ERRO: " . $e->getMessage() . "\n", FILE_APPEND);
     file_put_contents($log_file, date('[Y-m-d H:i:s] ') . "Trace: " . $e->getTraceAsString() . "\n", FILE_APPEND);
     file_put_contents($log_file, date('[Y-m-d H:i:s] ') . "--- FIM DO PROCESSAMENTO COM ERRO ---\n\n", FILE_APPEND);
     
+    // Obter o nome da pasta dinamicamente
+    $dir_name = basename(dirname(dirname(__FILE__)));
+    file_put_contents($log_file, date('[Y-m-d H:i:s] ') . "Nome da pasta: $dir_name\n", FILE_APPEND);
+    
+    // Adicionar informações sobre o redirecionamento de erro para debug
+    $error_url = 'admin/editsettings.php?password=' . $log_password . '&error=' . urlencode($e->getMessage());
+    file_put_contents($log_file, date('[Y-m-d H:i:s] ') . "Redirecionando para (erro): $error_url\n", FILE_APPEND);
+    
     // Redirecionar com mensagem de erro
-    redirect('editsettings.php?password=' . $log_password . '&error=' . urlencode($e->getMessage()), 302, false);
+    redirect($error_url, 302, false);
 }
 ?>

@@ -296,3 +296,79 @@ HTTP CODE: 200
 CONTEÚDO: {"success":true}
 ERRO: Nenhum erro
 
+==== 2025-03-19 18:31:11 ENVIANDO POSTBACK ====
+URL: https://dekoola.com/wp-json/autonami/v1/webhook/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a
+METHOD: GET
+PAYLOAD:
+{
+    "subid": "subid_b11e14f8c1cef226288c",
+    "status": "Lead",
+    "prelanding": "unknown",
+    "landing": "unknown",
+    "name": "TesteUsuario",
+    "email": "teste@example.com",
+    "phone": "123456789"
+}
+
+==== 2025-03-19 18:31:14 RESPOSTA DO WEBHOOK ====
+HTTP CODE: 200
+CONTEÚDO: {"success":true}
+ERRO: Nenhum erro
+
+==== 2025-03-19 18:31:48 ENVIANDO POSTBACK ====
+URL: https://dekoola.com/wp-json/autonami/v1/webhook/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a
+METHOD: GET
+PAYLOAD:
+{
+    "subid": "subid_e4b91d326eff887ea654",
+    "status": "Lead",
+    "prelanding": "unknown",
+    "landing": "unknown",
+    "name": "TesteUsuario2",
+    "email": "teste2@example.com",
+    "phone": "123456789"
+}
+
+==== 2025-03-19 18:31:52 RESPOSTA DO WEBHOOK ====
+HTTP CODE: 200
+CONTEÚDO: {"success":true}
+ERRO: Nenhum erro
+
+==== 2025-03-19 18:33:17 ENVIANDO POSTBACK ====
+URL: https://dekoola.com/wp-json/autonami/v1/webhook/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a
+METHOD: GET
+PAYLOAD:
+{
+    "subid": "subid_teste_1742409197",
+    "status": "Lead",
+    "prelanding": "unknown",
+    "landing": "unknown",
+    "name": "TesteCorrigido",
+    "email": "corrigido@example.com",
+    "phone": "123456789"
+}
+
+==== 2025-03-19 18:33:22 RESPOSTA DO WEBHOOK ====
+HTTP CODE: 200
+CONTEÚDO: {"success":true}
+ERRO: Nenhum erro
+
+==== 2025-03-19 18:33:22 ENVIANDO POSTBACK ====
+URL: https://dekoola.com/wp-json/autonami/v1/webhook/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a
+METHOD: GET
+PAYLOAD:
+{
+    "subid": "subid_teste_1742409197",
+    "status": "Lead",
+    "prelanding": "unknown",
+    "landing": "unknown",
+    "name": "TesteCorrigido",
+    "email": "corrigido@example.com",
+    "phone": "123456789"
+}
+
+==== 2025-03-19 18:33:25 RESPOSTA DO WEBHOOK ====
+HTTP CODE: 200
+CONTEÚDO: {"success":true}
+ERRO: Nenhum erro
+

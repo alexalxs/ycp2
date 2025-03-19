@@ -9,12 +9,12 @@
         "redirect": {
             "type": "303",
             "urls": [
-                "https:\/\/google.com"
+                "https://google.com"
             ]
         },
         "curl": {
             "urls": [
-                "https:\/\/dekoola.com\/"
+                "https://dekoola.com/"
             ]
         },
         "error": {
@@ -48,23 +48,22 @@
     },
     "black": {
         "prelanding": {
-            "action": "folder",
+            "action": "none",
             "folders": [
-                "preland1",
-                "preland2"
+                "preland"
             ]
         },
         "landing": {
             "action": "folder",
             "folder": {
                 "names": [
-                    "site4"
+                    "landing"
                 ],
                 "conversions": {
                     "script": "form-processor.php",
                     "logonbuttonclick": false
                 },
-                "redirect_url": "https:\/\/dekoola.com\/ch\/hack\/",
+                "redirect_url": "https://dekoola.com/ch/hack/",
                 "customthankyoupage": {
                     "use": "1",
                     "language": "PT",
@@ -73,19 +72,19 @@
                         "imgdir": "img",
                         "header": "This is a header!",
                         "text": "This is a text!",
-                        "url": "http:\/\/ya.ru"
+                        "url": "http://ya.ru"
                     }
                 },
                 "redirect": {
-                    "url": "https:\/\/teste.example.com"
+                    "url": "https://teste.example.com"
                 }
             },
             "redirect": {
                 "urls": [
-                    "https:\/\/yandex.ru"
+                    "https://yandex.ru"
                 ],
                 "type": "303",
-                "url": "https:\/\/dekoola.com\/ch\/hack\/xx"
+                "url": "https://dekoola.com/ch/hack/xx"
             }
         },
         "jsconnect": "replace"
@@ -153,16 +152,16 @@
     "scripts": {
         "back": {
             "action": "off",
-            "value": "https:\/\/ya.ru"
+            "value": "https://ya.ru"
         },
         "disabletextcopy": false,
         "prelandingreplace": {
             "use": false,
-            "url": "https:\/\/ya.ru"
+            "url": "https://ya.ru"
         },
         "landingreplace": {
             "use": false,
-            "url": "https:\/\/ya.ru"
+            "url": "https://ya.ru"
         },
         "phonemask": {
             "use": true,
@@ -207,7 +206,7 @@
                 "value": "Placement"
             }
         ],
-        "timezone": "America\/Sao_Paulo"
+        "timezone": "America/Sao_Paulo"
     },
     "postback": {
         "lead": "Lead",
@@ -216,7 +215,7 @@
         "trash": "Trash",
         "s2s": [
             {
-                "url": "https:\/\/dekoola.com\/wp-json\/autonami\/v1\/webhook\/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a",
+                "url": "https://dekoola.com/wp-json/autonami/v1/webhook/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a",
                 "method": "GET",
                 "events": [
                     "Lead",
