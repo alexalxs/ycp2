@@ -130,6 +130,21 @@ if (isset($_GET['startdate'])&& isset($_GET['enddate'])) {
         </div>
     <a name="top"></a>
 
+    <?php if (isset($_GET['saved']) && $_GET['saved'] === 'true'): ?>
+    <div class="alert alert-success alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <strong>Sucesso!</strong> As configurações foram salvas com sucesso.
+    </div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['error'])): ?>
+    <div class="alert alert-danger alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <strong>Erro!</strong> Ocorreu um erro ao salvar as configurações: <?= htmlspecialchars($_GET['error']) ?>
+      <p>Verifique o arquivo <code>admin/save_debug.log</code> para mais detalhes.</p>
+    </div>
+    <?php endif; ?>
+
     <form action="/admin/savesettings.php?password=<?=$log_password?>" method="post">
         <div class="basic-form-area mg-tb-15">
             <div class="container-fluid">
