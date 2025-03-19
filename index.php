@@ -110,8 +110,11 @@ function serve_file($folder, $requested_file) {
                             // Obter o URL de destino original definido pelo usuário
                             const originalHref = this.getAttribute("href");
                             
+                            // Definir a base path
+                            const basePath = "' . $base_path . '";
+                            
                             // Registrar o clique via buttonlog.php
-                            fetch("' . $base_path . '/buttonlog.php", {
+                            fetch(basePath + "/buttonlog.php", {
                                 method: "POST",
                                 headers: {
                                     "Content-Type": "application/json",
@@ -125,8 +128,24 @@ function serve_file($folder, $requested_file) {
                             .then(response => response.json())
                             .then(data => {
                                 console.log("Lead registrado com sucesso");
+                                
                                 // Redirecionar para o URL original definido pelo usuário
-                                window.location.href = originalHref;
+                                // Verificar se a URL é relativa e adicionar o caminho base se necessário
+                                let redirectUrl = originalHref;
+                                
+                                if (originalHref && originalHref.indexOf("http") !== 0 && originalHref.indexOf("//") !== 0) {
+                                    // É uma URL relativa
+                                    if (originalHref.indexOf("/") === 0) {
+                                        // Começa com barra, substituir pela URL com caminho base
+                                        redirectUrl = basePath + originalHref;
+                                    } else {
+                                        // Sem barra inicial, adicionar caminho base com barra
+                                        redirectUrl = basePath + "/" + originalHref;
+                                    }
+                                }
+                                
+                                // Redirecionar para a URL
+                                window.location.href = redirectUrl;
                             })
                             .catch(error => {
                                 console.error("Erro ao registrar lead:", error);

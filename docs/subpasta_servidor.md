@@ -7,9 +7,9 @@ Quando o sistema é instalado em uma subpasta do servidor web (não na raiz), oc
 1. **Redirecionamentos Incorretos**: Ao salvar configurações (através de `/admin/savesettings.php`), o sistema redireciona para a raiz do servidor e não para a raiz da pasta do projeto, o que faz com que a URL resultante seja incorreta.
 
    Exemplo:
-   - URL acessada: `http://localhost:8003/volume/admin/editsettings.php?password=12345`
+   - URL acessada: `http://localhost:8003/volumex/admin/editsettings.php?password=12345`
    - Após salvar, redireciona para: `http://localhost:8003/admin/editsettings.php?password=12345` (incorreto)
-   - URL correta seria: `http://localhost:8003/volume/admin/editsettings.php?password=12345`
+   - URL correta seria: `http://localhost:8003/volumex/admin/editsettings.php?password=12345`
 
 2. **Carregamento Incorreto de Resources**: Arquivos estáticos (CSS, JavaScript, imagens) e links internos não funcionam corretamente, pois não consideram o caminho base da aplicação.
 
@@ -21,6 +21,13 @@ Quando o sistema é instalado em uma subpasta do servidor web (não na raiz), oc
    ```
    [Wed Mar 19 11:46:44 2025] [::1]:59621 [404]: POST /admin/savesettings.php?password=12345 - No such file or directory
    ```
+
+5. **Redirecionamento Incorreto nos Cliques de Botões**: Ao clicar em botões nas páginas, o sistema redireciona para URLs sem considerar o caminho base.
+
+   Exemplo:
+   - URL atual: `http://localhost:8003/volumex/`
+   - Ao clicar no botão, redireciona para: `http://localhost:8003/offer2/` (incorreto)
+   - URL correta seria: `http://localhost:8003/volumex/offer2/`
 
 ## Solução Implementada
 
@@ -34,7 +41,7 @@ Foi adicionada uma função `get_base_path()` no arquivo `redirect.php` para det
 /**
  * Determina o caminho base do projeto em relação ao servidor
  * 
- * @return string O caminho base, por exemplo: /volume
+ * @return string O caminho base, por exemplo: /volumex
  */
 function get_base_path() {
     $script_name = $_SERVER['SCRIPT_NAME'] ?? '';
@@ -130,7 +137,34 @@ Formulários que usavam caminhos absolutos foram modificados para usar caminhos 
 <form action="savesettings.php?password=<?=$log_password?>" method="post">
 ```
 
-Esta alteração foi feita no arquivo `volume/admin/editsettings.php` e deve ser aplicada a todos os formulários que utilizem caminhos absolutos para envio de dados.
+Esta alteração foi feita no arquivo `volumex/admin/editsettings.php` e deve ser aplicada a todos os formulários que utilizem caminhos absolutos para envio de dados.
+
+### 6. Correção de Redirecionamento nos Cliques de Botões
+
+O JavaScript que gerencia os cliques nos botões foi modificado para considerar o caminho base ao redirecionar para novas páginas:
+
+**Antes:**
+```javascript
+// Redirecionar para o URL original definido pelo usuário
+window.location.href = originalHref;
+```
+
+**Depois:**
+```javascript
+// Verificar se a URL é relativa e adicionar o caminho base se necessário
+if (originalHref && !originalHref.startsWith('http') && !originalHref.startsWith('//') && !originalHref.startsWith('/')) {
+    // É uma URL relativa sem barra inicial, adicionar caminho base
+    window.location.href = "' . $base_path . '/" + originalHref;
+} else if (originalHref && !originalHref.startsWith('http') && !originalHref.startsWith('//') && originalHref.startsWith('/')) {
+    // É uma URL relativa com barra inicial, substituir pela URL com caminho base
+    window.location.href = "' . $base_path . '" + originalHref;
+} else {
+    // URL absoluta ou com protocolo, usar como está
+    window.location.href = originalHref;
+}
+```
+
+Esta alteração foi feita no arquivo `volumex/index.php` no script que gerencia os cliques em botões.
 
 ## Como Testar a Instalação em Subpastas
 
@@ -144,16 +178,16 @@ php -S localhost:8003 -t .
 ```
 
 Acesse:
-- `http://localhost:8003/volume/` (página principal)
-- `http://localhost:8003/volume/admin/index.php?password=12345` (admin)
+- `http://localhost:8003/volumex/` (página principal)
+- `http://localhost:8003/volumex/admin/index.php?password=12345` (admin)
 
 ### Método 2: Usando um Servidor Web Real (Apache/Nginx)
 
 Configure o servidor web para servir a aplicação a partir de uma subpasta específica. Por exemplo, em Apache:
 
 ```apache
-Alias /minha-aplicacao /caminho/para/o/projeto/volume
-<Directory /caminho/para/o/projeto/volume>
+Alias /minha-aplicacao /caminho/para/o/projeto/volumex
+<Directory /caminho/para/o/projeto/volumex>
     Options Indexes FollowSymLinks
     AllowOverride All
     Require all granted
@@ -172,6 +206,8 @@ Alias /minha-aplicacao /caminho/para/o/projeto/volume
 
 5. **Evite Caminhos Absolutos**: Sempre use caminhos relativos nos formulários e links internos para garantir a compatibilidade com instalações em subpastas.
 
+6. **Atributos href**: Recomenda-se usar caminhos relativos nos atributos href de links e botões. Caso seja necessário usar caminhos absolutos (começando com `/`), o JavaScript de redirecionamento agora adiciona o caminho base corretamente.
+
 ## Testando o Funcionamento
 
 Execute as seguintes ações para verificar se a instalação em subpasta está funcionando corretamente:
@@ -182,6 +218,7 @@ Execute as seguintes ações para verificar se a instalação em subpasta está 
 4. Faça alterações nas configurações e salve
 5. Verifique se você é redirecionado de volta para a página de configurações (com o caminho base correto)
 6. Teste o registro de cliques em botões e verifique nas estatísticas
+7. **Teste de navegação por botões**: Clique nos botões CTA nas páginas e verifique se você é redirecionado corretamente mantendo o caminho base
 
 ## Logs de Erros Comuns e Soluções
 
@@ -197,4 +234,11 @@ Execute as seguintes ações para verificar se a instalação em subpasta está 
 
 <!-- Correto -->
 <form action="savesettings.php?password=<?=$log_password?>" method="post">
-``` 
+```
+
+### Erro: Redirecionamento incorreto após clique em botão
+```
+Ao clicar em botão em http://localhost:8003/volumex/ redireciona para http://localhost:8003/offer2/ em vez de http://localhost:8003/volumex/offer2/
+```
+
+**Solução**: Verifique o JavaScript que gerencia os cliques em botões e adicione a lógica para considerar o caminho base ao redirecionar: 

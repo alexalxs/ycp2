@@ -644,10 +644,10 @@ If JS check is enabled, the user will always land on white, and only if the chec
         </div>
         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
             <div class="alert alert-info">
-                <strong>Atenção:</strong> Recomenda-se usar o processador centralizado <code>/form-processor.php</code> em vez de order.php específico para cada landing. Os formulários HTML devem apontar para este endereço:
-                <pre>action="/form-processor.php" method="POST"</pre>
+                <strong>Atenção:</strong> Recomenda-se usar o processador centralizado <code>form-processor.php</code> em vez de order.php específico para cada landing. Os formulários HTML devem apontar para este endereço:
+                <pre>action="form-processor.php" method="POST"</pre>
                 <p>Exemplo de código HTML para o formulário:</p>
-                <pre>&lt;form action="/form-processor.php" method="POST"&gt;
+                <pre>&lt;form action="form-processor.php" method="POST"&gt;
     &lt;input type="text" name="name" required&gt;
     &lt;input type="email" name="email" required&gt;
     &lt;input type="tel" name="phone"&gt;

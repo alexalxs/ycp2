@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     error_log("Lead registrado com sucesso: $name, $email, $phone (subid: $subid)");
     
     // Verificar se existe uma URL de redirecionamento personalizada nas configurações
-    $redirect_url = '/thankyou.html'; // URL padrão
+    $redirect_url = './thankyou.html'; // URL padrão
     
     // Obter URL personalizada das configurações
     $custom_redirect_url = $black_land_redirect_url;
@@ -93,6 +93,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 } else {
     // Se não for um POST request, redirecionar para a página principal
-    header('Location: /');
+    header('Location: ./');
     exit;
 } 
