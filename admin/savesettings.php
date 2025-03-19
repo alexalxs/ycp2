@@ -139,7 +139,8 @@ try {
     
     file_put_contents($log_file, date('[Y-m-d H:i:s] ') . "--- FIM DO PROCESSAMENTO COM SUCESSO ---\n\n", FILE_APPEND);
     
-    // Redirecionar de volta para a página de configurações
+    // Redirecionar de volta para a página de configurações, usando o caminho relativo
+    // para garantir que funcione em subpastas
     redirect('editsettings.php?password=' . $log_password . '&saved=true', 302, false);
 } catch (Exception $e) {
     // Registrar o erro no log

@@ -717,3 +717,538 @@
 [2025-03-19 02:21:13] Configuração também salva usando file_put_contents()
 [2025-03-19 02:21:13] --- FIM DO PROCESSAMENTO COM SUCESSO ---
 
+[2025-03-19 13:50:03] --- INÍCIO DO PROCESSAMENTO ---
+[2025-03-19 13:50:03] POST recebido: {"white_action":"folder","white_folder_names":"white2","white_redirect_urls":"https:\/\/google.com","white_redirect_type":"303","white_curl_urls":"https:\/\/dekoola.com\/","white_error_codes":"","white_domainfilter_use":"false","white_domainfilter_domains":[{"name":"lalala.xxx.com","action":"site:white"},{"name":"lamama.xxx.com","action":"site:white"}],"white_jschecks_enabled":"false","white_jschecks_timeout":"40000","white_jschecks_events":["audiocontext","timezone"],"white_jschecks_tzstart":"-3","white_jschecks_tzend":"4","white_jschecks_obfuscate":"true","black_prelanding_action":"folder","black_prelanding_folders":"preland1,preland2","black_landing_action":"folder","black_landing_folder_names":"site4","black_landing_folder_redirect_url":"https:\/\/dekoola.com\/ch\/hack\/","black_landing_folder_customthankyoupage_language":"PT","black_landing_folder_conversions_script":"order.php","black_landing_folder_customthankyoupage_upsell_use":"false","black_landing_folder_customthankyoupage_upsell_header":"This is a header!","black_landing_folder_customthankyoupage_upsell_text":"This is a text!","black_landing_folder_customthankyoupage_upsell_url":"http:\/\/ya.ru","black_landing_folder_customthankyoupage_upsell_imgdir":"img","black_landing_folder_conversions_logonbuttonclick":"false","pixels_fb_conversion_fireonbutton":"false","pixels_tt_conversion_fireonbutton":"false","black_landing_redirect_urls":"https:\/\/yandex.ru","black_landing_redirect_type":"303","black_jsconnect":"replace","pixels_gtm_id":"","pixels_ya_id":"","pixels_fb_subname":"px","pixels_fb_pageview":"true","pixels_fb_viewcontent_use":"false","pixels_fb_viewcontent_time":"30","pixels_fb_viewcontent_percent":"75","pixels_fb_conversion_event":"Lead","pixels_tt_subname":"tpx","pixels_tt_pageview":"true","pixels_tt_viewcontent_use":"true","pixels_tt_viewcontent_time":"30","pixels_tt_viewcontent_percent":"75","pixels_tt_conversion_event":"Purchase","tds_mode":"off","tds_saveuserflow":"false","tds_filters_allowed_os":"Android,iOS","tds_filters_allowed_countries":"US,CA","tds_filters_allowed_languages":"","tds_filters_blocked_ips_filename":"","tds_filters_blocked_ips_cidrformat":"false","tds_filters_blocked_tokens":"","tds_filters_allowed_inurl":"","tds_filters_blocked_useragents":"","tds_filters_blocked_isps":"","tds_filters_blocked_referer_empty":"false","tds_filters_blocked_referer_stopwords":"","tds_filters_blocked_vpntor":"false","scripts_back_action":"off","scripts_back_value":"https:\/\/ya.ru","scripts_disabletextcopy":"false","scripts_prelandingreplace_use":"false","scripts_prelandingreplace_url":"https:\/\/ya.ru","scripts_landingreplace_use":"false","scripts_landingreplace_url":"https:\/\/ya.ru","scripts_phonemask_use":"true","scripts_phonemask_mask":"+7(\\\\999)999-99-99","scripts_comebacker":"false","scripts_callbacker":"false","scripts_addedtocart":"false","scripts_imageslazyload":"true","subids":[{"name":"subid","rewrite":"sub1"},{"name":"adn","rewrite":"sub2"},{"name":"ad","rewrite":"sub3"},{"name":"pl","rewrite":"sub4"}],"statistics_password":"12345","statistics_timezone":"America\/Sao_Paulo","statistics_subnames":[{"name":"adn","value":"Adset"},{"name":"ad","value":"Creative"},{"name":"pl","value":"Placement"}],"postback_lead":"Lead","postback_purchase":"Purchase","postback_reject":"Reject","postback_trash":"Trash","postback_s2s":[{"url":"https:\/\/dekoola.com\/wp-json\/autonami\/v1\/webhook\/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a","method":"GET","events":["Lead","Purchase","Reject","Trash"]}]}
+[2025-03-19 13:50:03] Arquivo: /Users/alexsantos/Repositories/ycp2/volume/admin/../settings.json
+[2025-03-19 13:50:03] Permissões: 0644
+[2025-03-19 13:50:03] Proprietário: alexsantos
+[2025-03-19 13:50:03] Usuário atual: alexsantos
+[2025-03-19 13:50:03] Configuração carregada com sucesso
+[2025-03-19 13:50:03] Processando campo: white_action => white.action com valor: folder
+[2025-03-19 13:50:03] Processando campo: white_folder_names => white.folder.names com valor: white2
+[2025-03-19 13:50:03] Processando campo: white_redirect_urls => white.redirect.urls com valor: https://google.com
+[2025-03-19 13:50:03] Processando campo: white_redirect_type => white.redirect.type com valor: 303
+[2025-03-19 13:50:03] Processando campo: white_curl_urls => white.curl.urls com valor: https://dekoola.com/
+[2025-03-19 13:50:03] Processando campo: white_error_codes => white.error.codes com valor: 
+[2025-03-19 13:50:03] Processando campo: white_domainfilter_use => white.domainfilter.use com valor: false
+[2025-03-19 13:50:03] Processando campo: white_domainfilter_domains => white.domainfilter.domains com valor: [{"name":"lalala.xxx.com","action":"site:white"},{"name":"lamama.xxx.com","action":"site:white"}]
+[2025-03-19 13:50:03] Processando campo: white_jschecks_enabled => white.jschecks.enabled com valor: false
+[2025-03-19 13:50:03] Processando campo: white_jschecks_timeout => white.jschecks.timeout com valor: 40000
+[2025-03-19 13:50:03] Processando campo: white_jschecks_events => white.jschecks.events com valor: ["audiocontext","timezone"]
+[2025-03-19 13:50:03] Processando campo: white_jschecks_tzstart => white.jschecks.tzstart com valor: -3
+[2025-03-19 13:50:03] Processando campo: white_jschecks_tzend => white.jschecks.tzend com valor: 4
+[2025-03-19 13:50:03] Processando campo: white_jschecks_obfuscate => white.jschecks.obfuscate com valor: true
+[2025-03-19 13:50:03] Processando campo: black_prelanding_action => black.prelanding.action com valor: folder
+[2025-03-19 13:50:03] Processando campo: black_prelanding_folders => black.prelanding.folders com valor: preland1,preland2
+[2025-03-19 13:50:03] Processando campo: black_landing_action => black.landing.action com valor: folder
+[2025-03-19 13:50:03] Processando campo: black_landing_folder_names => black.landing.folder.names com valor: site4
+[2025-03-19 13:50:03] Processando campo: black_landing_folder_redirect_url => black.landing.folder.redirect.url com valor: https://dekoola.com/ch/hack/
+[2025-03-19 13:50:03] Caso especial: Corrigindo chave para black.landing.folder.redirect_url
+[2025-03-19 13:50:03] Processando campo: black_landing_folder_customthankyoupage_language => black.landing.folder.customthankyoupage.language com valor: PT
+[2025-03-19 13:50:03] Processando campo: black_landing_folder_conversions_script => black.landing.folder.conversions.script com valor: order.php
+[2025-03-19 13:50:03] Processando campo: black_landing_folder_customthankyoupage_upsell_use => black.landing.folder.customthankyoupage.upsell.use com valor: false
+[2025-03-19 13:50:03] Processando campo: black_landing_folder_customthankyoupage_upsell_header => black.landing.folder.customthankyoupage.upsell.header com valor: This is a header!
+[2025-03-19 13:50:03] Processando campo: black_landing_folder_customthankyoupage_upsell_text => black.landing.folder.customthankyoupage.upsell.text com valor: This is a text!
+[2025-03-19 13:50:03] Processando campo: black_landing_folder_customthankyoupage_upsell_url => black.landing.folder.customthankyoupage.upsell.url com valor: http://ya.ru
+[2025-03-19 13:50:03] Processando campo: black_landing_folder_customthankyoupage_upsell_imgdir => black.landing.folder.customthankyoupage.upsell.imgdir com valor: img
+[2025-03-19 13:50:03] Processando campo: black_landing_folder_conversions_logonbuttonclick => black.landing.folder.conversions.logonbuttonclick com valor: false
+[2025-03-19 13:50:03] Processando campo: pixels_fb_conversion_fireonbutton => pixels.fb.conversion.fireonbutton com valor: false
+[2025-03-19 13:50:03] Processando campo: pixels_tt_conversion_fireonbutton => pixels.tt.conversion.fireonbutton com valor: false
+[2025-03-19 13:50:03] Processando campo: black_landing_redirect_urls => black.landing.redirect.urls com valor: https://yandex.ru
+[2025-03-19 13:50:03] Processando campo: black_landing_redirect_type => black.landing.redirect.type com valor: 303
+[2025-03-19 13:50:03] Processando campo: black_jsconnect => black.jsconnect com valor: replace
+[2025-03-19 13:50:03] Processando campo: pixels_gtm_id => pixels.gtm.id com valor: 
+[2025-03-19 13:50:03] Processando campo: pixels_ya_id => pixels.ya.id com valor: 
+[2025-03-19 13:50:03] Processando campo: pixels_fb_subname => pixels.fb.subname com valor: px
+[2025-03-19 13:50:03] Processando campo: pixels_fb_pageview => pixels.fb.pageview com valor: true
+[2025-03-19 13:50:03] Processando campo: pixels_fb_viewcontent_use => pixels.fb.viewcontent.use com valor: false
+[2025-03-19 13:50:03] Processando campo: pixels_fb_viewcontent_time => pixels.fb.viewcontent.time com valor: 30
+[2025-03-19 13:50:03] Processando campo: pixels_fb_viewcontent_percent => pixels.fb.viewcontent.percent com valor: 75
+[2025-03-19 13:50:03] Processando campo: pixels_fb_conversion_event => pixels.fb.conversion.event com valor: Lead
+[2025-03-19 13:50:03] Processando campo: pixels_tt_subname => pixels.tt.subname com valor: tpx
+[2025-03-19 13:50:03] Processando campo: pixels_tt_pageview => pixels.tt.pageview com valor: true
+[2025-03-19 13:50:03] Processando campo: pixels_tt_viewcontent_use => pixels.tt.viewcontent.use com valor: true
+[2025-03-19 13:50:03] Processando campo: pixels_tt_viewcontent_time => pixels.tt.viewcontent.time com valor: 30
+[2025-03-19 13:50:03] Processando campo: pixels_tt_viewcontent_percent => pixels.tt.viewcontent.percent com valor: 75
+[2025-03-19 13:50:03] Processando campo: pixels_tt_conversion_event => pixels.tt.conversion.event com valor: Purchase
+[2025-03-19 13:50:03] Processando campo: tds_mode => tds.mode com valor: off
+[2025-03-19 13:50:03] Processando campo: tds_saveuserflow => tds.saveuserflow com valor: false
+[2025-03-19 13:50:03] Processando campo: tds_filters_allowed_os => tds.filters.allowed.os com valor: Android,iOS
+[2025-03-19 13:50:03] Processando campo: tds_filters_allowed_countries => tds.filters.allowed.countries com valor: US,CA
+[2025-03-19 13:50:03] Processando campo: tds_filters_allowed_languages => tds.filters.allowed.languages com valor: 
+[2025-03-19 13:50:03] Processando campo: tds_filters_blocked_ips_filename => tds.filters.blocked.ips.filename com valor: 
+[2025-03-19 13:50:03] Processando campo: tds_filters_blocked_ips_cidrformat => tds.filters.blocked.ips.cidrformat com valor: false
+[2025-03-19 13:50:03] Processando campo: tds_filters_blocked_tokens => tds.filters.blocked.tokens com valor: 
+[2025-03-19 13:50:03] Processando campo: tds_filters_allowed_inurl => tds.filters.allowed.inurl com valor: 
+[2025-03-19 13:50:03] Processando campo: tds_filters_blocked_useragents => tds.filters.blocked.useragents com valor: 
+[2025-03-19 13:50:03] Processando campo: tds_filters_blocked_isps => tds.filters.blocked.isps com valor: 
+[2025-03-19 13:50:03] Processando campo: tds_filters_blocked_referer_empty => tds.filters.blocked.referer.empty com valor: false
+[2025-03-19 13:50:03] Processando campo: tds_filters_blocked_referer_stopwords => tds.filters.blocked.referer.stopwords com valor: 
+[2025-03-19 13:50:03] Processando campo: tds_filters_blocked_vpntor => tds.filters.blocked.vpntor com valor: false
+[2025-03-19 13:50:03] Processando campo: scripts_back_action => scripts.back.action com valor: off
+[2025-03-19 13:50:03] Processando campo: scripts_back_value => scripts.back.value com valor: https://ya.ru
+[2025-03-19 13:50:03] Processando campo: scripts_disabletextcopy => scripts.disabletextcopy com valor: false
+[2025-03-19 13:50:03] Processando campo: scripts_prelandingreplace_use => scripts.prelandingreplace.use com valor: false
+[2025-03-19 13:50:03] Processando campo: scripts_prelandingreplace_url => scripts.prelandingreplace.url com valor: https://ya.ru
+[2025-03-19 13:50:03] Processando campo: scripts_landingreplace_use => scripts.landingreplace.use com valor: false
+[2025-03-19 13:50:03] Processando campo: scripts_landingreplace_url => scripts.landingreplace.url com valor: https://ya.ru
+[2025-03-19 13:50:03] Processando campo: scripts_phonemask_use => scripts.phonemask.use com valor: true
+[2025-03-19 13:50:03] Processando campo: scripts_phonemask_mask => scripts.phonemask.mask com valor: +7(\\999)999-99-99
+[2025-03-19 13:50:03] Processando campo: scripts_comebacker => scripts.comebacker com valor: false
+[2025-03-19 13:50:03] Processando campo: scripts_callbacker => scripts.callbacker com valor: false
+[2025-03-19 13:50:03] Processando campo: scripts_addedtocart => scripts.addedtocart com valor: false
+[2025-03-19 13:50:03] Processando campo: scripts_imageslazyload => scripts.imageslazyload com valor: true
+[2025-03-19 13:50:03] Processando campo: subids => subids com valor: [{"name":"subid","rewrite":"sub1"},{"name":"adn","rewrite":"sub2"},{"name":"ad","rewrite":"sub3"},{"name":"pl","rewrite":"sub4"}]
+[2025-03-19 13:50:03] Processando campo: statistics_password => statistics.password com valor: 12345
+[2025-03-19 13:50:03] Processando campo: statistics_timezone => statistics.timezone com valor: America/Sao_Paulo
+[2025-03-19 13:50:03] Processando campo: statistics_subnames => statistics.subnames com valor: [{"name":"adn","value":"Adset"},{"name":"ad","value":"Creative"},{"name":"pl","value":"Placement"}]
+[2025-03-19 13:50:03] Processando campo: postback_lead => postback.lead com valor: Lead
+[2025-03-19 13:50:03] Processando campo: postback_purchase => postback.purchase com valor: Purchase
+[2025-03-19 13:50:03] Processando campo: postback_reject => postback.reject com valor: Reject
+[2025-03-19 13:50:03] Processando campo: postback_trash => postback.trash com valor: Trash
+[2025-03-19 13:50:03] Processando campo: postback_s2s => postback.s2s com valor: [{"url":"https:\/\/dekoola.com\/wp-json\/autonami\/v1\/webhook\/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a","method":"GET","events":["Lead","Purchase","Reject","Trash"]}]
+[2025-03-19 13:50:03] Valor de black.landing.folder.redirect_url: https://dekoola.com/ch/hack/
+[2025-03-19 13:50:03] Tentando salvar configurações...
+[2025-03-19 13:50:03] Backup criado em /Users/alexsantos/Repositories/ycp2/volume/admin/../settings.json.bak
+[2025-03-19 13:50:03] Configuração salva com sucesso usando toFile()
+[2025-03-19 13:50:03] Verificação pós-salvamento: black.landing.folder.redirect_url = https://dekoola.com/ch/hack/
+[2025-03-19 13:50:03] Configuração também salva usando file_put_contents()
+[2025-03-19 13:50:03] --- FIM DO PROCESSAMENTO COM SUCESSO ---
+
+[2025-03-19 14:34:07] --- INÍCIO DO PROCESSAMENTO ---
+[2025-03-19 14:34:07] POST recebido: []
+[2025-03-19 14:34:07] Arquivo: /Users/alexsantos/Repositories/ycp2/volume/admin/../settings.json
+[2025-03-19 14:34:07] Permissões: 0644
+[2025-03-19 14:34:07] Proprietário: alexsantos
+[2025-03-19 14:34:07] Usuário atual: alexsantos
+[2025-03-19 14:34:07] Configuração carregada com sucesso
+[2025-03-19 14:34:07] Valor de black.landing.folder.redirect_url: https://dekoola.com/ch/hack/
+[2025-03-19 14:34:07] Tentando salvar configurações...
+[2025-03-19 14:34:07] Backup criado em /Users/alexsantos/Repositories/ycp2/volume/admin/../settings.json.bak
+[2025-03-19 14:34:07] Configuração salva com sucesso usando toFile()
+[2025-03-19 14:34:07] Verificação pós-salvamento: black.landing.folder.redirect_url = https://dekoola.com/ch/hack/
+[2025-03-19 14:34:07] Configuração também salva usando file_put_contents()
+[2025-03-19 14:34:07] --- FIM DO PROCESSAMENTO COM SUCESSO ---
+
+[2025-03-19 14:38:11] --- INÍCIO DO PROCESSAMENTO ---
+[2025-03-19 14:38:11] POST recebido: {"white_action":"folder","white_folder_names":"white2","white_redirect_urls":"https:\/\/google.com","white_redirect_type":"303","white_curl_urls":"https:\/\/dekoola.com\/","white_error_codes":"","white_domainfilter_use":"false","white_domainfilter_domains":[{"name":"lalala.xxx.com","action":"site:white"},{"name":"lamama.xxx.com","action":"site:white"}],"white_jschecks_enabled":"false","white_jschecks_timeout":"40000","white_jschecks_events":["audiocontext","timezone"],"white_jschecks_tzstart":"-3","white_jschecks_tzend":"4","white_jschecks_obfuscate":"true","black_prelanding_action":"folder","black_prelanding_folders":"preland1,preland2","black_landing_action":"folder","black_landing_folder_names":"site4","black_landing_folder_redirect_url":"https:\/\/dekoola.com\/ch\/hack\/","black_landing_folder_customthankyoupage_language":"PT","black_landing_folder_conversions_script":"order.php","black_landing_folder_customthankyoupage_upsell_use":"false","black_landing_folder_customthankyoupage_upsell_header":"This is a header!","black_landing_folder_customthankyoupage_upsell_text":"This is a text!","black_landing_folder_customthankyoupage_upsell_url":"http:\/\/ya.ru","black_landing_folder_customthankyoupage_upsell_imgdir":"img","black_landing_folder_conversions_logonbuttonclick":"false","pixels_fb_conversion_fireonbutton":"false","pixels_tt_conversion_fireonbutton":"false","black_landing_redirect_urls":"https:\/\/yandex.ru","black_landing_redirect_type":"303","black_jsconnect":"replace","pixels_gtm_id":"","pixels_ya_id":"","pixels_fb_subname":"px","pixels_fb_pageview":"true","pixels_fb_viewcontent_use":"false","pixels_fb_viewcontent_time":"30","pixels_fb_viewcontent_percent":"75","pixels_fb_conversion_event":"Lead","pixels_tt_subname":"tpx","pixels_tt_pageview":"true","pixels_tt_viewcontent_use":"true","pixels_tt_viewcontent_time":"30","pixels_tt_viewcontent_percent":"75","pixels_tt_conversion_event":"Purchase","tds_mode":"off","tds_saveuserflow":"false","tds_filters_allowed_os":"Android,iOS","tds_filters_allowed_countries":"US,CA","tds_filters_allowed_languages":"","tds_filters_blocked_ips_filename":"","tds_filters_blocked_ips_cidrformat":"false","tds_filters_blocked_tokens":"","tds_filters_allowed_inurl":"","tds_filters_blocked_useragents":"","tds_filters_blocked_isps":"","tds_filters_blocked_referer_empty":"false","tds_filters_blocked_referer_stopwords":"","tds_filters_blocked_vpntor":"false","scripts_back_action":"off","scripts_back_value":"https:\/\/ya.ru","scripts_disabletextcopy":"false","scripts_prelandingreplace_use":"false","scripts_prelandingreplace_url":"https:\/\/ya.ru","scripts_landingreplace_use":"false","scripts_landingreplace_url":"https:\/\/ya.ru","scripts_phonemask_use":"true","scripts_phonemask_mask":"+7(\\\\999)999-99-99","scripts_comebacker":"false","scripts_callbacker":"false","scripts_addedtocart":"false","scripts_imageslazyload":"true","subids":[{"name":"subid","rewrite":"sub1"},{"name":"adn","rewrite":"sub2"},{"name":"ad","rewrite":"sub3"},{"name":"pl","rewrite":"sub4"}],"statistics_password":"12345","statistics_timezone":"America\/Sao_Paulo","statistics_subnames":[{"name":"adn","value":"Adset"},{"name":"ad","value":"Creative"},{"name":"pl","value":"Placement"}],"postback_lead":"Lead","postback_purchase":"Purchase","postback_reject":"Reject","postback_trash":"Trash","postback_s2s":[{"url":"https:\/\/dekoola.com\/wp-json\/autonami\/v1\/webhook\/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a","method":"GET","events":["Lead","Purchase","Reject","Trash"]}]}
+[2025-03-19 14:38:11] Arquivo: /Users/alexsantos/Repositories/ycp2/volume/admin/../settings.json
+[2025-03-19 14:38:11] Permissões: 0644
+[2025-03-19 14:38:11] Proprietário: alexsantos
+[2025-03-19 14:38:11] Usuário atual: alexsantos
+[2025-03-19 14:38:11] Configuração carregada com sucesso
+[2025-03-19 14:38:11] Processando campo: white_action => white.action com valor: folder
+[2025-03-19 14:38:11] Processando campo: white_folder_names => white.folder.names com valor: white2
+[2025-03-19 14:38:11] Processando campo: white_redirect_urls => white.redirect.urls com valor: https://google.com
+[2025-03-19 14:38:11] Processando campo: white_redirect_type => white.redirect.type com valor: 303
+[2025-03-19 14:38:11] Processando campo: white_curl_urls => white.curl.urls com valor: https://dekoola.com/
+[2025-03-19 14:38:11] Processando campo: white_error_codes => white.error.codes com valor: 
+[2025-03-19 14:38:11] Processando campo: white_domainfilter_use => white.domainfilter.use com valor: false
+[2025-03-19 14:38:11] Processando campo: white_domainfilter_domains => white.domainfilter.domains com valor: [{"name":"lalala.xxx.com","action":"site:white"},{"name":"lamama.xxx.com","action":"site:white"}]
+[2025-03-19 14:38:11] Processando campo: white_jschecks_enabled => white.jschecks.enabled com valor: false
+[2025-03-19 14:38:11] Processando campo: white_jschecks_timeout => white.jschecks.timeout com valor: 40000
+[2025-03-19 14:38:11] Processando campo: white_jschecks_events => white.jschecks.events com valor: ["audiocontext","timezone"]
+[2025-03-19 14:38:11] Processando campo: white_jschecks_tzstart => white.jschecks.tzstart com valor: -3
+[2025-03-19 14:38:11] Processando campo: white_jschecks_tzend => white.jschecks.tzend com valor: 4
+[2025-03-19 14:38:11] Processando campo: white_jschecks_obfuscate => white.jschecks.obfuscate com valor: true
+[2025-03-19 14:38:11] Processando campo: black_prelanding_action => black.prelanding.action com valor: folder
+[2025-03-19 14:38:11] Processando campo: black_prelanding_folders => black.prelanding.folders com valor: preland1,preland2
+[2025-03-19 14:38:11] Processando campo: black_landing_action => black.landing.action com valor: folder
+[2025-03-19 14:38:11] Processando campo: black_landing_folder_names => black.landing.folder.names com valor: site4
+[2025-03-19 14:38:11] Processando campo: black_landing_folder_redirect_url => black.landing.folder.redirect.url com valor: https://dekoola.com/ch/hack/
+[2025-03-19 14:38:11] Caso especial: Corrigindo chave para black.landing.folder.redirect_url
+[2025-03-19 14:38:11] Processando campo: black_landing_folder_customthankyoupage_language => black.landing.folder.customthankyoupage.language com valor: PT
+[2025-03-19 14:38:11] Processando campo: black_landing_folder_conversions_script => black.landing.folder.conversions.script com valor: order.php
+[2025-03-19 14:38:11] Processando campo: black_landing_folder_customthankyoupage_upsell_use => black.landing.folder.customthankyoupage.upsell.use com valor: false
+[2025-03-19 14:38:11] Processando campo: black_landing_folder_customthankyoupage_upsell_header => black.landing.folder.customthankyoupage.upsell.header com valor: This is a header!
+[2025-03-19 14:38:11] Processando campo: black_landing_folder_customthankyoupage_upsell_text => black.landing.folder.customthankyoupage.upsell.text com valor: This is a text!
+[2025-03-19 14:38:11] Processando campo: black_landing_folder_customthankyoupage_upsell_url => black.landing.folder.customthankyoupage.upsell.url com valor: http://ya.ru
+[2025-03-19 14:38:11] Processando campo: black_landing_folder_customthankyoupage_upsell_imgdir => black.landing.folder.customthankyoupage.upsell.imgdir com valor: img
+[2025-03-19 14:38:11] Processando campo: black_landing_folder_conversions_logonbuttonclick => black.landing.folder.conversions.logonbuttonclick com valor: false
+[2025-03-19 14:38:11] Processando campo: pixels_fb_conversion_fireonbutton => pixels.fb.conversion.fireonbutton com valor: false
+[2025-03-19 14:38:11] Processando campo: pixels_tt_conversion_fireonbutton => pixels.tt.conversion.fireonbutton com valor: false
+[2025-03-19 14:38:11] Processando campo: black_landing_redirect_urls => black.landing.redirect.urls com valor: https://yandex.ru
+[2025-03-19 14:38:11] Processando campo: black_landing_redirect_type => black.landing.redirect.type com valor: 303
+[2025-03-19 14:38:11] Processando campo: black_jsconnect => black.jsconnect com valor: replace
+[2025-03-19 14:38:11] Processando campo: pixels_gtm_id => pixels.gtm.id com valor: 
+[2025-03-19 14:38:11] Processando campo: pixels_ya_id => pixels.ya.id com valor: 
+[2025-03-19 14:38:11] Processando campo: pixels_fb_subname => pixels.fb.subname com valor: px
+[2025-03-19 14:38:11] Processando campo: pixels_fb_pageview => pixels.fb.pageview com valor: true
+[2025-03-19 14:38:11] Processando campo: pixels_fb_viewcontent_use => pixels.fb.viewcontent.use com valor: false
+[2025-03-19 14:38:11] Processando campo: pixels_fb_viewcontent_time => pixels.fb.viewcontent.time com valor: 30
+[2025-03-19 14:38:11] Processando campo: pixels_fb_viewcontent_percent => pixels.fb.viewcontent.percent com valor: 75
+[2025-03-19 14:38:11] Processando campo: pixels_fb_conversion_event => pixels.fb.conversion.event com valor: Lead
+[2025-03-19 14:38:11] Processando campo: pixels_tt_subname => pixels.tt.subname com valor: tpx
+[2025-03-19 14:38:11] Processando campo: pixels_tt_pageview => pixels.tt.pageview com valor: true
+[2025-03-19 14:38:11] Processando campo: pixels_tt_viewcontent_use => pixels.tt.viewcontent.use com valor: true
+[2025-03-19 14:38:11] Processando campo: pixels_tt_viewcontent_time => pixels.tt.viewcontent.time com valor: 30
+[2025-03-19 14:38:11] Processando campo: pixels_tt_viewcontent_percent => pixels.tt.viewcontent.percent com valor: 75
+[2025-03-19 14:38:11] Processando campo: pixels_tt_conversion_event => pixels.tt.conversion.event com valor: Purchase
+[2025-03-19 14:38:11] Processando campo: tds_mode => tds.mode com valor: off
+[2025-03-19 14:38:11] Processando campo: tds_saveuserflow => tds.saveuserflow com valor: false
+[2025-03-19 14:38:11] Processando campo: tds_filters_allowed_os => tds.filters.allowed.os com valor: Android,iOS
+[2025-03-19 14:38:11] Processando campo: tds_filters_allowed_countries => tds.filters.allowed.countries com valor: US,CA
+[2025-03-19 14:38:11] Processando campo: tds_filters_allowed_languages => tds.filters.allowed.languages com valor: 
+[2025-03-19 14:38:11] Processando campo: tds_filters_blocked_ips_filename => tds.filters.blocked.ips.filename com valor: 
+[2025-03-19 14:38:11] Processando campo: tds_filters_blocked_ips_cidrformat => tds.filters.blocked.ips.cidrformat com valor: false
+[2025-03-19 14:38:11] Processando campo: tds_filters_blocked_tokens => tds.filters.blocked.tokens com valor: 
+[2025-03-19 14:38:11] Processando campo: tds_filters_allowed_inurl => tds.filters.allowed.inurl com valor: 
+[2025-03-19 14:38:11] Processando campo: tds_filters_blocked_useragents => tds.filters.blocked.useragents com valor: 
+[2025-03-19 14:38:11] Processando campo: tds_filters_blocked_isps => tds.filters.blocked.isps com valor: 
+[2025-03-19 14:38:11] Processando campo: tds_filters_blocked_referer_empty => tds.filters.blocked.referer.empty com valor: false
+[2025-03-19 14:38:11] Processando campo: tds_filters_blocked_referer_stopwords => tds.filters.blocked.referer.stopwords com valor: 
+[2025-03-19 14:38:11] Processando campo: tds_filters_blocked_vpntor => tds.filters.blocked.vpntor com valor: false
+[2025-03-19 14:38:11] Processando campo: scripts_back_action => scripts.back.action com valor: off
+[2025-03-19 14:38:11] Processando campo: scripts_back_value => scripts.back.value com valor: https://ya.ru
+[2025-03-19 14:38:11] Processando campo: scripts_disabletextcopy => scripts.disabletextcopy com valor: false
+[2025-03-19 14:38:11] Processando campo: scripts_prelandingreplace_use => scripts.prelandingreplace.use com valor: false
+[2025-03-19 14:38:11] Processando campo: scripts_prelandingreplace_url => scripts.prelandingreplace.url com valor: https://ya.ru
+[2025-03-19 14:38:11] Processando campo: scripts_landingreplace_use => scripts.landingreplace.use com valor: false
+[2025-03-19 14:38:11] Processando campo: scripts_landingreplace_url => scripts.landingreplace.url com valor: https://ya.ru
+[2025-03-19 14:38:11] Processando campo: scripts_phonemask_use => scripts.phonemask.use com valor: true
+[2025-03-19 14:38:11] Processando campo: scripts_phonemask_mask => scripts.phonemask.mask com valor: +7(\\999)999-99-99
+[2025-03-19 14:38:11] Processando campo: scripts_comebacker => scripts.comebacker com valor: false
+[2025-03-19 14:38:11] Processando campo: scripts_callbacker => scripts.callbacker com valor: false
+[2025-03-19 14:38:11] Processando campo: scripts_addedtocart => scripts.addedtocart com valor: false
+[2025-03-19 14:38:11] Processando campo: scripts_imageslazyload => scripts.imageslazyload com valor: true
+[2025-03-19 14:38:11] Processando campo: subids => subids com valor: [{"name":"subid","rewrite":"sub1"},{"name":"adn","rewrite":"sub2"},{"name":"ad","rewrite":"sub3"},{"name":"pl","rewrite":"sub4"}]
+[2025-03-19 14:38:11] Processando campo: statistics_password => statistics.password com valor: 12345
+[2025-03-19 14:38:11] Processando campo: statistics_timezone => statistics.timezone com valor: America/Sao_Paulo
+[2025-03-19 14:38:11] Processando campo: statistics_subnames => statistics.subnames com valor: [{"name":"adn","value":"Adset"},{"name":"ad","value":"Creative"},{"name":"pl","value":"Placement"}]
+[2025-03-19 14:38:11] Processando campo: postback_lead => postback.lead com valor: Lead
+[2025-03-19 14:38:11] Processando campo: postback_purchase => postback.purchase com valor: Purchase
+[2025-03-19 14:38:11] Processando campo: postback_reject => postback.reject com valor: Reject
+[2025-03-19 14:38:11] Processando campo: postback_trash => postback.trash com valor: Trash
+[2025-03-19 14:38:11] Processando campo: postback_s2s => postback.s2s com valor: [{"url":"https:\/\/dekoola.com\/wp-json\/autonami\/v1\/webhook\/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a","method":"GET","events":["Lead","Purchase","Reject","Trash"]}]
+[2025-03-19 14:38:11] Valor de black.landing.folder.redirect_url: https://dekoola.com/ch/hack/
+[2025-03-19 14:38:11] Tentando salvar configurações...
+[2025-03-19 14:38:11] Backup criado em /Users/alexsantos/Repositories/ycp2/volume/admin/../settings.json.bak
+[2025-03-19 14:38:11] Configuração salva com sucesso usando toFile()
+[2025-03-19 14:38:11] Verificação pós-salvamento: black.landing.folder.redirect_url = https://dekoola.com/ch/hack/
+[2025-03-19 14:38:11] Configuração também salva usando file_put_contents()
+[2025-03-19 14:38:11] --- FIM DO PROCESSAMENTO COM SUCESSO ---
+
+[2025-03-19 14:44:04] --- INÍCIO DO PROCESSAMENTO ---
+[2025-03-19 14:44:04] POST recebido: []
+[2025-03-19 14:44:04] Arquivo: /Users/alexsantos/Repositories/ycp2/volume/admin/../settings.json
+[2025-03-19 14:44:04] Permissões: 0644
+[2025-03-19 14:44:04] Proprietário: alexsantos
+[2025-03-19 14:44:04] Usuário atual: alexsantos
+[2025-03-19 14:44:04] Configuração carregada com sucesso
+[2025-03-19 14:44:04] Valor de black.landing.folder.redirect_url: https://dekoola.com/ch/hack/
+[2025-03-19 14:44:04] Tentando salvar configurações...
+[2025-03-19 14:44:04] Backup criado em /Users/alexsantos/Repositories/ycp2/volume/admin/../settings.json.bak
+[2025-03-19 14:44:04] Configuração salva com sucesso usando toFile()
+[2025-03-19 14:44:04] Verificação pós-salvamento: black.landing.folder.redirect_url = https://dekoola.com/ch/hack/
+[2025-03-19 14:44:04] Configuração também salva usando file_put_contents()
+[2025-03-19 14:44:04] --- FIM DO PROCESSAMENTO COM SUCESSO ---
+
+[2025-03-19 14:50:16] --- INÍCIO DO PROCESSAMENTO ---
+[2025-03-19 14:50:16] POST recebido: []
+[2025-03-19 14:50:16] Arquivo: /Users/alexsantos/Repositories/ycp2/volume/admin/../settings.json
+[2025-03-19 14:50:16] Permissões: 0644
+[2025-03-19 14:50:16] Proprietário: alexsantos
+[2025-03-19 14:50:16] Usuário atual: alexsantos
+[2025-03-19 14:50:16] Configuração carregada com sucesso
+[2025-03-19 14:50:16] Valor de black.landing.folder.redirect_url: https://dekoola.com/ch/hack/
+[2025-03-19 14:50:16] Tentando salvar configurações...
+[2025-03-19 14:50:16] Backup criado em /Users/alexsantos/Repositories/ycp2/volume/admin/../settings.json.bak
+[2025-03-19 14:50:16] Configuração salva com sucesso usando toFile()
+[2025-03-19 14:50:16] Verificação pós-salvamento: black.landing.folder.redirect_url = https://dekoola.com/ch/hack/
+[2025-03-19 14:50:16] Configuração também salva usando file_put_contents()
+[2025-03-19 14:50:16] --- FIM DO PROCESSAMENTO COM SUCESSO ---
+
+[2025-03-19 14:52:15] --- INÍCIO DO PROCESSAMENTO ---
+[2025-03-19 14:52:15] POST recebido: {"white_action":"folder","white_folder_names":"white2","white_redirect_urls":"https:\/\/google.com","white_redirect_type":"303","white_curl_urls":"https:\/\/dekoola.com\/","white_error_codes":"","white_domainfilter_use":"false","white_domainfilter_domains":[{"name":"lalala.xxx.com","action":"site:white"},{"name":"lamama.xxx.com","action":"site:white"}],"white_jschecks_enabled":"false","white_jschecks_timeout":"40000","white_jschecks_events":["audiocontext","timezone"],"white_jschecks_tzstart":"-3","white_jschecks_tzend":"4","white_jschecks_obfuscate":"true","black_prelanding_action":"folder","black_prelanding_folders":"preland1,preland2","black_landing_action":"folder","black_landing_folder_names":"site4","black_landing_folder_redirect_url":"https:\/\/dekoola.com\/ch\/hack\/","black_landing_folder_customthankyoupage_language":"PT","black_landing_folder_conversions_script":"order.php","black_landing_folder_customthankyoupage_upsell_use":"false","black_landing_folder_customthankyoupage_upsell_header":"This is a header!","black_landing_folder_customthankyoupage_upsell_text":"This is a text!","black_landing_folder_customthankyoupage_upsell_url":"http:\/\/ya.ru","black_landing_folder_customthankyoupage_upsell_imgdir":"img","black_landing_folder_conversions_logonbuttonclick":"false","pixels_fb_conversion_fireonbutton":"false","pixels_tt_conversion_fireonbutton":"false","black_landing_redirect_urls":"https:\/\/yandex.ru","black_landing_redirect_type":"303","black_jsconnect":"replace","pixels_gtm_id":"","pixels_ya_id":"","pixels_fb_subname":"px","pixels_fb_pageview":"true","pixels_fb_viewcontent_use":"false","pixels_fb_viewcontent_time":"30","pixels_fb_viewcontent_percent":"75","pixels_fb_conversion_event":"Lead","pixels_tt_subname":"tpx","pixels_tt_pageview":"true","pixels_tt_viewcontent_use":"true","pixels_tt_viewcontent_time":"30","pixels_tt_viewcontent_percent":"75","pixels_tt_conversion_event":"Purchase","tds_mode":"off","tds_saveuserflow":"false","tds_filters_allowed_os":"Android,iOS","tds_filters_allowed_countries":"US,CA","tds_filters_allowed_languages":"","tds_filters_blocked_ips_filename":"","tds_filters_blocked_ips_cidrformat":"false","tds_filters_blocked_tokens":"","tds_filters_allowed_inurl":"","tds_filters_blocked_useragents":"","tds_filters_blocked_isps":"","tds_filters_blocked_referer_empty":"false","tds_filters_blocked_referer_stopwords":"","tds_filters_blocked_vpntor":"false","scripts_back_action":"off","scripts_back_value":"https:\/\/ya.ru","scripts_disabletextcopy":"false","scripts_prelandingreplace_use":"false","scripts_prelandingreplace_url":"https:\/\/ya.ru","scripts_landingreplace_use":"false","scripts_landingreplace_url":"https:\/\/ya.ru","scripts_phonemask_use":"true","scripts_phonemask_mask":"+7(\\\\999)999-99-99","scripts_comebacker":"false","scripts_callbacker":"false","scripts_addedtocart":"false","scripts_imageslazyload":"true","subids":[{"name":"subid","rewrite":"sub1"},{"name":"adn","rewrite":"sub2"},{"name":"ad","rewrite":"sub3"},{"name":"pl","rewrite":"sub4"}],"statistics_password":"12345","statistics_timezone":"America\/Sao_Paulo","statistics_subnames":[{"name":"adn","value":"Adset"},{"name":"ad","value":"Creative"},{"name":"pl","value":"Placement"}],"postback_lead":"Lead","postback_purchase":"Purchase","postback_reject":"Reject","postback_trash":"Trash","postback_s2s":[{"url":"https:\/\/dekoola.com\/wp-json\/autonami\/v1\/webhook\/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a","method":"GET","events":["Lead","Purchase","Reject","Trash"]}]}
+[2025-03-19 14:52:15] Arquivo: /Users/alexsantos/Repositories/ycp2/volume/admin/../settings.json
+[2025-03-19 14:52:15] Permissões: 0644
+[2025-03-19 14:52:15] Proprietário: alexsantos
+[2025-03-19 14:52:15] Usuário atual: alexsantos
+[2025-03-19 14:52:15] Configuração carregada com sucesso
+[2025-03-19 14:52:15] Processando campo: white_action => white.action com valor: folder
+[2025-03-19 14:52:15] Processando campo: white_folder_names => white.folder.names com valor: white2
+[2025-03-19 14:52:15] Processando campo: white_redirect_urls => white.redirect.urls com valor: https://google.com
+[2025-03-19 14:52:15] Processando campo: white_redirect_type => white.redirect.type com valor: 303
+[2025-03-19 14:52:15] Processando campo: white_curl_urls => white.curl.urls com valor: https://dekoola.com/
+[2025-03-19 14:52:15] Processando campo: white_error_codes => white.error.codes com valor: 
+[2025-03-19 14:52:15] Processando campo: white_domainfilter_use => white.domainfilter.use com valor: false
+[2025-03-19 14:52:15] Processando campo: white_domainfilter_domains => white.domainfilter.domains com valor: [{"name":"lalala.xxx.com","action":"site:white"},{"name":"lamama.xxx.com","action":"site:white"}]
+[2025-03-19 14:52:15] Processando campo: white_jschecks_enabled => white.jschecks.enabled com valor: false
+[2025-03-19 14:52:15] Processando campo: white_jschecks_timeout => white.jschecks.timeout com valor: 40000
+[2025-03-19 14:52:15] Processando campo: white_jschecks_events => white.jschecks.events com valor: ["audiocontext","timezone"]
+[2025-03-19 14:52:15] Processando campo: white_jschecks_tzstart => white.jschecks.tzstart com valor: -3
+[2025-03-19 14:52:15] Processando campo: white_jschecks_tzend => white.jschecks.tzend com valor: 4
+[2025-03-19 14:52:15] Processando campo: white_jschecks_obfuscate => white.jschecks.obfuscate com valor: true
+[2025-03-19 14:52:15] Processando campo: black_prelanding_action => black.prelanding.action com valor: folder
+[2025-03-19 14:52:15] Processando campo: black_prelanding_folders => black.prelanding.folders com valor: preland1,preland2
+[2025-03-19 14:52:15] Processando campo: black_landing_action => black.landing.action com valor: folder
+[2025-03-19 14:52:15] Processando campo: black_landing_folder_names => black.landing.folder.names com valor: site4
+[2025-03-19 14:52:15] Processando campo: black_landing_folder_redirect_url => black.landing.folder.redirect.url com valor: https://dekoola.com/ch/hack/
+[2025-03-19 14:52:15] Caso especial: Corrigindo chave para black.landing.folder.redirect_url
+[2025-03-19 14:52:15] Processando campo: black_landing_folder_customthankyoupage_language => black.landing.folder.customthankyoupage.language com valor: PT
+[2025-03-19 14:52:15] Processando campo: black_landing_folder_conversions_script => black.landing.folder.conversions.script com valor: order.php
+[2025-03-19 14:52:15] Processando campo: black_landing_folder_customthankyoupage_upsell_use => black.landing.folder.customthankyoupage.upsell.use com valor: false
+[2025-03-19 14:52:15] Processando campo: black_landing_folder_customthankyoupage_upsell_header => black.landing.folder.customthankyoupage.upsell.header com valor: This is a header!
+[2025-03-19 14:52:15] Processando campo: black_landing_folder_customthankyoupage_upsell_text => black.landing.folder.customthankyoupage.upsell.text com valor: This is a text!
+[2025-03-19 14:52:15] Processando campo: black_landing_folder_customthankyoupage_upsell_url => black.landing.folder.customthankyoupage.upsell.url com valor: http://ya.ru
+[2025-03-19 14:52:15] Processando campo: black_landing_folder_customthankyoupage_upsell_imgdir => black.landing.folder.customthankyoupage.upsell.imgdir com valor: img
+[2025-03-19 14:52:15] Processando campo: black_landing_folder_conversions_logonbuttonclick => black.landing.folder.conversions.logonbuttonclick com valor: false
+[2025-03-19 14:52:15] Processando campo: pixels_fb_conversion_fireonbutton => pixels.fb.conversion.fireonbutton com valor: false
+[2025-03-19 14:52:15] Processando campo: pixels_tt_conversion_fireonbutton => pixels.tt.conversion.fireonbutton com valor: false
+[2025-03-19 14:52:15] Processando campo: black_landing_redirect_urls => black.landing.redirect.urls com valor: https://yandex.ru
+[2025-03-19 14:52:15] Processando campo: black_landing_redirect_type => black.landing.redirect.type com valor: 303
+[2025-03-19 14:52:15] Processando campo: black_jsconnect => black.jsconnect com valor: replace
+[2025-03-19 14:52:15] Processando campo: pixels_gtm_id => pixels.gtm.id com valor: 
+[2025-03-19 14:52:15] Processando campo: pixels_ya_id => pixels.ya.id com valor: 
+[2025-03-19 14:52:15] Processando campo: pixels_fb_subname => pixels.fb.subname com valor: px
+[2025-03-19 14:52:15] Processando campo: pixels_fb_pageview => pixels.fb.pageview com valor: true
+[2025-03-19 14:52:15] Processando campo: pixels_fb_viewcontent_use => pixels.fb.viewcontent.use com valor: false
+[2025-03-19 14:52:15] Processando campo: pixels_fb_viewcontent_time => pixels.fb.viewcontent.time com valor: 30
+[2025-03-19 14:52:15] Processando campo: pixels_fb_viewcontent_percent => pixels.fb.viewcontent.percent com valor: 75
+[2025-03-19 14:52:15] Processando campo: pixels_fb_conversion_event => pixels.fb.conversion.event com valor: Lead
+[2025-03-19 14:52:15] Processando campo: pixels_tt_subname => pixels.tt.subname com valor: tpx
+[2025-03-19 14:52:15] Processando campo: pixels_tt_pageview => pixels.tt.pageview com valor: true
+[2025-03-19 14:52:15] Processando campo: pixels_tt_viewcontent_use => pixels.tt.viewcontent.use com valor: true
+[2025-03-19 14:52:15] Processando campo: pixels_tt_viewcontent_time => pixels.tt.viewcontent.time com valor: 30
+[2025-03-19 14:52:15] Processando campo: pixels_tt_viewcontent_percent => pixels.tt.viewcontent.percent com valor: 75
+[2025-03-19 14:52:15] Processando campo: pixels_tt_conversion_event => pixels.tt.conversion.event com valor: Purchase
+[2025-03-19 14:52:15] Processando campo: tds_mode => tds.mode com valor: off
+[2025-03-19 14:52:15] Processando campo: tds_saveuserflow => tds.saveuserflow com valor: false
+[2025-03-19 14:52:15] Processando campo: tds_filters_allowed_os => tds.filters.allowed.os com valor: Android,iOS
+[2025-03-19 14:52:15] Processando campo: tds_filters_allowed_countries => tds.filters.allowed.countries com valor: US,CA
+[2025-03-19 14:52:15] Processando campo: tds_filters_allowed_languages => tds.filters.allowed.languages com valor: 
+[2025-03-19 14:52:15] Processando campo: tds_filters_blocked_ips_filename => tds.filters.blocked.ips.filename com valor: 
+[2025-03-19 14:52:15] Processando campo: tds_filters_blocked_ips_cidrformat => tds.filters.blocked.ips.cidrformat com valor: false
+[2025-03-19 14:52:15] Processando campo: tds_filters_blocked_tokens => tds.filters.blocked.tokens com valor: 
+[2025-03-19 14:52:15] Processando campo: tds_filters_allowed_inurl => tds.filters.allowed.inurl com valor: 
+[2025-03-19 14:52:15] Processando campo: tds_filters_blocked_useragents => tds.filters.blocked.useragents com valor: 
+[2025-03-19 14:52:15] Processando campo: tds_filters_blocked_isps => tds.filters.blocked.isps com valor: 
+[2025-03-19 14:52:15] Processando campo: tds_filters_blocked_referer_empty => tds.filters.blocked.referer.empty com valor: false
+[2025-03-19 14:52:15] Processando campo: tds_filters_blocked_referer_stopwords => tds.filters.blocked.referer.stopwords com valor: 
+[2025-03-19 14:52:15] Processando campo: tds_filters_blocked_vpntor => tds.filters.blocked.vpntor com valor: false
+[2025-03-19 14:52:15] Processando campo: scripts_back_action => scripts.back.action com valor: off
+[2025-03-19 14:52:15] Processando campo: scripts_back_value => scripts.back.value com valor: https://ya.ru
+[2025-03-19 14:52:15] Processando campo: scripts_disabletextcopy => scripts.disabletextcopy com valor: false
+[2025-03-19 14:52:15] Processando campo: scripts_prelandingreplace_use => scripts.prelandingreplace.use com valor: false
+[2025-03-19 14:52:15] Processando campo: scripts_prelandingreplace_url => scripts.prelandingreplace.url com valor: https://ya.ru
+[2025-03-19 14:52:15] Processando campo: scripts_landingreplace_use => scripts.landingreplace.use com valor: false
+[2025-03-19 14:52:15] Processando campo: scripts_landingreplace_url => scripts.landingreplace.url com valor: https://ya.ru
+[2025-03-19 14:52:15] Processando campo: scripts_phonemask_use => scripts.phonemask.use com valor: true
+[2025-03-19 14:52:15] Processando campo: scripts_phonemask_mask => scripts.phonemask.mask com valor: +7(\\999)999-99-99
+[2025-03-19 14:52:15] Processando campo: scripts_comebacker => scripts.comebacker com valor: false
+[2025-03-19 14:52:15] Processando campo: scripts_callbacker => scripts.callbacker com valor: false
+[2025-03-19 14:52:15] Processando campo: scripts_addedtocart => scripts.addedtocart com valor: false
+[2025-03-19 14:52:15] Processando campo: scripts_imageslazyload => scripts.imageslazyload com valor: true
+[2025-03-19 14:52:15] Processando campo: subids => subids com valor: [{"name":"subid","rewrite":"sub1"},{"name":"adn","rewrite":"sub2"},{"name":"ad","rewrite":"sub3"},{"name":"pl","rewrite":"sub4"}]
+[2025-03-19 14:52:15] Processando campo: statistics_password => statistics.password com valor: 12345
+[2025-03-19 14:52:15] Processando campo: statistics_timezone => statistics.timezone com valor: America/Sao_Paulo
+[2025-03-19 14:52:15] Processando campo: statistics_subnames => statistics.subnames com valor: [{"name":"adn","value":"Adset"},{"name":"ad","value":"Creative"},{"name":"pl","value":"Placement"}]
+[2025-03-19 14:52:15] Processando campo: postback_lead => postback.lead com valor: Lead
+[2025-03-19 14:52:15] Processando campo: postback_purchase => postback.purchase com valor: Purchase
+[2025-03-19 14:52:15] Processando campo: postback_reject => postback.reject com valor: Reject
+[2025-03-19 14:52:15] Processando campo: postback_trash => postback.trash com valor: Trash
+[2025-03-19 14:52:15] Processando campo: postback_s2s => postback.s2s com valor: [{"url":"https:\/\/dekoola.com\/wp-json\/autonami\/v1\/webhook\/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a","method":"GET","events":["Lead","Purchase","Reject","Trash"]}]
+[2025-03-19 14:52:15] Valor de black.landing.folder.redirect_url: https://dekoola.com/ch/hack/
+[2025-03-19 14:52:15] Tentando salvar configurações...
+[2025-03-19 14:52:15] Backup criado em /Users/alexsantos/Repositories/ycp2/volume/admin/../settings.json.bak
+[2025-03-19 14:52:15] Configuração salva com sucesso usando toFile()
+[2025-03-19 14:52:15] Verificação pós-salvamento: black.landing.folder.redirect_url = https://dekoola.com/ch/hack/
+[2025-03-19 14:52:15] Configuração também salva usando file_put_contents()
+[2025-03-19 14:52:15] --- FIM DO PROCESSAMENTO COM SUCESSO ---
+
+[2025-03-19 14:53:04] --- INÍCIO DO PROCESSAMENTO ---
+[2025-03-19 14:53:04] POST recebido: {"white_action":"folder","white_folder_names":"white2","white_redirect_urls":"https:\/\/google.com","white_redirect_type":"303","white_curl_urls":"https:\/\/dekoola.com\/","white_error_codes":"","white_domainfilter_use":"false","white_domainfilter_domains":[{"name":"lalala.xxx.com","action":"site:white"},{"name":"lamama.xxx.com","action":"site:white"}],"white_jschecks_enabled":"false","white_jschecks_timeout":"40000","white_jschecks_events":["audiocontext","timezone"],"white_jschecks_tzstart":"-3","white_jschecks_tzend":"4","white_jschecks_obfuscate":"true","black_prelanding_action":"folder","black_prelanding_folders":"preland1,preland2","black_landing_action":"folder","black_landing_folder_names":"site4","black_landing_folder_redirect_url":"https:\/\/dekoola.com\/ch\/hack\/","black_landing_folder_customthankyoupage_language":"PT","black_landing_folder_conversions_script":"order.php","black_landing_folder_customthankyoupage_upsell_use":"false","black_landing_folder_customthankyoupage_upsell_header":"This is a header!","black_landing_folder_customthankyoupage_upsell_text":"This is a text!","black_landing_folder_customthankyoupage_upsell_url":"http:\/\/ya.ru","black_landing_folder_customthankyoupage_upsell_imgdir":"img","black_landing_folder_conversions_logonbuttonclick":"false","pixels_fb_conversion_fireonbutton":"false","pixels_tt_conversion_fireonbutton":"false","black_landing_redirect_urls":"https:\/\/yandex.ru","black_landing_redirect_type":"303","black_jsconnect":"replace","pixels_gtm_id":"","pixels_ya_id":"","pixels_fb_subname":"px","pixels_fb_pageview":"true","pixels_fb_viewcontent_use":"false","pixels_fb_viewcontent_time":"30","pixels_fb_viewcontent_percent":"75","pixels_fb_conversion_event":"Lead","pixels_tt_subname":"tpx","pixels_tt_pageview":"true","pixels_tt_viewcontent_use":"true","pixels_tt_viewcontent_time":"30","pixels_tt_viewcontent_percent":"75","pixels_tt_conversion_event":"Purchase","tds_mode":"off","tds_saveuserflow":"false","tds_filters_allowed_os":"Android,iOS","tds_filters_allowed_countries":"","tds_filters_allowed_languages":"","tds_filters_blocked_ips_filename":"","tds_filters_blocked_ips_cidrformat":"false","tds_filters_blocked_tokens":"","tds_filters_allowed_inurl":"","tds_filters_blocked_useragents":"","tds_filters_blocked_isps":"","tds_filters_blocked_referer_empty":"false","tds_filters_blocked_referer_stopwords":"","tds_filters_blocked_vpntor":"false","scripts_back_action":"off","scripts_back_value":"https:\/\/ya.ru","scripts_disabletextcopy":"false","scripts_prelandingreplace_use":"false","scripts_prelandingreplace_url":"https:\/\/ya.ru","scripts_landingreplace_use":"false","scripts_landingreplace_url":"https:\/\/ya.ru","scripts_phonemask_use":"true","scripts_phonemask_mask":"+7(\\\\999)999-99-99","scripts_comebacker":"false","scripts_callbacker":"false","scripts_addedtocart":"false","scripts_imageslazyload":"true","subids":[{"name":"subid","rewrite":"sub1"},{"name":"adn","rewrite":"sub2"},{"name":"ad","rewrite":"sub3"},{"name":"pl","rewrite":"sub4"}],"statistics_password":"12345","statistics_timezone":"America\/Sao_Paulo","statistics_subnames":[{"name":"adn","value":"Adset"},{"name":"ad","value":"Creative"},{"name":"pl","value":"Placement"}],"postback_lead":"Lead","postback_purchase":"Purchase","postback_reject":"Reject","postback_trash":"Trash","postback_s2s":[{"url":"https:\/\/dekoola.com\/wp-json\/autonami\/v1\/webhook\/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a","method":"GET","events":["Lead","Purchase","Reject","Trash"]}]}
+[2025-03-19 14:53:04] Arquivo: /Users/alexsantos/Repositories/ycp2/volumex/admin/../settings.json
+[2025-03-19 14:53:04] Permissões: 0644
+[2025-03-19 14:53:04] Proprietário: alexsantos
+[2025-03-19 14:53:04] Usuário atual: alexsantos
+[2025-03-19 14:53:04] Configuração carregada com sucesso
+[2025-03-19 14:53:04] Processando campo: white_action => white.action com valor: folder
+[2025-03-19 14:53:04] Processando campo: white_folder_names => white.folder.names com valor: white2
+[2025-03-19 14:53:04] Processando campo: white_redirect_urls => white.redirect.urls com valor: https://google.com
+[2025-03-19 14:53:04] Processando campo: white_redirect_type => white.redirect.type com valor: 303
+[2025-03-19 14:53:04] Processando campo: white_curl_urls => white.curl.urls com valor: https://dekoola.com/
+[2025-03-19 14:53:04] Processando campo: white_error_codes => white.error.codes com valor: 
+[2025-03-19 14:53:04] Processando campo: white_domainfilter_use => white.domainfilter.use com valor: false
+[2025-03-19 14:53:04] Processando campo: white_domainfilter_domains => white.domainfilter.domains com valor: [{"name":"lalala.xxx.com","action":"site:white"},{"name":"lamama.xxx.com","action":"site:white"}]
+[2025-03-19 14:53:04] Processando campo: white_jschecks_enabled => white.jschecks.enabled com valor: false
+[2025-03-19 14:53:04] Processando campo: white_jschecks_timeout => white.jschecks.timeout com valor: 40000
+[2025-03-19 14:53:04] Processando campo: white_jschecks_events => white.jschecks.events com valor: ["audiocontext","timezone"]
+[2025-03-19 14:53:04] Processando campo: white_jschecks_tzstart => white.jschecks.tzstart com valor: -3
+[2025-03-19 14:53:04] Processando campo: white_jschecks_tzend => white.jschecks.tzend com valor: 4
+[2025-03-19 14:53:04] Processando campo: white_jschecks_obfuscate => white.jschecks.obfuscate com valor: true
+[2025-03-19 14:53:04] Processando campo: black_prelanding_action => black.prelanding.action com valor: folder
+[2025-03-19 14:53:04] Processando campo: black_prelanding_folders => black.prelanding.folders com valor: preland1,preland2
+[2025-03-19 14:53:04] Processando campo: black_landing_action => black.landing.action com valor: folder
+[2025-03-19 14:53:04] Processando campo: black_landing_folder_names => black.landing.folder.names com valor: site4
+[2025-03-19 14:53:04] Processando campo: black_landing_folder_redirect_url => black.landing.folder.redirect.url com valor: https://dekoola.com/ch/hack/
+[2025-03-19 14:53:04] Caso especial: Corrigindo chave para black.landing.folder.redirect_url
+[2025-03-19 14:53:04] Processando campo: black_landing_folder_customthankyoupage_language => black.landing.folder.customthankyoupage.language com valor: PT
+[2025-03-19 14:53:04] Processando campo: black_landing_folder_conversions_script => black.landing.folder.conversions.script com valor: order.php
+[2025-03-19 14:53:04] Processando campo: black_landing_folder_customthankyoupage_upsell_use => black.landing.folder.customthankyoupage.upsell.use com valor: false
+[2025-03-19 14:53:04] Processando campo: black_landing_folder_customthankyoupage_upsell_header => black.landing.folder.customthankyoupage.upsell.header com valor: This is a header!
+[2025-03-19 14:53:04] Processando campo: black_landing_folder_customthankyoupage_upsell_text => black.landing.folder.customthankyoupage.upsell.text com valor: This is a text!
+[2025-03-19 14:53:04] Processando campo: black_landing_folder_customthankyoupage_upsell_url => black.landing.folder.customthankyoupage.upsell.url com valor: http://ya.ru
+[2025-03-19 14:53:04] Processando campo: black_landing_folder_customthankyoupage_upsell_imgdir => black.landing.folder.customthankyoupage.upsell.imgdir com valor: img
+[2025-03-19 14:53:04] Processando campo: black_landing_folder_conversions_logonbuttonclick => black.landing.folder.conversions.logonbuttonclick com valor: false
+[2025-03-19 14:53:04] Processando campo: pixels_fb_conversion_fireonbutton => pixels.fb.conversion.fireonbutton com valor: false
+[2025-03-19 14:53:04] Processando campo: pixels_tt_conversion_fireonbutton => pixels.tt.conversion.fireonbutton com valor: false
+[2025-03-19 14:53:04] Processando campo: black_landing_redirect_urls => black.landing.redirect.urls com valor: https://yandex.ru
+[2025-03-19 14:53:04] Processando campo: black_landing_redirect_type => black.landing.redirect.type com valor: 303
+[2025-03-19 14:53:04] Processando campo: black_jsconnect => black.jsconnect com valor: replace
+[2025-03-19 14:53:04] Processando campo: pixels_gtm_id => pixels.gtm.id com valor: 
+[2025-03-19 14:53:04] Processando campo: pixels_ya_id => pixels.ya.id com valor: 
+[2025-03-19 14:53:04] Processando campo: pixels_fb_subname => pixels.fb.subname com valor: px
+[2025-03-19 14:53:04] Processando campo: pixels_fb_pageview => pixels.fb.pageview com valor: true
+[2025-03-19 14:53:04] Processando campo: pixels_fb_viewcontent_use => pixels.fb.viewcontent.use com valor: false
+[2025-03-19 14:53:04] Processando campo: pixels_fb_viewcontent_time => pixels.fb.viewcontent.time com valor: 30
+[2025-03-19 14:53:04] Processando campo: pixels_fb_viewcontent_percent => pixels.fb.viewcontent.percent com valor: 75
+[2025-03-19 14:53:04] Processando campo: pixels_fb_conversion_event => pixels.fb.conversion.event com valor: Lead
+[2025-03-19 14:53:04] Processando campo: pixels_tt_subname => pixels.tt.subname com valor: tpx
+[2025-03-19 14:53:04] Processando campo: pixels_tt_pageview => pixels.tt.pageview com valor: true
+[2025-03-19 14:53:04] Processando campo: pixels_tt_viewcontent_use => pixels.tt.viewcontent.use com valor: true
+[2025-03-19 14:53:04] Processando campo: pixels_tt_viewcontent_time => pixels.tt.viewcontent.time com valor: 30
+[2025-03-19 14:53:04] Processando campo: pixels_tt_viewcontent_percent => pixels.tt.viewcontent.percent com valor: 75
+[2025-03-19 14:53:04] Processando campo: pixels_tt_conversion_event => pixels.tt.conversion.event com valor: Purchase
+[2025-03-19 14:53:04] Processando campo: tds_mode => tds.mode com valor: off
+[2025-03-19 14:53:04] Processando campo: tds_saveuserflow => tds.saveuserflow com valor: false
+[2025-03-19 14:53:04] Processando campo: tds_filters_allowed_os => tds.filters.allowed.os com valor: Android,iOS
+[2025-03-19 14:53:04] Processando campo: tds_filters_allowed_countries => tds.filters.allowed.countries com valor: 
+[2025-03-19 14:53:04] Processando campo: tds_filters_allowed_languages => tds.filters.allowed.languages com valor: 
+[2025-03-19 14:53:04] Processando campo: tds_filters_blocked_ips_filename => tds.filters.blocked.ips.filename com valor: 
+[2025-03-19 14:53:04] Processando campo: tds_filters_blocked_ips_cidrformat => tds.filters.blocked.ips.cidrformat com valor: false
+[2025-03-19 14:53:04] Processando campo: tds_filters_blocked_tokens => tds.filters.blocked.tokens com valor: 
+[2025-03-19 14:53:04] Processando campo: tds_filters_allowed_inurl => tds.filters.allowed.inurl com valor: 
+[2025-03-19 14:53:04] Processando campo: tds_filters_blocked_useragents => tds.filters.blocked.useragents com valor: 
+[2025-03-19 14:53:04] Processando campo: tds_filters_blocked_isps => tds.filters.blocked.isps com valor: 
+[2025-03-19 14:53:04] Processando campo: tds_filters_blocked_referer_empty => tds.filters.blocked.referer.empty com valor: false
+[2025-03-19 14:53:04] Processando campo: tds_filters_blocked_referer_stopwords => tds.filters.blocked.referer.stopwords com valor: 
+[2025-03-19 14:53:04] Processando campo: tds_filters_blocked_vpntor => tds.filters.blocked.vpntor com valor: false
+[2025-03-19 14:53:04] Processando campo: scripts_back_action => scripts.back.action com valor: off
+[2025-03-19 14:53:04] Processando campo: scripts_back_value => scripts.back.value com valor: https://ya.ru
+[2025-03-19 14:53:04] Processando campo: scripts_disabletextcopy => scripts.disabletextcopy com valor: false
+[2025-03-19 14:53:04] Processando campo: scripts_prelandingreplace_use => scripts.prelandingreplace.use com valor: false
+[2025-03-19 14:53:04] Processando campo: scripts_prelandingreplace_url => scripts.prelandingreplace.url com valor: https://ya.ru
+[2025-03-19 14:53:04] Processando campo: scripts_landingreplace_use => scripts.landingreplace.use com valor: false
+[2025-03-19 14:53:04] Processando campo: scripts_landingreplace_url => scripts.landingreplace.url com valor: https://ya.ru
+[2025-03-19 14:53:04] Processando campo: scripts_phonemask_use => scripts.phonemask.use com valor: true
+[2025-03-19 14:53:04] Processando campo: scripts_phonemask_mask => scripts.phonemask.mask com valor: +7(\\999)999-99-99
+[2025-03-19 14:53:04] Processando campo: scripts_comebacker => scripts.comebacker com valor: false
+[2025-03-19 14:53:04] Processando campo: scripts_callbacker => scripts.callbacker com valor: false
+[2025-03-19 14:53:04] Processando campo: scripts_addedtocart => scripts.addedtocart com valor: false
+[2025-03-19 14:53:04] Processando campo: scripts_imageslazyload => scripts.imageslazyload com valor: true
+[2025-03-19 14:53:04] Processando campo: subids => subids com valor: [{"name":"subid","rewrite":"sub1"},{"name":"adn","rewrite":"sub2"},{"name":"ad","rewrite":"sub3"},{"name":"pl","rewrite":"sub4"}]
+[2025-03-19 14:53:04] Processando campo: statistics_password => statistics.password com valor: 12345
+[2025-03-19 14:53:04] Processando campo: statistics_timezone => statistics.timezone com valor: America/Sao_Paulo
+[2025-03-19 14:53:04] Processando campo: statistics_subnames => statistics.subnames com valor: [{"name":"adn","value":"Adset"},{"name":"ad","value":"Creative"},{"name":"pl","value":"Placement"}]
+[2025-03-19 14:53:04] Processando campo: postback_lead => postback.lead com valor: Lead
+[2025-03-19 14:53:04] Processando campo: postback_purchase => postback.purchase com valor: Purchase
+[2025-03-19 14:53:04] Processando campo: postback_reject => postback.reject com valor: Reject
+[2025-03-19 14:53:04] Processando campo: postback_trash => postback.trash com valor: Trash
+[2025-03-19 14:53:04] Processando campo: postback_s2s => postback.s2s com valor: [{"url":"https:\/\/dekoola.com\/wp-json\/autonami\/v1\/webhook\/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a","method":"GET","events":["Lead","Purchase","Reject","Trash"]}]
+[2025-03-19 14:53:04] Valor de black.landing.folder.redirect_url: https://dekoola.com/ch/hack/
+[2025-03-19 14:53:04] Tentando salvar configurações...
+[2025-03-19 14:53:04] Backup criado em /Users/alexsantos/Repositories/ycp2/volumex/admin/../settings.json.bak
+[2025-03-19 14:53:04] Configuração salva com sucesso usando toFile()
+[2025-03-19 14:53:04] Verificação pós-salvamento: black.landing.folder.redirect_url = https://dekoola.com/ch/hack/
+[2025-03-19 14:53:04] Configuração também salva usando file_put_contents()
+[2025-03-19 14:53:04] --- FIM DO PROCESSAMENTO COM SUCESSO ---
+
+[2025-03-19 14:53:11] --- INÍCIO DO PROCESSAMENTO ---
+[2025-03-19 14:53:11] POST recebido: {"white_action":"folder","white_folder_names":"white2","white_redirect_urls":"https:\/\/google.com","white_redirect_type":"303","white_curl_urls":"https:\/\/dekoola.com\/","white_error_codes":"","white_domainfilter_use":"false","white_domainfilter_domains":[{"name":"lalala.xxx.com","action":"site:white"},{"name":"lamama.xxx.com","action":"site:white"}],"white_jschecks_enabled":"false","white_jschecks_timeout":"40000","white_jschecks_events":["audiocontext","timezone"],"white_jschecks_tzstart":"-3","white_jschecks_tzend":"4","white_jschecks_obfuscate":"true","black_prelanding_action":"folder","black_prelanding_folders":"preland1,preland2","black_landing_action":"folder","black_landing_folder_names":"site4","black_landing_folder_redirect_url":"https:\/\/dekoola.com\/ch\/hack\/","black_landing_folder_customthankyoupage_language":"PT","black_landing_folder_conversions_script":"order.php","black_landing_folder_customthankyoupage_upsell_use":"false","black_landing_folder_customthankyoupage_upsell_header":"This is a header!","black_landing_folder_customthankyoupage_upsell_text":"This is a text!","black_landing_folder_customthankyoupage_upsell_url":"http:\/\/ya.ru","black_landing_folder_customthankyoupage_upsell_imgdir":"img","black_landing_folder_conversions_logonbuttonclick":"false","pixels_fb_conversion_fireonbutton":"false","pixels_tt_conversion_fireonbutton":"false","black_landing_redirect_urls":"https:\/\/yandex.ru","black_landing_redirect_type":"303","black_jsconnect":"replace","pixels_gtm_id":"","pixels_ya_id":"","pixels_fb_subname":"px","pixels_fb_pageview":"true","pixels_fb_viewcontent_use":"false","pixels_fb_viewcontent_time":"30","pixels_fb_viewcontent_percent":"75","pixels_fb_conversion_event":"Lead","pixels_tt_subname":"tpx","pixels_tt_pageview":"true","pixels_tt_viewcontent_use":"true","pixels_tt_viewcontent_time":"30","pixels_tt_viewcontent_percent":"75","pixels_tt_conversion_event":"Purchase","tds_mode":"off","tds_saveuserflow":"false","tds_filters_allowed_os":"","tds_filters_allowed_countries":"","tds_filters_allowed_languages":"","tds_filters_blocked_ips_filename":"","tds_filters_blocked_ips_cidrformat":"false","tds_filters_blocked_tokens":"","tds_filters_allowed_inurl":"","tds_filters_blocked_useragents":"","tds_filters_blocked_isps":"","tds_filters_blocked_referer_empty":"false","tds_filters_blocked_referer_stopwords":"","tds_filters_blocked_vpntor":"false","scripts_back_action":"off","scripts_back_value":"https:\/\/ya.ru","scripts_disabletextcopy":"false","scripts_prelandingreplace_use":"false","scripts_prelandingreplace_url":"https:\/\/ya.ru","scripts_landingreplace_use":"false","scripts_landingreplace_url":"https:\/\/ya.ru","scripts_phonemask_use":"true","scripts_phonemask_mask":"+7(\\\\999)999-99-99","scripts_comebacker":"false","scripts_callbacker":"false","scripts_addedtocart":"false","scripts_imageslazyload":"true","subids":[{"name":"subid","rewrite":"sub1"},{"name":"adn","rewrite":"sub2"},{"name":"ad","rewrite":"sub3"},{"name":"pl","rewrite":"sub4"}],"statistics_password":"12345","statistics_timezone":"America\/Sao_Paulo","statistics_subnames":[{"name":"adn","value":"Adset"},{"name":"ad","value":"Creative"},{"name":"pl","value":"Placement"}],"postback_lead":"Lead","postback_purchase":"Purchase","postback_reject":"Reject","postback_trash":"Trash","postback_s2s":[{"url":"https:\/\/dekoola.com\/wp-json\/autonami\/v1\/webhook\/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a","method":"GET","events":["Lead","Purchase","Reject","Trash"]}]}
+[2025-03-19 14:53:11] Arquivo: /Users/alexsantos/Repositories/ycp2/volumex/admin/../settings.json
+[2025-03-19 14:53:11] Permissões: 0644
+[2025-03-19 14:53:11] Proprietário: alexsantos
+[2025-03-19 14:53:11] Usuário atual: alexsantos
+[2025-03-19 14:53:11] Configuração carregada com sucesso
+[2025-03-19 14:53:11] Processando campo: white_action => white.action com valor: folder
+[2025-03-19 14:53:11] Processando campo: white_folder_names => white.folder.names com valor: white2
+[2025-03-19 14:53:11] Processando campo: white_redirect_urls => white.redirect.urls com valor: https://google.com
+[2025-03-19 14:53:11] Processando campo: white_redirect_type => white.redirect.type com valor: 303
+[2025-03-19 14:53:11] Processando campo: white_curl_urls => white.curl.urls com valor: https://dekoola.com/
+[2025-03-19 14:53:11] Processando campo: white_error_codes => white.error.codes com valor: 
+[2025-03-19 14:53:11] Processando campo: white_domainfilter_use => white.domainfilter.use com valor: false
+[2025-03-19 14:53:11] Processando campo: white_domainfilter_domains => white.domainfilter.domains com valor: [{"name":"lalala.xxx.com","action":"site:white"},{"name":"lamama.xxx.com","action":"site:white"}]
+[2025-03-19 14:53:11] Processando campo: white_jschecks_enabled => white.jschecks.enabled com valor: false
+[2025-03-19 14:53:11] Processando campo: white_jschecks_timeout => white.jschecks.timeout com valor: 40000
+[2025-03-19 14:53:11] Processando campo: white_jschecks_events => white.jschecks.events com valor: ["audiocontext","timezone"]
+[2025-03-19 14:53:11] Processando campo: white_jschecks_tzstart => white.jschecks.tzstart com valor: -3
+[2025-03-19 14:53:11] Processando campo: white_jschecks_tzend => white.jschecks.tzend com valor: 4
+[2025-03-19 14:53:11] Processando campo: white_jschecks_obfuscate => white.jschecks.obfuscate com valor: true
+[2025-03-19 14:53:11] Processando campo: black_prelanding_action => black.prelanding.action com valor: folder
+[2025-03-19 14:53:11] Processando campo: black_prelanding_folders => black.prelanding.folders com valor: preland1,preland2
+[2025-03-19 14:53:11] Processando campo: black_landing_action => black.landing.action com valor: folder
+[2025-03-19 14:53:11] Processando campo: black_landing_folder_names => black.landing.folder.names com valor: site4
+[2025-03-19 14:53:11] Processando campo: black_landing_folder_redirect_url => black.landing.folder.redirect.url com valor: https://dekoola.com/ch/hack/
+[2025-03-19 14:53:11] Caso especial: Corrigindo chave para black.landing.folder.redirect_url
+[2025-03-19 14:53:11] Processando campo: black_landing_folder_customthankyoupage_language => black.landing.folder.customthankyoupage.language com valor: PT
+[2025-03-19 14:53:11] Processando campo: black_landing_folder_conversions_script => black.landing.folder.conversions.script com valor: order.php
+[2025-03-19 14:53:11] Processando campo: black_landing_folder_customthankyoupage_upsell_use => black.landing.folder.customthankyoupage.upsell.use com valor: false
+[2025-03-19 14:53:11] Processando campo: black_landing_folder_customthankyoupage_upsell_header => black.landing.folder.customthankyoupage.upsell.header com valor: This is a header!
+[2025-03-19 14:53:11] Processando campo: black_landing_folder_customthankyoupage_upsell_text => black.landing.folder.customthankyoupage.upsell.text com valor: This is a text!
+[2025-03-19 14:53:11] Processando campo: black_landing_folder_customthankyoupage_upsell_url => black.landing.folder.customthankyoupage.upsell.url com valor: http://ya.ru
+[2025-03-19 14:53:11] Processando campo: black_landing_folder_customthankyoupage_upsell_imgdir => black.landing.folder.customthankyoupage.upsell.imgdir com valor: img
+[2025-03-19 14:53:11] Processando campo: black_landing_folder_conversions_logonbuttonclick => black.landing.folder.conversions.logonbuttonclick com valor: false
+[2025-03-19 14:53:11] Processando campo: pixels_fb_conversion_fireonbutton => pixels.fb.conversion.fireonbutton com valor: false
+[2025-03-19 14:53:11] Processando campo: pixels_tt_conversion_fireonbutton => pixels.tt.conversion.fireonbutton com valor: false
+[2025-03-19 14:53:11] Processando campo: black_landing_redirect_urls => black.landing.redirect.urls com valor: https://yandex.ru
+[2025-03-19 14:53:11] Processando campo: black_landing_redirect_type => black.landing.redirect.type com valor: 303
+[2025-03-19 14:53:11] Processando campo: black_jsconnect => black.jsconnect com valor: replace
+[2025-03-19 14:53:11] Processando campo: pixels_gtm_id => pixels.gtm.id com valor: 
+[2025-03-19 14:53:11] Processando campo: pixels_ya_id => pixels.ya.id com valor: 
+[2025-03-19 14:53:11] Processando campo: pixels_fb_subname => pixels.fb.subname com valor: px
+[2025-03-19 14:53:11] Processando campo: pixels_fb_pageview => pixels.fb.pageview com valor: true
+[2025-03-19 14:53:11] Processando campo: pixels_fb_viewcontent_use => pixels.fb.viewcontent.use com valor: false
+[2025-03-19 14:53:11] Processando campo: pixels_fb_viewcontent_time => pixels.fb.viewcontent.time com valor: 30
+[2025-03-19 14:53:11] Processando campo: pixels_fb_viewcontent_percent => pixels.fb.viewcontent.percent com valor: 75
+[2025-03-19 14:53:11] Processando campo: pixels_fb_conversion_event => pixels.fb.conversion.event com valor: Lead
+[2025-03-19 14:53:11] Processando campo: pixels_tt_subname => pixels.tt.subname com valor: tpx
+[2025-03-19 14:53:11] Processando campo: pixels_tt_pageview => pixels.tt.pageview com valor: true
+[2025-03-19 14:53:11] Processando campo: pixels_tt_viewcontent_use => pixels.tt.viewcontent.use com valor: true
+[2025-03-19 14:53:11] Processando campo: pixels_tt_viewcontent_time => pixels.tt.viewcontent.time com valor: 30
+[2025-03-19 14:53:11] Processando campo: pixels_tt_viewcontent_percent => pixels.tt.viewcontent.percent com valor: 75
+[2025-03-19 14:53:11] Processando campo: pixels_tt_conversion_event => pixels.tt.conversion.event com valor: Purchase
+[2025-03-19 14:53:11] Processando campo: tds_mode => tds.mode com valor: off
+[2025-03-19 14:53:11] Processando campo: tds_saveuserflow => tds.saveuserflow com valor: false
+[2025-03-19 14:53:11] Processando campo: tds_filters_allowed_os => tds.filters.allowed.os com valor: 
+[2025-03-19 14:53:11] Processando campo: tds_filters_allowed_countries => tds.filters.allowed.countries com valor: 
+[2025-03-19 14:53:11] Processando campo: tds_filters_allowed_languages => tds.filters.allowed.languages com valor: 
+[2025-03-19 14:53:11] Processando campo: tds_filters_blocked_ips_filename => tds.filters.blocked.ips.filename com valor: 
+[2025-03-19 14:53:11] Processando campo: tds_filters_blocked_ips_cidrformat => tds.filters.blocked.ips.cidrformat com valor: false
+[2025-03-19 14:53:11] Processando campo: tds_filters_blocked_tokens => tds.filters.blocked.tokens com valor: 
+[2025-03-19 14:53:11] Processando campo: tds_filters_allowed_inurl => tds.filters.allowed.inurl com valor: 
+[2025-03-19 14:53:11] Processando campo: tds_filters_blocked_useragents => tds.filters.blocked.useragents com valor: 
+[2025-03-19 14:53:11] Processando campo: tds_filters_blocked_isps => tds.filters.blocked.isps com valor: 
+[2025-03-19 14:53:11] Processando campo: tds_filters_blocked_referer_empty => tds.filters.blocked.referer.empty com valor: false
+[2025-03-19 14:53:11] Processando campo: tds_filters_blocked_referer_stopwords => tds.filters.blocked.referer.stopwords com valor: 
+[2025-03-19 14:53:11] Processando campo: tds_filters_blocked_vpntor => tds.filters.blocked.vpntor com valor: false
+[2025-03-19 14:53:11] Processando campo: scripts_back_action => scripts.back.action com valor: off
+[2025-03-19 14:53:11] Processando campo: scripts_back_value => scripts.back.value com valor: https://ya.ru
+[2025-03-19 14:53:11] Processando campo: scripts_disabletextcopy => scripts.disabletextcopy com valor: false
+[2025-03-19 14:53:11] Processando campo: scripts_prelandingreplace_use => scripts.prelandingreplace.use com valor: false
+[2025-03-19 14:53:11] Processando campo: scripts_prelandingreplace_url => scripts.prelandingreplace.url com valor: https://ya.ru
+[2025-03-19 14:53:11] Processando campo: scripts_landingreplace_use => scripts.landingreplace.use com valor: false
+[2025-03-19 14:53:11] Processando campo: scripts_landingreplace_url => scripts.landingreplace.url com valor: https://ya.ru
+[2025-03-19 14:53:11] Processando campo: scripts_phonemask_use => scripts.phonemask.use com valor: true
+[2025-03-19 14:53:11] Processando campo: scripts_phonemask_mask => scripts.phonemask.mask com valor: +7(\\999)999-99-99
+[2025-03-19 14:53:11] Processando campo: scripts_comebacker => scripts.comebacker com valor: false
+[2025-03-19 14:53:11] Processando campo: scripts_callbacker => scripts.callbacker com valor: false
+[2025-03-19 14:53:11] Processando campo: scripts_addedtocart => scripts.addedtocart com valor: false
+[2025-03-19 14:53:11] Processando campo: scripts_imageslazyload => scripts.imageslazyload com valor: true
+[2025-03-19 14:53:11] Processando campo: subids => subids com valor: [{"name":"subid","rewrite":"sub1"},{"name":"adn","rewrite":"sub2"},{"name":"ad","rewrite":"sub3"},{"name":"pl","rewrite":"sub4"}]
+[2025-03-19 14:53:11] Processando campo: statistics_password => statistics.password com valor: 12345
+[2025-03-19 14:53:11] Processando campo: statistics_timezone => statistics.timezone com valor: America/Sao_Paulo
+[2025-03-19 14:53:11] Processando campo: statistics_subnames => statistics.subnames com valor: [{"name":"adn","value":"Adset"},{"name":"ad","value":"Creative"},{"name":"pl","value":"Placement"}]
+[2025-03-19 14:53:11] Processando campo: postback_lead => postback.lead com valor: Lead
+[2025-03-19 14:53:11] Processando campo: postback_purchase => postback.purchase com valor: Purchase
+[2025-03-19 14:53:11] Processando campo: postback_reject => postback.reject com valor: Reject
+[2025-03-19 14:53:11] Processando campo: postback_trash => postback.trash com valor: Trash
+[2025-03-19 14:53:11] Processando campo: postback_s2s => postback.s2s com valor: [{"url":"https:\/\/dekoola.com\/wp-json\/autonami\/v1\/webhook\/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a","method":"GET","events":["Lead","Purchase","Reject","Trash"]}]
+[2025-03-19 14:53:11] Valor de black.landing.folder.redirect_url: https://dekoola.com/ch/hack/
+[2025-03-19 14:53:11] Tentando salvar configurações...
+[2025-03-19 14:53:11] Backup criado em /Users/alexsantos/Repositories/ycp2/volumex/admin/../settings.json.bak
+[2025-03-19 14:53:11] Configuração salva com sucesso usando toFile()
+[2025-03-19 14:53:11] Verificação pós-salvamento: black.landing.folder.redirect_url = https://dekoola.com/ch/hack/
+[2025-03-19 14:53:11] Configuração também salva usando file_put_contents()
+[2025-03-19 14:53:11] --- FIM DO PROCESSAMENTO COM SUCESSO ---
+

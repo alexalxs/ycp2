@@ -61,7 +61,7 @@
                     "site4"
                 ],
                 "conversions": {
-                    "script": "order.php",
+                    "script": "form-processor.php",
                     "logonbuttonclick": false
                 },
                 "redirect_url": "https:\/\/dekoola.com\/ch\/hack\/",
@@ -125,12 +125,12 @@
         }
     },
     "tds": {
-        "mode": "on",
+        "mode": "off",
         "saveuserflow": false,
         "filters": {
             "allowed": {
-                "countries": ["US", "CA"],
-                "os": ["Android", "iOS"],
+                "countries": [],
+                "os": [],
                 "inurl": [],
                 "languages": []
             },

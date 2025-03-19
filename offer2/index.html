@@ -774,7 +774,7 @@
             <h3 class="modal-title">Desbloqueie o Método Agora</h3>
             
             <div id="modalForm">
-                <form class="modal-form" id="leadForm" action="/form-processor.php" method="POST">
+                <form class="modal-form" id="leadForm" action="../form-processor.php" method="POST">
                     <div class="form-group">
                         <label for="lead-name" class="form-label">Seu nome:</label>
                         <input type="text" id="lead-name" name="name" class="form-input" placeholder="Digite seu nome" required>
@@ -855,7 +855,7 @@
             }
             
             emailError.style.display = 'none';
-            // O formulário será enviado normalmente para order.php
+            // O formulário será enviado para form-processor.php
             return true;
         }
         

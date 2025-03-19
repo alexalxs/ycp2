@@ -145,7 +145,7 @@ if (isset($_GET['startdate'])&& isset($_GET['enddate'])) {
     </div>
     <?php endif; ?>
 
-    <form action="/admin/savesettings.php?password=<?=$log_password?>" method="post">
+    <form action="savesettings.php?password=<?=$log_password?>" method="post">
         <div class="basic-form-area mg-tb-15">
             <div class="container-fluid">
                 <div class="row">
@@ -644,10 +644,10 @@ If JS check is enabled, the user will always land on white, and only if the chec
         </div>
         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
             <div class="alert alert-info">
-                <strong>Atenção:</strong> Recomenda-se usar o processador centralizado <code>/form-processor.php</code> em vez de order.php específico para cada landing. Os formulários HTML devem apontar para este endereço:
-                <pre>action="/form-processor.php" method="POST"</pre>
+                <strong>Atenção:</strong> Recomenda-se usar o processador centralizado <code>form-processor.php</code> em vez de order.php específico para cada landing. Os formulários HTML devem apontar para este endereço:
+                <pre>action="form-processor.php" method="POST"</pre>
                 <p>Exemplo de código HTML para o formulário:</p>
-                <pre>&lt;form action="/form-processor.php" method="POST"&gt;
+                <pre>&lt;form action="form-processor.php" method="POST"&gt;
     &lt;input type="text" name="name" required&gt;
     &lt;input type="email" name="email" required&gt;
     &lt;input type="tel" name="phone"&gt;
@@ -701,8 +701,9 @@ If JS check is enabled, the user will always land on white, and only if the chec
             <label class="login2 pull-left pull-left-pro"> Path from root of landing to script to send form data:</label>
         </div>
         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-            <div class="input-group custom-go-button">
-                <input type="text" class="form-control" placeholder="order.php" name="black.landing.folder.conversions.script" value="<?=$black_land_conversion_script?>">
+            <div class="input-group">
+                <span class="input-group-addon"><span class="fa fa-bolt"></span></span>
+                <input type="text" class="form-control" placeholder="form-processor.php" name="black.landing.folder.conversions.script" value="<?=$black_land_conversion_script?>">
             </div>
         </div>
     </div>

@@ -81,7 +81,14 @@ function serve_file($folder, $requested_file) {
             $content = file_get_contents($file_path);
             
             // Adiciona tag base para garantir que os links relativos funcionem
-            $base_url = "/{$folder_name}/";
+            // Agora considerando o caminho base do projeto
+            $base_path = '';
+            if (function_exists('get_base_path')) {
+                $base_path = get_base_path();
+            }
+            
+            // O base URL deve incluir o caminho base do projeto
+            $base_url = $base_path . "/{$folder_name}/";
             $content = preg_replace('/<head([^>]*)>/', '<head$1><base href="' . $base_url . '">', $content);
             
             // Adiciona atributo data-prelanding ao botão para identificar a prelanding de origem
@@ -103,8 +110,11 @@ function serve_file($folder, $requested_file) {
                             // Obter o URL de destino original definido pelo usuário
                             const originalHref = this.getAttribute("href");
                             
+                            // Definir a base path
+                            const basePath = "' . $base_path . '";
+                            
                             // Registrar o clique via buttonlog.php
-                            fetch("/buttonlog.php", {
+                            fetch(basePath + "/buttonlog.php", {
                                 method: "POST",
                                 headers: {
                                     "Content-Type": "application/json",
@@ -118,8 +128,24 @@ function serve_file($folder, $requested_file) {
                             .then(response => response.json())
                             .then(data => {
                                 console.log("Lead registrado com sucesso");
+                                
                                 // Redirecionar para o URL original definido pelo usuário
-                                window.location.href = originalHref;
+                                // Verificar se a URL é relativa e adicionar o caminho base se necessário
+                                let redirectUrl = originalHref;
+                                
+                                if (originalHref && originalHref.indexOf("http") !== 0 && originalHref.indexOf("//") !== 0) {
+                                    // É uma URL relativa
+                                    if (originalHref.indexOf("/") === 0) {
+                                        // Começa com barra, substituir pela URL com caminho base
+                                        redirectUrl = basePath + originalHref;
+                                    } else {
+                                        // Sem barra inicial, adicionar caminho base com barra
+                                        redirectUrl = basePath + "/" + originalHref;
+                                    }
+                                }
+                                
+                                // Redirecionar para a URL
+                                window.location.href = redirectUrl;
                             })
                             .catch(error => {
                                 console.error("Erro ao registrar lead:", error);
@@ -151,6 +177,12 @@ function serve_file($folder, $requested_file) {
 
 // Forçar recarregamento das configurações para evitar problemas de cache
 clearstatcache(true, __DIR__.'/settings.json');
+
+// Incluir o arquivo redirect.php para usar a função get_base_path()
+require_once 'redirect.php';
+
+// Definir a variável global para o caminho base
+$base_path = get_base_path();
 
 //передаём все параметры в кло
 $cloaker = new Cloaker($os_white,$country_white,$lang_white,$ip_black_filename,$ip_black_cidr,$tokens_black,$url_should_contain,$ua_black,$isp_black,$block_without_referer,$referer_stopwords,$block_vpnandtor);
@@ -241,6 +273,16 @@ else{
 			
 			// Obter o arquivo solicitado da URL
 			$requested_file = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+			
+			// Remover o caminho base do projeto, se necessário
+			$base_path = '';
+			if (function_exists('get_base_path')) {
+				$base_path = get_base_path();
+				if (!empty($base_path) && strpos($requested_file, $base_path) === 0) {
+					$requested_file = substr($requested_file, strlen($base_path));
+				}
+			}
+			
 			if ($requested_file === '/' || $requested_file === '') {
 				$requested_file = '/index.html';
 			}
