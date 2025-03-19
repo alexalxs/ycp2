@@ -130,7 +130,10 @@
         "filters": {
             "allowed": {
                 "countries": [],
-                "os": [],
+                "os": [
+                    "Android",
+                    "iOS"
+                ],
                 "inurl": [],
                 "languages": []
             },

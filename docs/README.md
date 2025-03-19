@@ -74,6 +74,14 @@
 - Configurações de Rede
 - Gerenciamento de Processos
 
+### 7. [Configuração e Funcionamento em Subpastas](subpasta_servidor.md)
+
+- Problema de Redirecionamento em Subpastas
+- Soluções Implementadas
+- Testes de Funcionamento
+- Métodos de Implantação
+- Considerações Importantes
+
 ## Diagramas Principais
 
 ### Fluxo de Requisição

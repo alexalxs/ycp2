@@ -125,12 +125,12 @@
         }
     },
     "tds": {
-        "mode": "on",
+        "mode": "off",
         "saveuserflow": false,
         "filters": {
             "allowed": {
-                "countries": ["US", "CA"],
-                "os": ["Android", "iOS"],
+                "countries": [],
+                "os": [],
                 "inurl": [],
                 "languages": []
             },

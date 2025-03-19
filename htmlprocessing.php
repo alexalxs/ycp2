@@ -263,10 +263,16 @@ function load_white_content($url, $add_js_check)
         $html = add_js_testcode($html);
     }
     
+    // Obter o caminho base do projeto
+    $base_path = '';
+    if (function_exists('get_base_path')) {
+        $base_path = get_base_path();
+    }
+    
     // Reescrever URLs relativas para apontar para a pasta correta
     $folder_name = basename($url);
-    $html = preg_replace('/\ssrc=[\'\"](?!http|\/\/|data:|\/|#)([^\'\"]+)[\'\"]/', " src=\"/$folder_name/\\1\"", $html);
-    $html = preg_replace('/\shref=[\'\"](?!http|\/\/|data:|\/|#|mailto:|tel:)([^\'\"]+)[\'\"]/', " href=\"/$folder_name/\\1\"", $html);
+    $html = preg_replace('/\ssrc=[\'\"](?!http|\/\/|data:|\/|#)([^\'\"]+)[\'\"]/', " src=\"" . $base_path . "/$folder_name/\\1\"", $html);
+    $html = preg_replace('/\shref=[\'\"](?!http|\/\/|data:|\/|#|mailto:|tel:)([^\'\"]+)[\'\"]/', " href=\"" . $base_path . "/$folder_name/\\1\"", $html);
     
     return $html;
 }

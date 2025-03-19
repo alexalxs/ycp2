@@ -81,7 +81,14 @@ function serve_file($folder, $requested_file) {
             $content = file_get_contents($file_path);
             
             // Adiciona tag base para garantir que os links relativos funcionem
-            $base_url = "/{$folder_name}/";
+            // Agora considerando o caminho base do projeto
+            $base_path = '';
+            if (function_exists('get_base_path')) {
+                $base_path = get_base_path();
+            }
+            
+            // O base URL deve incluir o caminho base do projeto
+            $base_url = $base_path . "/{$folder_name}/";
             $content = preg_replace('/<head([^>]*)>/', '<head$1><base href="' . $base_url . '">', $content);
             
             // Adiciona atributo data-prelanding ao botão para identificar a prelanding de origem
@@ -104,7 +111,7 @@ function serve_file($folder, $requested_file) {
                             const originalHref = this.getAttribute("href");
                             
                             // Registrar o clique via buttonlog.php
-                            fetch("/buttonlog.php", {
+                            fetch("' . $base_path . '/buttonlog.php", {
                                 method: "POST",
                                 headers: {
                                     "Content-Type": "application/json",
@@ -241,6 +248,16 @@ else{
 			
 			// Obter o arquivo solicitado da URL
 			$requested_file = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+			
+			// Remover o caminho base do projeto, se necessário
+			$base_path = '';
+			if (function_exists('get_base_path')) {
+				$base_path = get_base_path();
+				if (!empty($base_path) && strpos($requested_file, $base_path) === 0) {
+					$requested_file = substr($requested_file, strlen($base_path));
+				}
+			}
+			
 			if ($requested_file === '/' || $requested_file === '') {
 				$requested_file = '/index.html';
 			}
