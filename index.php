@@ -9,167 +9,61 @@ require_once 'core.php';
 require_once 'settings.php';
 require_once 'db.php';
 require_once 'main.php';
+require_once 'serve_file.php'; // Incluir o novo arquivo com a função melhorada
 
 function serve_file($folder, $requested_file) {
     // Normaliza o path e previne directory traversal
     $requested_file = str_replace('..', '', $requested_file);
     $requested_file = ltrim($requested_file, '/');
     
-    // Se não houver arquivo especificado, usa index.html
-    if (empty($requested_file)) {
-        $requested_file = 'index.html';
-    }
+    // Obter o nome da pasta atual dinamicamente
+    $dir_name = basename(dirname(__FILE__));
+    $path = __DIR__ . '/' . $folder . '/' . $requested_file;
     
-    // Caminho completo do arquivo
-    $file_path = $folder . '/' . $requested_file;
+    error_log("serve_file - Path: $path");
+    error_log("serve_file - Folder: $folder, File: $requested_file");
     
-    // Se for diretório, procura por index
-    if (is_dir($file_path)) {
-        if (file_exists($file_path . '/index.html')) {
-            $file_path = $file_path . '/index.html';
-        } elseif (file_exists($file_path . '/index.php')) {
-            $file_path = $file_path . '/index.php';
+    if (file_exists($path)) {
+        $ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+        
+        if ($ext === 'html' || $ext === 'htm') {
+            $html = file_get_contents($path);
+            
+            // Substituir URLs de scripts, CSS e imagens
+            $base_url = "/$dir_name/$folder/";
+            $html = preg_replace('/(src|href)=(["\'])(?!https?:\/\/|\/\/|\/|#)([^"\']+)(["\'])/i', '$1=$2' . $base_url . '$3$4', $html);
+            
+            echo $html;
+            return true;
         } else {
-            return false;
+            // Para outros tipos de arquivo, servir diretamente
+            $mime_types = [
+                'css' => 'text/css',
+                'js' => 'application/javascript',
+                'jpg' => 'image/jpeg',
+                'jpeg' => 'image/jpeg',
+                'png' => 'image/png',
+                'gif' => 'image/gif',
+                'svg' => 'image/svg+xml',
+                'ico' => 'image/x-icon',
+                'ttf' => 'font/ttf',
+                'woff' => 'font/woff',
+                'woff2' => 'font/woff2',
+                'eot' => 'application/vnd.ms-fontobject',
+                'mp4' => 'video/mp4',
+                'webm' => 'video/webm',
+                'ogv' => 'video/ogg',
+                'json' => 'application/json',
+                'xml' => 'application/xml',
+                'pdf' => 'application/pdf',
+                'txt' => 'text/plain'
+            ];
+            
+            $mime = $mime_types[$ext] ?? 'application/octet-stream';
+            header('Content-Type: ' . $mime);
+            readfile($path);
+            return true;
         }
-    }
-    
-    // Verifica se o arquivo existe
-    if (file_exists($file_path)) {
-        $ext = pathinfo($file_path, PATHINFO_EXTENSION);
-        $mime_types = [
-            'html' => 'text/html',
-            'css' => 'text/css',
-            'js' => 'application/javascript',
-            'png' => 'image/png',
-            'jpg' => 'image/jpeg',
-            'jpeg' => 'image/jpeg',
-            'gif' => 'image/gif',
-            'svg' => 'image/svg+xml',
-            'woff' => 'font/woff',
-            'woff2' => 'font/woff2',
-            'ttf' => 'font/ttf',
-            'eot' => 'application/vnd.ms-fontobject',
-            'ico' => 'image/x-icon',
-            'mp3' => 'audio/mpeg',
-            'wav' => 'audio/wav'
-        ];
-        
-        // Define o tipo MIME apropriado
-        if (!headers_sent()) {
-            if (isset($mime_types[$ext])) {
-                header('Content-Type: ' . $mime_types[$ext]);
-            }
-            
-            // Define cabeçalhos de cache adequados
-            if ($ext !== 'php' && $ext !== 'html') {
-                header('Cache-Control: public, max-age=31536000');
-            } else {
-                header('Cache-Control: no-store, no-cache, must-revalidate');
-                header('Pragma: no-cache');
-                header('Expires: Thu, 19 Nov 1981 08:52:00 GMT');
-            }
-        }
-        
-        // Para arquivos PHP, inclui o arquivo
-        if ($ext === 'php') {
-            include($file_path);
-        } 
-        // Para arquivos HTML, adiciona o base path e serve
-        else if ($ext === 'html') {
-            $folder_name = basename($folder);
-            $content = file_get_contents($file_path);
-            
-            // Adiciona tag base para garantir que os links relativos funcionem
-            // Agora considerando o caminho base do projeto
-            $base_path = '';
-            if (function_exists('get_base_path')) {
-                $base_path = get_base_path();
-            }
-            
-            // O base URL deve incluir o caminho base do projeto
-            $base_url = $base_path . "/{$folder_name}/";
-            $content = preg_replace('/<head([^>]*)>/', '<head$1><base href="' . $base_url . '">', $content);
-            
-            // Adiciona atributo data-prelanding ao botão para identificar a prelanding de origem
-            // Não modificaremos o href original do botão, respeitando o link definido pelo usuário
-            $content = str_replace('id="ctaButton"', 'id="ctaButton" data-prelanding="' . $folder_name . '"', $content);
-            
-            // Adiciona script para registrar cliques
-            $buttonlog_script = '<script>
-                document.addEventListener("DOMContentLoaded", function() {
-                    const ctaButton = document.getElementById("ctaButton");
-                    if (ctaButton) {
-                        ctaButton.addEventListener("click", function(e) {
-                            // Registrar o clique
-                            const prelanding = this.getAttribute("data-prelanding");
-                            
-                            // Desabilitar o botão para evitar cliques múltiplos
-                            this.disabled = true;
-                            
-                            // Obter o URL de destino original definido pelo usuário
-                            const originalHref = this.getAttribute("href");
-                            
-                            // Definir a base path
-                            const basePath = "' . $base_path . '";
-                            
-                            // Registrar o clique via buttonlog.php
-                            fetch(basePath + "/buttonlog.php", {
-                                method: "POST",
-                                headers: {
-                                    "Content-Type": "application/json",
-                                },
-                                body: JSON.stringify({
-                                    event: "lead_click",
-                                    prelanding: prelanding,
-                                    timestamp: new Date().toISOString()
-                                }),
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                console.log("Lead registrado com sucesso");
-                                
-                                // Redirecionar para o URL original definido pelo usuário
-                                // Verificar se a URL é relativa e adicionar o caminho base se necessário
-                                let redirectUrl = originalHref;
-                                
-                                if (originalHref && originalHref.indexOf("http") !== 0 && originalHref.indexOf("//") !== 0) {
-                                    // É uma URL relativa
-                                    if (originalHref.indexOf("/") === 0) {
-                                        // Começa com barra, substituir pela URL com caminho base
-                                        redirectUrl = basePath + originalHref;
-                                    } else {
-                                        // Sem barra inicial, adicionar caminho base com barra
-                                        redirectUrl = basePath + "/" + originalHref;
-                                    }
-                                }
-                                
-                                // Redirecionar para a URL
-                                window.location.href = redirectUrl;
-                            })
-                            .catch(error => {
-                                console.error("Erro ao registrar lead:", error);
-                                // Re-habilitar o botão em caso de erro
-                                this.disabled = false;
-                            });
-                            
-                            // Prevenir navegação padrão para permitir o processamento assíncrono
-                            e.preventDefault();
-                        });
-                    }
-                });
-            </script>';
-            
-            $content = str_replace('</body>', $buttonlog_script . '</body>', $content);
-            
-            echo $content;
-        } 
-        // Para outros tipos de arquivo, serve diretamente
-        else {
-            readfile($file_path);
-        }
-        
-        return true;
     }
     
     return false;
@@ -186,6 +80,122 @@ $base_path = get_base_path();
 
 //передаём все параметры в кло
 $cloaker = new Cloaker($os_white,$country_white,$lang_white,$ip_black_filename,$ip_black_cidr,$tokens_black,$url_should_contain,$ua_black,$isp_black,$block_without_referer,$referer_stopwords,$block_vpnandtor);
+
+// Debug para entender o que está acontecendo
+error_log("Processando requisição: " . $_SERVER['REQUEST_URI']);
+
+// Obter o nome da pasta atual dinamicamente
+$dir_name = basename(dirname(__FILE__));
+error_log("Nome da pasta atual: $dir_name");
+
+// Verificar se estamos acessando diretamente a pasta /$dir_name/
+if ($_SERVER['REQUEST_URI'] === "/$dir_name/" || $_SERVER['REQUEST_URI'] === "/$dir_name") {
+    error_log("Acesso direto à pasta /$dir_name/ detectado");
+    
+    // Verificar se TDS está ativado
+    $is_tds_enabled = $tds_mode !== 'off';
+    error_log("TDS Status: " . ($is_tds_enabled ? 'Ativado' : 'Desativado'));
+    
+    // Se TDS estiver desativado ou se o IP do usuário estiver na whitelist
+    if (!$is_tds_enabled || (isset($cloaker) && $cloaker->whitelist_match)) {
+        error_log("TDS desativado ou IP na whitelist - servindo conteúdo black page");
+        
+        // Prioridade 1: Verificar se prelanding está ativada (conforme o diagrama)
+        if ($black_preland_action === 'folder' && !empty($black_preland_folder_names)) {
+            error_log("Prelanding habilitada com action=folder e pastas: " . implode(", ", $black_preland_folder_names));
+            
+            // Selecionar uma prelanding conforme as regras de AB testing
+            $index = rand(0, count($black_preland_folder_names) - 1);
+            $folder = $black_preland_folder_names[$index];
+            
+            error_log("Prelanding ativada - servindo pasta: $folder");
+            ywbsetcookie('prelanding', $folder, '/');
+            
+            // Registro de visualização para estatísticas
+            $cursubid = set_subid();
+            $cookie_name = 'visited_' . $folder;
+            if (!isset($_COOKIE[$cookie_name])) {
+                add_black_click($cursubid, $cloaker->detect, $folder, '');
+                ywbsetcookie($cookie_name, '1', '/');
+            }
+            
+            // Verificar se o arquivo existe antes de tentar servi-lo
+            $file_path = __DIR__ . '/' . $folder . '/index.html';
+            error_log("Verificando existência do arquivo: $file_path - Existe: " . (file_exists($file_path) ? "Sim" : "Não"));
+            
+            // Usar a função serve_file_enhanced no lugar de serve_file
+            if (serve_file_enhanced($folder, 'index.html')) {
+                exit;
+            } else {
+                error_log("Falha ao servir o arquivo da prelanding: $folder/index.html");
+            }
+        }
+        
+        // Prioridade 2: Se prelanding não estiver ativada ou falhou, servir landing
+        if ($black_land_action === 'folder' && !empty($black_land_folder_names)) {
+            // Selecionar uma landing conforme as regras de AB testing
+            $folder = select_item($black_land_folder_names, $save_user_flow, 'black', true)[0];
+            
+            error_log("Servindo landing diretamente - pasta: $folder");
+            
+            // Registro de visualização para estatísticas
+            $cursubid = set_subid();
+            $cookie_name = 'visited_landing_' . $folder;
+            if (!isset($_COOKIE[$cookie_name])) {
+                add_black_click($cursubid, $cloaker->detect, '', $folder);
+                ywbsetcookie($cookie_name, '1', '/');
+            }
+            
+            // Verificar se o arquivo existe antes de tentar servi-lo
+            $file_path = __DIR__ . '/' . $folder . '/index.html';
+            error_log("Verificando existência do arquivo: $file_path - Existe: " . (file_exists($file_path) ? "Sim" : "Não"));
+            
+            // Usar a função serve_file_enhanced no lugar de serve_file
+            if (serve_file_enhanced($folder, 'index.html')) {
+                exit;
+            } else {
+                error_log("Falha ao servir o arquivo da landing: $folder/index.html");
+            }
+        }
+    } else {
+        // Se TDS estiver ativado e o IP não estiver na whitelist
+        // Verificar se white action está configurada como folder
+        if ($white_action === 'folder' && !empty($white_folder_names)) {
+            $folder = $white_folder_names[0]; // Pega a primeira pasta white
+            error_log("TDS ativado - servindo white page: $folder");
+            
+            if (serve_file($folder, 'index.html')) {
+                exit;
+            } else {
+                error_log("Falha ao servir o arquivo white/index.html");
+            }
+        }
+    }
+    
+    // Se tudo falhar, exibir uma mensagem de erro
+    header("HTTP/1.0 404 Not Found");
+    echo "<h1>Site em Manutenção</h1>";
+    echo "<p>Tente novamente mais tarde.</p>";
+    exit;
+}
+
+// Verificar se é uma requisição para um recurso estático (CSS, JS, imagem, etc.)
+elseif (strpos($_SERVER['REQUEST_URI'], "/$dir_name/assets/") !== false ||
+        strpos($_SERVER['REQUEST_URI'], "/$dir_name/css/") !== false ||
+        strpos($_SERVER['REQUEST_URI'], "/$dir_name/js/") !== false ||
+        strpos($_SERVER['REQUEST_URI'], "/$dir_name/img/") !== false ||
+        strpos($_SERVER['REQUEST_URI'], "/$dir_name/images/") !== false) {
+            
+    error_log("Requisição para recurso estático detectada: " . $_SERVER['REQUEST_URI']);
+    
+    // Tentar servir o recurso estático das pastas de prelanding ou landing
+    if (serve_static_resource($_SERVER['REQUEST_URI'])) {
+        exit; // Recurso servido com sucesso
+    }
+    
+    // Se o recurso não foi encontrado, continuar com o fluxo normal
+    error_log("Recurso estático não encontrado em nenhuma pasta conhecida");
+}
 
 // Limpar cookies que possam estar interferindo quando no modo full
 if ($tds_mode=='full') {

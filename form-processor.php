@@ -27,6 +27,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = isset($_POST['email']) ? $_POST['email'] : '';
     $phone = isset($_POST['phone']) ? $_POST['phone'] : '';
     
+    // Adiciona o subid se for passado via POST (para casos de uso específicos)
+    if (isset($_POST['subid']) && !empty($_POST['subid'])) {
+        $subid = $_POST['subid'];
+    }
+    
     // Obter landing e preland da sessão
     $landing = isset($_COOKIE['landing']) ? $_COOKIE['landing'] : '';
     $prelanding = isset($_COOKIE['prelanding']) ? $_COOKIE['prelanding'] : '';
@@ -62,7 +67,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     
     // Registrar lead com status 'Lead'
-    add_lead($subid, $name, $email, $phone, $landing, 'Lead', $prelanding);
+    // Utilizando a ordem correta de parâmetros: subid, name, phone, status, email
+    error_log("Tentando enviar postback para lead: $subid, $name, $email");
+    add_lead($subid, $name, $phone, $lead_status_name, $email);
     error_log("Lead registrado com sucesso: $name, $email, $phone (subid: $subid)");
     
     // Verificar se existe uma URL de redirecionamento personalizada nas configurações
@@ -78,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     // Enviar postback S2S, se configurado
     if (function_exists('trigger_s2s_postback')) {
-        trigger_s2s_postback($subid, 'Lead', $name, $email, $phone);
+        trigger_s2s_postback($subid, $lead_status_name, $name, $email, $phone);
     }
     
     // Redirecionar para a página de agradecimento ou URL personalizado

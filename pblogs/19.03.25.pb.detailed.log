@@ -296,3 +296,187 @@ HTTP CODE: 200
 CONTEÚDO: {"success":true}
 ERRO: Nenhum erro
 
+==== 2025-03-19 18:31:11 ENVIANDO POSTBACK ====
+URL: https://dekoola.com/wp-json/autonami/v1/webhook/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a
+METHOD: GET
+PAYLOAD:
+{
+    "subid": "subid_b11e14f8c1cef226288c",
+    "status": "Lead",
+    "prelanding": "unknown",
+    "landing": "unknown",
+    "name": "TesteUsuario",
+    "email": "teste@example.com",
+    "phone": "123456789"
+}
+
+==== 2025-03-19 18:31:14 RESPOSTA DO WEBHOOK ====
+HTTP CODE: 200
+CONTEÚDO: {"success":true}
+ERRO: Nenhum erro
+
+==== 2025-03-19 18:31:48 ENVIANDO POSTBACK ====
+URL: https://dekoola.com/wp-json/autonami/v1/webhook/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a
+METHOD: GET
+PAYLOAD:
+{
+    "subid": "subid_e4b91d326eff887ea654",
+    "status": "Lead",
+    "prelanding": "unknown",
+    "landing": "unknown",
+    "name": "TesteUsuario2",
+    "email": "teste2@example.com",
+    "phone": "123456789"
+}
+
+==== 2025-03-19 18:31:52 RESPOSTA DO WEBHOOK ====
+HTTP CODE: 200
+CONTEÚDO: {"success":true}
+ERRO: Nenhum erro
+
+==== 2025-03-19 18:33:17 ENVIANDO POSTBACK ====
+URL: https://dekoola.com/wp-json/autonami/v1/webhook/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a
+METHOD: GET
+PAYLOAD:
+{
+    "subid": "subid_teste_1742409197",
+    "status": "Lead",
+    "prelanding": "unknown",
+    "landing": "unknown",
+    "name": "TesteCorrigido",
+    "email": "corrigido@example.com",
+    "phone": "123456789"
+}
+
+==== 2025-03-19 18:33:22 RESPOSTA DO WEBHOOK ====
+HTTP CODE: 200
+CONTEÚDO: {"success":true}
+ERRO: Nenhum erro
+
+==== 2025-03-19 18:33:22 ENVIANDO POSTBACK ====
+URL: https://dekoola.com/wp-json/autonami/v1/webhook/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a
+METHOD: GET
+PAYLOAD:
+{
+    "subid": "subid_teste_1742409197",
+    "status": "Lead",
+    "prelanding": "unknown",
+    "landing": "unknown",
+    "name": "TesteCorrigido",
+    "email": "corrigido@example.com",
+    "phone": "123456789"
+}
+
+==== 2025-03-19 18:33:25 RESPOSTA DO WEBHOOK ====
+HTTP CODE: 200
+CONTEÚDO: {"success":true}
+ERRO: Nenhum erro
+
+==== 2025-03-19 21:37:36 ENVIANDO POSTBACK ====
+URL: https://dekoola.com/wp-json/autonami/v1/webhook/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a
+METHOD: GET
+PAYLOAD:
+{
+    "subid": "67d8fd258c488",
+    "status": "Lead",
+    "prelanding": "preland",
+    "landing": "site4",
+    "name": "site4",
+    "email": "site4@gmail.com"
+}
+
+==== 2025-03-19 21:37:39 RESPOSTA DO WEBHOOK ====
+HTTP CODE: 200
+CONTEÚDO: {"success":true}
+ERRO: Nenhum erro
+
+==== 2025-03-19 21:37:39 ENVIANDO POSTBACK ====
+URL: https://dekoola.com/wp-json/autonami/v1/webhook/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a
+METHOD: GET
+PAYLOAD:
+{
+    "subid": "67d8fd258c488",
+    "status": "Lead",
+    "prelanding": "preland",
+    "landing": "site4",
+    "name": "site4",
+    "email": "site4@gmail.com"
+}
+
+==== 2025-03-19 21:37:42 RESPOSTA DO WEBHOOK ====
+HTTP CODE: 200
+CONTEÚDO: {"success":true}
+ERRO: Nenhum erro
+
+==== 2025-03-19 21:50:34 ENVIANDO POSTBACK ====
+URL: https://dekoola.com/wp-json/autonami/v1/webhook/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a
+METHOD: GET
+PAYLOAD:
+{
+    "subid": "67d8fd258c488",
+    "status": "Lead",
+    "prelanding": "preland",
+    "landing": "site4",
+    "name": "191850",
+    "email": "191850@gmail.com"
+}
+
+==== 2025-03-19 21:50:37 RESPOSTA DO WEBHOOK ====
+HTTP CODE: 200
+CONTEÚDO: {"success":true}
+ERRO: Nenhum erro
+
+==== 2025-03-19 21:50:37 ENVIANDO POSTBACK ====
+URL: https://dekoola.com/wp-json/autonami/v1/webhook/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a
+METHOD: GET
+PAYLOAD:
+{
+    "subid": "67d8fd258c488",
+    "status": "Lead",
+    "prelanding": "preland",
+    "landing": "site4",
+    "name": "191850",
+    "email": "191850@gmail.com"
+}
+
+==== 2025-03-19 21:50:41 RESPOSTA DO WEBHOOK ====
+HTTP CODE: 200
+CONTEÚDO: {"success":true}
+ERRO: Nenhum erro
+
+==== 2025-03-19 21:59:35 ENVIANDO POSTBACK ====
+URL: https://dekoola.com/wp-json/autonami/v1/webhook/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a
+METHOD: GET
+PAYLOAD:
+{
+    "subid": "67d8fd258c488",
+    "status": "Lead",
+    "prelanding": "preland",
+    "landing": "site4",
+    "name": "a",
+    "email": "alexalxs@gmail.com"
+}
+
+==== 2025-03-19 21:59:38 RESPOSTA DO WEBHOOK ====
+HTTP CODE: 200
+CONTEÚDO: {"success":true}
+ERRO: Nenhum erro
+
+==== 2025-03-19 21:59:38 ENVIANDO POSTBACK ====
+URL: https://dekoola.com/wp-json/autonami/v1/webhook/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a
+METHOD: GET
+PAYLOAD:
+{
+    "subid": "67d8fd258c488",
+    "status": "Lead",
+    "prelanding": "preland",
+    "landing": "site4",
+    "name": "a",
+    "email": "alexalxs@gmail.com"
+}
+
+==== 2025-03-19 21:59:41 RESPOSTA DO WEBHOOK ====
+HTTP CODE: 200
+CONTEÚDO: {"success":true}
+ERRO: Nenhum erro
+
