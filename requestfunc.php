@@ -56,7 +56,8 @@ function get_html($url,$follow_location=false,$use_ua=false){
             CURLOPT_URL => $url,
             CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_SSL_VERIFYPEER => false,
-			CURLOPT_HTTPHEADER => get_request_headers($ispost)
+			CURLOPT_HTTPHEADER => get_request_headers($ispost),
+            CURLOPT_TIMEOUT => 5
 			);
     if ($ispost){
         $optArray[CURLOPT_POST]=1;
@@ -85,7 +86,7 @@ function get($url){
             CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_SSL_VERIFYPEER => false,
 			CURLOPT_HTTPHEADER => get_request_headers(false),
-            CURLOPT_TIMEOUT => 0,
+            CURLOPT_TIMEOUT => 5,
             CURLOPT_FOLLOWLOCATION => false,
             CURLOPT_REFERER => $_SERVER['REQUEST_URI'],
             CURLOPT_USERAGENT=>'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML like Gecko) Chrome/84.0.4147.89 Safari/537.36'

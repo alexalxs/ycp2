@@ -38,6 +38,7 @@ $black_land_redirect_type = $conf['black.landing.redirect.type'];
 $black_land_conversion_script = $conf['black.landing.folder.conversions.script'];
 $black_land_log_conversions_on_button_click = $conf['black.landing.folder.conversions.logonbuttonclick'];
 $black_land_use_custom_thankyou_page = $conf['black.landing.folder.customthankyoupage.use'];
+$black_land_redirect_url = $conf->get('black.landing.folder.redirect_url', '');
 if ($black_land_use_custom_thankyou_page) $black_land_log_conversions_on_button_click=false;
 $black_land_thankyou_page_language = $conf['black.landing.folder.customthankyoupage.language'];
 

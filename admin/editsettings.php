@@ -130,6 +130,21 @@ if (isset($_GET['startdate'])&& isset($_GET['enddate'])) {
         </div>
     <a name="top"></a>
 
+    <?php if (isset($_GET['saved']) && $_GET['saved'] === 'true'): ?>
+    <div class="alert alert-success alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <strong>Sucesso!</strong> As configurações foram salvas com sucesso.
+    </div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['error'])): ?>
+    <div class="alert alert-danger alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <strong>Erro!</strong> Ocorreu um erro ao salvar as configurações: <?= htmlspecialchars($_GET['error']) ?>
+      <p>Verifique o arquivo <code>admin/save_debug.log</code> para mais detalhes.</p>
+    </div>
+    <?php endif; ?>
+
     <form action="/admin/savesettings.php?password=<?=$log_password?>" method="post">
         <div class="basic-form-area mg-tb-15">
             <div class="container-fluid">
@@ -606,6 +621,42 @@ If JS check is enabled, the user will always land on white, and only if the chec
     </div>
 </div>
 
+<!-- Campo de redirecionamento - adicionado fora da div ctpage para ser sempre visível -->
+<div class="form-group-inner">
+    <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
+            <label class="login2 pull-left pull-left-pro">Redirect URL after form submission:</label>
+        </div>
+        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+            <div class="input-group custom-go-button">
+                <input type="text" class="form-control" placeholder="/thankyou.php" name="black.landing.folder.redirect_url" value="<?=htmlspecialchars($black_land_redirect_url)?>">
+            </div>
+            <p class="help-block">URL para onde o usuário será redirecionado após preencher o formulário. Deixe em branco para usar a configuração padrão de thankyou page. <a href="debug_redirect_url.php?password=<?=$log_password?>" target="_blank">Diagnosticar problemas</a></p>
+            <p><strong>Valor atual:</strong> "<?=htmlspecialchars($black_land_redirect_url)?>" (se não estiver vendo o valor ou se o valor não estiver sendo salvo, acesse a página de diagnóstico)</p>
+        </div>
+    </div>
+</div>
+
+<!-- Instruções sobre form-processor.php - adicionadas fora da div ctpage para serem sempre visíveis -->
+<div class="form-group-inner">
+    <div class="row">
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <label class="login2 pull-left pull-left-pro">Form Processor:</label>
+        </div>
+        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+            <div class="alert alert-info">
+                <strong>Atenção:</strong> Recomenda-se usar o processador centralizado <code>/form-processor.php</code> em vez de order.php específico para cada landing. Os formulários HTML devem apontar para este endereço:
+                <pre>action="/form-processor.php" method="POST"</pre>
+                <p>Exemplo de código HTML para o formulário:</p>
+                <pre>&lt;form action="/form-processor.php" method="POST"&gt;
+    &lt;input type="text" name="name" required&gt;
+    &lt;input type="email" name="email" required&gt;
+    &lt;input type="tel" name="phone"&gt;
+    &lt;button type="submit"&gt;Enviar&lt;/button&gt;
+&lt;/form&gt;</pre>
+            </div>
+        </div>
+    </div>
 <div class="form-group-inner">
     <div class="row">
         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">

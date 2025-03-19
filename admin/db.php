@@ -20,7 +20,16 @@ function get_black_clicks($startdate,$enddate) {
 function get_leads($startdate,$enddate){
     $dataDir = __DIR__ . "/../logs";
     $leadsStore = new \SleekDB\Store("leads", $dataDir);
-	return $leadsStore->findBy([["time",">=",$startdate],["time","<=",$enddate]],["time"=>"desc"]);
+    
+    // Buscar leads dentro do período especificado
+    $result = $leadsStore->findBy([["time",">=",$startdate],["time","<=",$enddate]],["time"=>"desc"]);
+    
+    // Se não houver resultados no período, buscar todos os leads disponíveis
+    if (empty($result)) {
+        $result = $leadsStore->findAll(["time" => "desc"]);
+    }
+    
+    return $result;
 }
 
 function get_lpctr($startdate,$enddate){

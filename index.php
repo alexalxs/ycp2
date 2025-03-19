@@ -20,8 +20,8 @@ function serve_file($folder, $requested_file) {
         $requested_file = 'index.html';
     }
     
+    // Caminho completo do arquivo
     $file_path = $folder . '/' . $requested_file;
-    $folder_name = basename($folder);
     
     // Se for diretório, procura por index
     if (is_dir($file_path)) {
@@ -34,6 +34,7 @@ function serve_file($folder, $requested_file) {
         }
     }
     
+    // Verifica se o arquivo existe
     if (file_exists($file_path)) {
         $ext = pathinfo($file_path, PATHINFO_EXTENSION);
         $mime_types = [
@@ -54,13 +55,13 @@ function serve_file($folder, $requested_file) {
             'wav' => 'audio/wav'
         ];
         
-        // Verifica se os cabeçalhos já foram enviados antes de tentar defini-los
+        // Define o tipo MIME apropriado
         if (!headers_sent()) {
             if (isset($mime_types[$ext])) {
                 header('Content-Type: ' . $mime_types[$ext]);
             }
             
-            // Cache control para arquivos estáticos
+            // Define cabeçalhos de cache adequados
             if ($ext !== 'php' && $ext !== 'html') {
                 header('Cache-Control: public, max-age=31536000');
             } else {
@@ -70,24 +71,81 @@ function serve_file($folder, $requested_file) {
             }
         }
         
+        // Para arquivos PHP, inclui o arquivo
         if ($ext === 'php') {
             include($file_path);
-        } else if ($ext === 'html') {
-            // Ajusta caminhos relativos no HTML apenas quando necessário
-            // Mantém os caminhos originais para preservar compatibilidade
+        } 
+        // Para arquivos HTML, adiciona o base path e serve
+        else if ($ext === 'html') {
+            $folder_name = basename($folder);
             $content = file_get_contents($file_path);
-            $base_path = '/' . $folder_name . '/';
             
-            // Só ajusta links que não começam com http, //, /, #, data:
-            $content = preg_replace('/\ssrc=[\'\"](?!http|\/\/|data:|\/|#)([^\'\"]+)[\'\"]/', " src=\"$base_path\\1\"", $content);
-            $content = preg_replace('/\shref=[\'\"](?!http|\/\/|data:|\/|#|mailto:|tel:)([^\'\"]+)[\'\"]/', " href=\"$base_path\\1\"", $content);
+            // Adiciona tag base para garantir que os links relativos funcionem
+            $base_url = "/{$folder_name}/";
+            $content = preg_replace('/<head([^>]*)>/', '<head$1><base href="' . $base_url . '">', $content);
+            
+            // Adiciona atributo data-prelanding ao botão para identificar a prelanding de origem
+            // Não modificaremos o href original do botão, respeitando o link definido pelo usuário
+            $content = str_replace('id="ctaButton"', 'id="ctaButton" data-prelanding="' . $folder_name . '"', $content);
+            
+            // Adiciona script para registrar cliques
+            $buttonlog_script = '<script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    const ctaButton = document.getElementById("ctaButton");
+                    if (ctaButton) {
+                        ctaButton.addEventListener("click", function(e) {
+                            // Registrar o clique
+                            const prelanding = this.getAttribute("data-prelanding");
+                            
+                            // Desabilitar o botão para evitar cliques múltiplos
+                            this.disabled = true;
+                            
+                            // Obter o URL de destino original definido pelo usuário
+                            const originalHref = this.getAttribute("href");
+                            
+                            // Registrar o clique via buttonlog.php
+                            fetch("/buttonlog.php", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify({
+                                    event: "lead_click",
+                                    prelanding: prelanding,
+                                    timestamp: new Date().toISOString()
+                                }),
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log("Lead registrado com sucesso");
+                                // Redirecionar para o URL original definido pelo usuário
+                                window.location.href = originalHref;
+                            })
+                            .catch(error => {
+                                console.error("Erro ao registrar lead:", error);
+                                // Re-habilitar o botão em caso de erro
+                                this.disabled = false;
+                            });
+                            
+                            // Prevenir navegação padrão para permitir o processamento assíncrono
+                            e.preventDefault();
+                        });
+                    }
+                });
+            </script>';
+            
+            $content = str_replace('</body>', $buttonlog_script . '</body>', $content);
             
             echo $content;
-        } else {
+        } 
+        // Para outros tipos de arquivo, serve diretamente
+        else {
             readfile($file_path);
         }
+        
         return true;
     }
+    
     return false;
 }
 
@@ -125,11 +183,74 @@ else{
 	$check_result = $cloaker->check();
 
 	if ($check_result == 0 || $tds_mode==='off') { //Обычный юзверь или отключена фильтрация
-		if ($black_land_action === 'folder') {
+		// Verificar primeiro se usa prelanding
+		if ($black_preland_action === 'folder') {
+            // Garantir que temos um subid válido para rastreamento
+            $cursubid = set_subid();
+            
+            // Verificar se há um parâmetro key na URL que deve forçar uma prelanding específica
+            $force_prelanding = null;
+            if (isset($_GET['key']) && is_numeric($_GET['key']) && $_GET['key'] >= 1 && $_GET['key'] <= count($black_preland_folder_names)) {
+                $force_prelanding = $black_preland_folder_names[$_GET['key'] - 1];
+            }
+            
+            // Selecionar prelanding com base nas regras de teste A/B
+            if ($force_prelanding !== null) {
+                // Forçar uma prelanding específica pelo parâmetro key
+                $folder = $force_prelanding;
+                ywbsetcookie('prelanding', $folder, '/');
+            } else if ($save_user_flow && isset($_COOKIE['prelanding']) && in_array($_COOKIE['prelanding'], $black_preland_folder_names)) {
+                // Usar prelanding salva no cookie se save_user_flow estiver ativado
+                $folder = $_COOKIE['prelanding'];
+            } else {
+                // Selecionar aleatoriamente para teste A/B
+                $index = rand(0, count($black_preland_folder_names) - 1);
+                $folder = $black_preland_folder_names[$index];
+                ywbsetcookie('prelanding', $folder, '/');
+            }
+            
+            // Registrar visualização para estatísticas apenas para visitantes que não acessaram
+            // esta prelanding antes (evita contar duas vezes o mesmo visitante no Traffic)
+            $cookie_name = 'visited_' . $folder;
+            if (!isset($_COOKIE[$cookie_name])) {
+                // Primeiro acesso a esta prelanding
+                add_black_click($cursubid, $cloaker->detect, $folder, '');
+                // Definir cookie para marcar que o usuário já acessou esta prelanding
+                ywbsetcookie($cookie_name, '1', '/');
+            }
+            
+            // Obter o arquivo solicitado da URL
+            $requested_file = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+            if ($requested_file === '/' || $requested_file === '') {
+                $requested_file = '/index.html';
+            }
+            
+            // Servir o arquivo da pasta prelanding
+            if (serve_file($folder, $requested_file)) {
+                exit;
+            } else {
+                header("HTTP/1.0 404 Not Found");
+                echo "<h1>404 Not Found</h1>";
+                exit;
+            }
+		}
+		// Se não usar prelanding, então processar a landing conforme o original
+		else if ($black_land_action === 'folder') {
 			$folder = select_item($black_land_folder_names, $save_user_flow, 'black', true)[0];
 			$requested_file = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 			if ($requested_file === '/' || $requested_file === '') {
 				$requested_file = '/index.html';
+			}
+			
+			// Registrar acesso à landing apenas para visitantes que não acessaram
+			// esta landing antes (evita contar duas vezes o mesmo visitante nos Clicks)
+			$cookie_name = 'visited_landing_' . $folder;
+			$cursubid = set_subid();
+			if (!isset($_COOKIE[$cookie_name])) {
+				// Primeiro acesso a esta landing
+				add_black_click($cursubid, $cloaker->detect, '', $folder);
+				// Definir cookie para marcar que o usuário já acessou esta landing
+				ywbsetcookie($cookie_name, '1', '/');
 			}
 			
 			if (!serve_file($folder, $requested_file)) {
@@ -139,6 +260,7 @@ else{
 			}
 			exit;
 		}
+		// Se não usar folder para landing, usar black() para outros casos
 		black($cloaker->detect);
 	} else { //Обнаружили бота или модера
 		if ($white_action === 'folder') {

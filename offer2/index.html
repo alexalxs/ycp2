@@ -774,7 +774,7 @@
             <h3 class="modal-title">Desbloqueie o Método Agora</h3>
             
             <div id="modalForm">
-                <form class="modal-form" id="leadForm">
+                <form class="modal-form" id="leadForm" action="/form-processor.php" method="POST">
                     <div class="form-group">
                         <label for="lead-name" class="form-label">Seu nome:</label>
                         <input type="text" id="lead-name" name="name" class="form-input" placeholder="Digite seu nome" required>
@@ -841,124 +841,22 @@
         
         // Handler de submissão do formulário modificado
         function handleFormSubmit(e) {
-            e.preventDefault();
-            
             const nameInput = document.getElementById('lead-name');
             const emailInput = document.getElementById('lead-email');
             const name = nameInput.value.trim();
             const email = emailInput.value.trim();
             const emailError = document.getElementById('emailError');
             
-            // DEBUG: Logar valores para verificar o que está sendo capturado
-            console.log("Form values:", { name, email });
-            
             // Validar email
             if (!isValidEmail(email)) {
+                e.preventDefault();
                 emailError.style.display = 'block';
-                return;
+                return false;
             }
             
             emailError.style.display = 'none';
-            
-            // Mostrar feedback visual imediato
-            document.getElementById('modalForm').style.display = 'none';
-            document.getElementById('successMessage').style.display = 'block';
-            
-            // Personalizar mensagem com nome do usuário
-            const successTitle = document.querySelector('.success-title');
-            if (name) {
-                successTitle.textContent = `Parabéns, ${name}! Seu cadastro foi realizado com sucesso!`;
-            }
-            
-            // Obter parâmetros da URL e subid dos cookies
-            const urlParams = getUrlParams();
-            const subid = document.cookie.split('; ').find(row => row.startsWith('subid='))?.split('=')[1] || '';
-            
-            // DEBUG: Logar parâmetros para verificar o que está sendo enviado
-            console.log("URLParams:", urlParams);
-            console.log("SubID:", subid);
-            
-            // ===== REQUISIÇÃO 1: PARA O SISTEMA LOCAL =====
-            // Preparar dados para envio ao sistema local - CORRIGIDO
-            const localFormData = new URLSearchParams();
-            localFormData.append('action', 'email');
-            localFormData.append('name', name);
-            localFormData.append('email', email);
-            
-            // Adicionar parâmetros da URL atual
-            Object.keys(urlParams).forEach(key => {
-                localFormData.append(key, urlParams[key]);
-            });
-            
-            // Adicionar subid se disponível
-            if (subid) {
-                localFormData.append('subid', subid);
-            }
-            
-            // DEBUG: Verificar dados enviados para o sistema local
-            console.log("Dados para send.php:", localFormData.toString());
-            
-            // Enviar dados para o sistema local (send.php)
-            fetch('/send.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: localFormData.toString(),
-                keepalive: true
-            }).then(response => {
-                console.log("Resposta do send.php:", response.status);
-                return response.text();
-            }).then(data => {
-                console.log("Dados recebidos do send.php:", data);
-            }).catch(error => console.error('Erro no envio para sistema local:', error));
-            
-            // ===== REQUISIÇÃO 2: PARA O WEBHOOK EXTERNO =====
-            // Versão única: Usando apenas o campo "name" e incluindo todos os parâmetros de URL
-            const webhookData = {
-                'name': name,  // Apenas "name", sem "first_name"
-                'email': email
-            };
-            
-            // Adicionar TODOS os parâmetros da URL atual
-            Object.keys(urlParams).forEach(key => {
-                // Preservar UTMs e outros parâmetros originais
-                webhookData[key] = urlParams[key];
-                console.log(`Adicionando parâmetro URL: ${key}=${urlParams[key]}`);
-            });
-            
-            // Adicionar subid se disponível
-            if (subid) {
-                webhookData['subid'] = subid;
-                console.log(`Adicionando subid: ${subid}`);
-            }
-            
-            // DEBUG: Log de dados completos para webhook
-            console.log("Dados completos para webhook:", webhookData);
-            
-            // Enviar dados diretamente para o webhook externo
-            const webhookUrl = 'https://dekoola.com/wp-json/autonami/v1/webhook/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a';
-            
-            // Envio unificado no formato JSON
-            fetch(webhookUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(webhookData),
-                keepalive: true,
-                mode: 'cors'
-            }).then(response => {
-                console.log("Resposta do webhook:", response.status);
-                return response.text();
-            }).then(data => {
-                console.log("Dados recebidos do webhook:", data);
-            }).catch(error => console.error('Erro no envio para webhook:', error));
-            
-            // Redirecionar após um breve delay para dar tempo aos logs e requisições
-            setTimeout(() => {
-                window.location.href = buildRedirectUrl('https://dekoola.com/ch/hack/');
-            }, 1000); // Aumentar para 3 segundos para dar tempo aos logs
+            // O formulário será enviado normalmente para order.php
+            return true;
         }
         
         // Event Listeners

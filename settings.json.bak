@@ -1,0 +1,247 @@
+{
+    "white": {
+        "action": "folder",
+        "folder": {
+            "names": [
+                "white2"
+            ]
+        },
+        "redirect": {
+            "type": "303",
+            "urls": [
+                "https:\/\/google.com"
+            ]
+        },
+        "curl": {
+            "urls": [
+                "https:\/\/dekoola.com\/"
+            ]
+        },
+        "error": {
+            "codes": []
+        },
+        "domainfilter": {
+            "use": false,
+            "domains": [
+                {
+                    "name": "lalala.xxx.com",
+                    "action": "site:white"
+                },
+                {
+                    "name": "lamama.xxx.com",
+                    "action": "site:white"
+                }
+            ]
+        },
+        "jschecks": {
+            "enabled": false,
+            "events": [
+                "audiocontext",
+                "timezone"
+            ],
+            "timeout": "40000",
+            "obfuscate": true,
+            "timezone": true,
+            "tzstart": "-3",
+            "tzend": "4"
+        }
+    },
+    "black": {
+        "prelanding": {
+            "action": "none",
+            "folders": [
+                "preland1",
+                "preland2"
+            ]
+        },
+        "landing": {
+            "action": "folder",
+            "folder": {
+                "names": [
+                    "site4"
+                ],
+                "conversions": {
+                    "script": "order.php",
+                    "logonbuttonclick": false
+                },
+                "redirect_url": "https:\/\/teste2.example.com",
+                "customthankyoupage": {
+                    "use": "1",
+                    "language": "PT",
+                    "upsell": {
+                        "use": false,
+                        "imgdir": "img",
+                        "header": "This is a header!",
+                        "text": "This is a text!",
+                        "url": "http:\/\/ya.ru"
+                    }
+                },
+                "redirect": {
+                    "url": "https:\/\/teste.example.com"
+                }
+            },
+            "redirect": {
+                "urls": [
+                    "https:\/\/yandex.ru"
+                ],
+                "type": "303",
+                "url": "https:\/\/dekoola.com\/ch\/hack\/xx"
+            }
+        },
+        "jsconnect": "replace"
+    },
+    "pixels": {
+        "ya": {
+            "id": ""
+        },
+        "gtm": {
+            "id": ""
+        },
+        "fb": {
+            "subname": "px",
+            "pageview": true,
+            "viewcontent": {
+                "use": false,
+                "time": "30",
+                "percent": "75"
+            },
+            "conversion": {
+                "event": "Lead",
+                "fireonbutton": false
+            }
+        },
+        "tt": {
+            "subname": "tpx",
+            "pageview": true,
+            "viewcontent": {
+                "use": true,
+                "time": "30",
+                "percent": "75"
+            },
+            "conversion": {
+                "event": "Purchase",
+                "fireonbutton": false
+            }
+        }
+    },
+    "tds": {
+        "mode": "off",
+        "saveuserflow": false,
+        "filters": {
+            "allowed": {
+                "countries": [],
+                "os": [],
+                "inurl": [
+                    "key=2"
+                ],
+                "languages": []
+            },
+            "blocked": {
+                "ips": {
+                    "filename": "",
+                    "cidrformat": false
+                },
+                "tokens": [],
+                "useragents": [
+                    "facebook",
+                    "Facebot",
+                    "curl",
+                    "gce-spider",
+                    "yandex.com\/bots",
+                    "OdklBot"
+                ],
+                "isps": [
+                    "facebook",
+                    "google",
+                    "yandex",
+                    "amazon",
+                    "azure",
+                    "digitalocean",
+                    "microsoft"
+                ],
+                "referer": {
+                    "empty": false,
+                    "stopwords": []
+                },
+                "vpntor": false
+            }
+        }
+    },
+    "scripts": {
+        "back": {
+            "action": "off",
+            "value": "https:\/\/ya.ru"
+        },
+        "disabletextcopy": false,
+        "prelandingreplace": {
+            "use": false,
+            "url": "https:\/\/ya.ru"
+        },
+        "landingreplace": {
+            "use": false,
+            "url": "https:\/\/ya.ru"
+        },
+        "phonemask": {
+            "use": true,
+            "mask": "+7(\\\\999)999-99-99"
+        },
+        "comebacker": false,
+        "callbacker": false,
+        "addedtocart": false,
+        "imageslazyload": true
+    },
+    "subids": [
+        {
+            "name": "subid",
+            "rewrite": "sub1"
+        },
+        {
+            "name": "adn",
+            "rewrite": "sub2"
+        },
+        {
+            "name": "ad",
+            "rewrite": "sub3"
+        },
+        {
+            "name": "pl",
+            "rewrite": "sub4"
+        }
+    ],
+    "statistics": {
+        "password": "12345",
+        "subnames": [
+            {
+                "name": "adn",
+                "value": "Adset"
+            },
+            {
+                "name": "ad",
+                "value": "Creative"
+            },
+            {
+                "name": "pl",
+                "value": "Placement"
+            }
+        ],
+        "timezone": "America\/Sao_Paulo"
+    },
+    "postback": {
+        "lead": "Lead",
+        "purchase": "Purchase",
+        "reject": "Reject",
+        "trash": "Trash",
+        "s2s": [
+            {
+                "url": "https:\/\/dekoola.com\/wp-json\/autonami\/v1\/webhook\/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a",
+                "method": "GET",
+                "events": [
+                    "Lead",
+                    "Purchase",
+                    "Reject",
+                    "Trash"
+                ]
+            }
+        ]
+    }
+}

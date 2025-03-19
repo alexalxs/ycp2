@@ -9,12 +9,12 @@
         "redirect": {
             "type": "303",
             "urls": [
-                "https://google.com"
+                "https:\/\/google.com"
             ]
         },
         "curl": {
             "urls": [
-                "https://dekoola.com/"
+                "https:\/\/dekoola.com\/"
             ]
         },
         "error": {
@@ -50,36 +50,42 @@
         "prelanding": {
             "action": "none",
             "folders": [
-                "preland"
+                "preland1",
+                "preland2"
             ]
         },
         "landing": {
             "action": "folder",
             "folder": {
                 "names": [
-                    "offer2"
+                    "site4"
                 ],
                 "conversions": {
                     "script": "order.php",
                     "logonbuttonclick": false
                 },
+                "redirect_url": "https:\/\/teste2.example.com2",
                 "customthankyoupage": {
-                    "use": true,
-                    "language": "RU",
+                    "use": "1",
+                    "language": "PT",
                     "upsell": {
                         "use": false,
                         "imgdir": "img",
                         "header": "This is a header!",
                         "text": "This is a text!",
-                        "url": "http://ya.ru"
+                        "url": "http:\/\/ya.ru"
                     }
+                },
+                "redirect": {
+                    "url": "https:\/\/teste.example.com"
                 }
             },
             "redirect": {
                 "urls": [
-                    "https://yandex.ru"
+                    "https:\/\/yandex.ru"
                 ],
-                "type": "303"
+                "type": "303",
+                "url": "https:\/\/dekoola.com\/ch\/hack\/xx"
             }
         },
         "jsconnect": "replace"
@@ -141,7 +147,7 @@
                     "Facebot",
                     "curl",
                     "gce-spider",
-                    "yandex.com/bots",
+                    "yandex.com\/bots",
                     "OdklBot"
                 ],
                 "isps": [
@@ -164,16 +170,16 @@
     "scripts": {
         "back": {
             "action": "off",
-            "value": "https://ya.ru"
+            "value": "https:\/\/ya.ru"
         },
         "disabletextcopy": false,
         "prelandingreplace": {
             "use": false,
-            "url": "https://ya.ru"
+            "url": "https:\/\/ya.ru"
         },
         "landingreplace": {
             "use": false,
-            "url": "https://ya.ru"
+            "url": "https:\/\/ya.ru"
         },
         "phonemask": {
             "use": true,
@@ -218,7 +224,7 @@
                 "value": "Placement"
             }
         ],
-        "timezone": "America/Sao_Paulo"
+        "timezone": "America\/Sao_Paulo"
     },
     "postback": {
         "lead": "Lead",
@@ -227,11 +233,13 @@
         "trash": "Trash",
         "s2s": [
             {
-                "url": "",
-                "method": "POST",
+                "url": "https:\/\/dekoola.com\/wp-json\/autonami\/v1\/webhook\/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a",
+                "method": "GET",
                 "events": [
                     "Lead",
-                    "Purchase"
+                    "Purchase",
+                    "Reject",
+                    "Trash"
                 ]
             }
         ]

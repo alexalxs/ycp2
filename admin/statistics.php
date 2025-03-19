@@ -154,7 +154,7 @@ while ($date>=$startdate) {
 			}
 			//count landing clicks
 			$subid_lp = $ctritem['subid'];
-			$dest_land = $sub_land_dest[$subid_lp];
+			$dest_land = isset($sub_land_dest[$subid_lp]) ? $sub_land_dest[$subid_lp] : '';
 			if (array_key_exists($dest_land, $landclicks_array)) {
 				$landclicks_array[$dest_land]++;
 			} else {
@@ -265,7 +265,7 @@ $tcr_all=($total_uniques===0?0:$total_leads/$total_uniques*100);
 $tableOutput.="<TD scope='col'>".number_format($tcr_all, 2, '.', '')."</TD>";
 $tcr_sales=($total_uniques===0?0:$total_purchases/$total_uniques*100);
 $tableOutput.="<TD scope='col'>".number_format($tcr_sales, 2, '.', '')."</TD>";
-$tapprove_wo_trash=($total_leads-$total_leads===0?0:$total_purchases*100/($total_leads-$total_trash));
+$tapprove_wo_trash=($total_leads-$total_trash===0?0:$total_purchases*100/($total_leads-$total_trash));
 $tableOutput.="<TD scope='col'>".number_format($tapprove_wo_trash, 2, '.', '')."</TD>";
 $tapprove=($total_leads===0?0:$total_purchases*100/$total_leads);
 $tableOutput.="<TD scope='col'>".number_format($tapprove, 2, '.', '')."</TD>";
@@ -283,7 +283,10 @@ if (!$noprelanding){
         $variations = [];
 
         foreach ($lpctr_array as $lp_name => $lp_count) {
-            $variations[]= new Variation($lp_name,$lpdest_array[$lp_name], $lp_count);
+            // Certifique-se de que o número de ações bem-sucedidas (lp_count) nunca exceda o número total (lpdest_array[$lp_name])
+            $total_actions = isset($lpdest_array[$lp_name]) ? $lpdest_array[$lp_name] : 0;
+            $successful_actions = min($lp_count, $total_actions);
+            $variations[]= new Variation($lp_name, $total_actions, $successful_actions);
         }
         $predictor = SplitTestAnalyzer::create()->withVariations(...$variations);
         $preland_split_probability=$predictor->getResult();
@@ -306,7 +309,7 @@ if (!$noprelanding){
 		$lpctrTableOutput.="<TD scope='col'>".$lp_name."</TD>";
 		$lpctrTableOutput.="<TD scope='col'>".$lpdest_array[$lp_name]."</TD>";
 		$lpctrTableOutput.="<TD scope='col'>".$lp_count."</TD>";
-		$cur_ctr = $lp_count*100/$lpdest_array[$lp_name];
+		$cur_ctr = isset($lpdest_array[$lp_name]) && $lpdest_array[$lp_name] > 0 ? $lp_count*100/$lpdest_array[$lp_name] : 0;
 		$lpctrTableOutput.="<TD scope='col'>".number_format($cur_ctr, 2, '.', '')."%</TD>";
         if ($preland_splittest)
             $lpctrTableOutput.="<TD scope='col'>".$preland_split_probability[$lp_name]."</TD>";
@@ -314,7 +317,6 @@ if (!$noprelanding){
 	}
 	$lpctrTableOutput.="</tbody></TABLE>";
 }
-
 
 $land_splittest=(count($landclicks_array)>1);
 $land_split_probability=[];
@@ -328,6 +330,35 @@ if ($land_splittest){
     }
     $predictor = SplitTestAnalyzer::create()->withVariations(...$variations);
     $land_split_probability=$predictor->getResult();
+}
+
+// Garantir que todas as landings configuradas tenham uma entrada nas estatísticas
+$dataDir = __DIR__ . "/../logs";
+$lpctrStore = new \SleekDB\Store("lpctr", $dataDir);
+$all_lpctr = $lpctrStore->findAll(["time" => "desc"]);
+
+// Contar todos os cliques por landing
+$all_land_clicks = [];
+foreach ($all_lpctr as $ctr_record) {
+    if (!empty($ctr_record['land'])) {
+        $land_name = $ctr_record['land'];
+        if (!array_key_exists($land_name, $all_land_clicks)) {
+            $all_land_clicks[$land_name] = 0;
+        }
+        $all_land_clicks[$land_name]++;
+    }
+}
+
+// Substituir as contagens de landing pelos valores reais do banco de dados
+$landclicks_array = $all_land_clicks;
+
+// Adicionar todas as landings do $black_land_folder_names à lista de landings, se não existirem
+if (isset($black_land_folder_names) && is_array($black_land_folder_names)) {
+    foreach ($black_land_folder_names as $land_name) {
+        if (!array_key_exists($land_name, $landclicks_array)) {
+            $landclicks_array[$land_name] = 0;
+        }
+    }
 }
 
 //Open the landcr table tag
@@ -353,7 +384,7 @@ foreach ($landclicks_array as $land_name => $land_clicks) {
     $land_purchase = array_key_exists('Purchase',$cur_land_arr)?$cur_land_arr['Purchase']:0;
     $land_reject = array_key_exists('Reject',$cur_land_arr)?$cur_land_arr['Reject']:0;
     $land_trash = array_key_exists('Trash',$cur_land_arr)?$cur_land_arr['Trash']:0;
-    $cur_cr = $land_conv*100/$land_clicks;
+    $cur_cr = $land_clicks > 0 ? $land_conv*100/$land_clicks : 0;
 
     $landcrTableOutput.="<TR>";
     $landcrTableOutput.="<TD scope='col'>".$land_name."</TD>";
@@ -365,7 +396,7 @@ foreach ($landclicks_array as $land_name => $land_clicks) {
     $landcrTableOutput.="<TD scope='col'>".$land_trash."</TD>";
     $landcrTableOutput.="<TD scope='col'>".number_format($cur_cr, 2, '.', '')."</TD>";
     if ($land_splittest)
-        $landcrTableOutput.="<TD scope='col'>".$land_split_probability[$land_name]."</TD>";
+        $landcrTableOutput.="<TD scope='col'>".(array_key_exists($land_name, $land_split_probability) ? $land_split_probability[$land_name] : '0')."</TD>";
     $landcrTableOutput.="</TR>";
 }
 $landcrTableOutput.="</tbody></TABLE>";
@@ -483,6 +514,21 @@ foreach ($subs_array as $sub_key=>$sub_values)
                                     </a>
                                 </li>
                                 <li>
+                                    <a title="Estatísticas" href="statistics.php?password=<?=$_GET['password']?><?=$date_str!==''?$date_str:''?>">
+                                        <span class="mini-sub-pro">Estatísticas</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a title="Análise de Landing" href="landing_efficiency.php?password=<?=$_GET['password']?><?=$date_str!==''?$date_str:''?>">
+                                        <span class="mini-sub-pro">Eficiência de Landing</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a title="Limpar Estatísticas" href="reset_statistics.php?password=<?=$_GET['password']?><?=$date_str!==''?$date_str:''?>">
+                                        <span class="mini-sub-pro">Limpar Estatísticas</span>
+                                    </a>
+                                </li>
+                                <li>
                                     <a title="Разрешённый" href="index.php?password=<?=$_GET['password']?><?=$date_str!==''?$date_str:''?>">
                                         <span class="mini-sub-pro">Allowed</span>
                                     </a>
@@ -532,45 +578,39 @@ foreach ($subs_array as $sub_key=>$sub_values)
             <div class="header-top-area">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <div class="header-top-wraper">
-                                <div class="row">
-                                    <div class="col-lg-1 col-md-0 col-sm-1 col-xs-12">
-                                        <div class="menu-switcher-pro">
-                                            <button type="button" id="sidebarcollapse" class="btn bar-button-pro header-drl-controller-btn btn-info navbar-btn">
-                                                <i class="icon nalika-menu-task"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-11 col-md-1 col-sm-12 col-xs-12">
-                                        <div class="header-right-info">
-                                            <ul class="nav navbar-nav mai-top-nav header-right-menu">
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="" onclick="location.reload()">Refresh</a>
-                                                    <a class="nav-link" href="#" id='litepicker'>Date:</a>
-                                                    <a class="nav-link">
-                                                        <?php
-                                                            $calendsd=isset($_GET['startdate'])?$_GET['startdate']:'';
-                                                            $calended=isset($_GET['enddate'])?$_GET['enddate']:'';
-                                                            if ($calendsd!==''&&$calended!=='') {
-                                                                if ($calendsd===$calended) {
-                                                                    echo $calendsd;
-                                                                } else {
-                                                                    echo "{$calendsd} - {$calended}";
-                                                                }
-                                                            } else {
-                                                                echo $formatteddate;
-                                                            } ?>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
-                                </div>
+                        <div class="col-lg-1 col-md-0 col-sm-1 col-xs-12">
+                            <div class="menu-switcher-pro">
+                                <button type="button" id="sidebarcollapse" class="btn bar-button-pro header-drl-controller-btn btn-info navbar-btn">
+                                    <i class="icon nalika-menu-task"></i>
+                                </button>
                             </div>
                         </div>
+
+                        <div class="col-lg-11 col-md-1 col-sm-12 col-xs-12">
+                            <div class="header-right-info">
+                                <ul class="nav navbar-nav mai-top-nav header-right-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="" onclick="location.reload()">Refresh</a>
+                                        <a class="nav-link" href="#" id='litepicker'>Date:</a>
+                                        <a class="nav-link">
+                                            <?php
+                                                $calendsd=isset($_GET['startdate'])?$_GET['startdate']:'';
+                                                $calended=isset($_GET['enddate'])?$_GET['enddate']:'';
+                                                if ($calendsd!==''&&$calended!=='') {
+                                                    if ($calendsd===$calended) {
+                                                        echo $calendsd;
+                                                    } else {
+                                                        echo "{$calendsd} - {$calended}";
+                                                    }
+                                                } else {
+                                                    echo $formatteddate;
+                                                } ?>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>

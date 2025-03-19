@@ -140,7 +140,7 @@ function black($clkrdetect)
                     break;
             }
             break;
-        case 'folder': //если мы используем локальные проклы
+        case 'folder':
             $prelandings=$black_preland_folder_names;
             if (empty($prelandings)) break;
             $prelanding='';

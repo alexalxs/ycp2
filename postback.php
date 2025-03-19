@@ -40,7 +40,28 @@ switch ($status) {
     case $trash_status_name:
         $inner_status = 'Trash';
         break;
+    default:
+        // Se o status não corresponder exatamente, tenta corresponder sem considerar maiúsculas/minúsculas
+        if (strcasecmp($status, "lead") === 0 || strcasecmp($status, $lead_status_name) === 0) {
+            $inner_status = 'Lead';
+        } else if (strcasecmp($status, "purchase") === 0 || strcasecmp($status, $purchase_status_name) === 0) {
+            $inner_status = 'Purchase';
+        } else if (strcasecmp($status, "reject") === 0 || strcasecmp($status, $reject_status_name) === 0) {
+            $inner_status = 'Reject';
+        } else if (strcasecmp($status, "trash") === 0 || strcasecmp($status, $trash_status_name) === 0) {
+            $inner_status = 'Trash';
+        } else {
+            // Se ainda não encontrou correspondência, usa o status original
+            $inner_status = $status;
+        }
+        break;
 }
+
+// Confirmar que $inner_status não está vazio para o log
+if (empty($inner_status)) {
+    $inner_status = $status; // Usar o status original se o mapeamento não produziu um valor
+}
+
 add_postback_log($subid, $inner_status, $payout);
 $res = update_lead($subid, $inner_status, $payout);
 foreach ($s2s_postbacks as $s2s) {
@@ -82,6 +103,8 @@ function add_s2s_log($url, $status, $method, $s2s_res)
 
 function add_postback_log($subid, $status, $payout)
 {
+    global $curLink;
+    
     //создаёт папку для лога постбэков, если её нет
     if (!file_exists(__DIR__ . "/pblogs")) mkdir(__DIR__ . "/pblogs");
     $file = __DIR__ . "/pblogs/" . date("d.m.y") . ".pb.log";
