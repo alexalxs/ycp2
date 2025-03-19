@@ -130,7 +130,7 @@ if (isset($_GET['startdate'])&& isset($_GET['enddate'])) {
         </div>
     <a name="top"></a>
 
-    <?php if (isset($_GET['saved']) && $_GET['saved'] === 'true'): ?>
+    <?php if (isset($_GET['saved']) && $_GET['saved'] === 'true' && isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], 'savesettings.php') !== false): ?>
     <div class="alert alert-success alert-dismissible" role="alert">
       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       <strong>Sucesso!</strong> As configurações foram salvas com sucesso.
@@ -631,8 +631,7 @@ If JS check is enabled, the user will always land on white, and only if the chec
             <div class="input-group custom-go-button">
                 <input type="text" class="form-control" placeholder="/thankyou.php" name="black.landing.folder.redirect_url" value="<?=htmlspecialchars($black_land_redirect_url)?>">
             </div>
-            <p class="help-block">URL para onde o usuário será redirecionado após preencher o formulário. Deixe em branco para usar a configuração padrão de thankyou page. <a href="debug_redirect_url.php?password=<?=$log_password?>" target="_blank">Diagnosticar problemas</a></p>
-            <p><strong>Valor atual:</strong> "<?=htmlspecialchars($black_land_redirect_url)?>" (se não estiver vendo o valor ou se o valor não estiver sendo salvo, acesse a página de diagnóstico)</p>
+            <p class="help-block">URL para onde o usuário será redirecionado após preencher o formulário. Deixe em branco para usar a configuração padrão de thankyou page.</p>
         </div>
     </div>
 </div>
