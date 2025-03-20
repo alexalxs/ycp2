@@ -372,3 +372,114 @@ HTTP CODE: 200
 CONTEÚDO: {"success":true}
 ERRO: Nenhum erro
 
+<<<<<<< HEAD
+=======
+==== 2025-03-19 21:37:36 ENVIANDO POSTBACK ====
+URL: https://dekoola.com/wp-json/autonami/v1/webhook/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a
+METHOD: GET
+PAYLOAD:
+{
+    "subid": "67d8fd258c488",
+    "status": "Lead",
+    "prelanding": "preland",
+    "landing": "site4",
+    "name": "site4",
+    "email": "site4@gmail.com"
+}
+
+==== 2025-03-19 21:37:39 RESPOSTA DO WEBHOOK ====
+HTTP CODE: 200
+CONTEÚDO: {"success":true}
+ERRO: Nenhum erro
+
+==== 2025-03-19 21:37:39 ENVIANDO POSTBACK ====
+URL: https://dekoola.com/wp-json/autonami/v1/webhook/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a
+METHOD: GET
+PAYLOAD:
+{
+    "subid": "67d8fd258c488",
+    "status": "Lead",
+    "prelanding": "preland",
+    "landing": "site4",
+    "name": "site4",
+    "email": "site4@gmail.com"
+}
+
+==== 2025-03-19 21:37:42 RESPOSTA DO WEBHOOK ====
+HTTP CODE: 200
+CONTEÚDO: {"success":true}
+ERRO: Nenhum erro
+
+==== 2025-03-19 21:50:34 ENVIANDO POSTBACK ====
+URL: https://dekoola.com/wp-json/autonami/v1/webhook/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a
+METHOD: GET
+PAYLOAD:
+{
+    "subid": "67d8fd258c488",
+    "status": "Lead",
+    "prelanding": "preland",
+    "landing": "site4",
+    "name": "191850",
+    "email": "191850@gmail.com"
+}
+
+==== 2025-03-19 21:50:37 RESPOSTA DO WEBHOOK ====
+HTTP CODE: 200
+CONTEÚDO: {"success":true}
+ERRO: Nenhum erro
+
+==== 2025-03-19 21:50:37 ENVIANDO POSTBACK ====
+URL: https://dekoola.com/wp-json/autonami/v1/webhook/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a
+METHOD: GET
+PAYLOAD:
+{
+    "subid": "67d8fd258c488",
+    "status": "Lead",
+    "prelanding": "preland",
+    "landing": "site4",
+    "name": "191850",
+    "email": "191850@gmail.com"
+}
+
+==== 2025-03-19 21:50:41 RESPOSTA DO WEBHOOK ====
+HTTP CODE: 200
+CONTEÚDO: {"success":true}
+ERRO: Nenhum erro
+
+==== 2025-03-19 21:59:35 ENVIANDO POSTBACK ====
+URL: https://dekoola.com/wp-json/autonami/v1/webhook/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a
+METHOD: GET
+PAYLOAD:
+{
+    "subid": "67d8fd258c488",
+    "status": "Lead",
+    "prelanding": "preland",
+    "landing": "site4",
+    "name": "a",
+    "email": "alexalxs@gmail.com"
+}
+
+==== 2025-03-19 21:59:38 RESPOSTA DO WEBHOOK ====
+HTTP CODE: 200
+CONTEÚDO: {"success":true}
+ERRO: Nenhum erro
+
+==== 2025-03-19 21:59:38 ENVIANDO POSTBACK ====
+URL: https://dekoola.com/wp-json/autonami/v1/webhook/?bwfan_autonami_webhook_id=10&bwfan_autonami_webhook_key=92c39df617252d128219dba772cff29a
+METHOD: GET
+PAYLOAD:
+{
+    "subid": "67d8fd258c488",
+    "status": "Lead",
+    "prelanding": "preland",
+    "landing": "site4",
+    "name": "a",
+    "email": "alexalxs@gmail.com"
+}
+
+==== 2025-03-19 21:59:41 RESPOSTA DO WEBHOOK ====
+HTTP CODE: 200
+CONTEÚDO: {"success":true}
+ERRO: Nenhum erro
+
+>>>>>>> Gatillos-Invisibles-de-la-Atraccion

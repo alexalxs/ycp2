@@ -314,7 +314,7 @@
                 <section id="email-capture" class="capture-section">
                     <div class="capture-container">
                         <h3 class="capture-title">Reconquista al Hombre que Amas en <strong>21 Días</strong> o Menos</h3>
-                        <p class="capture-subtitle">Ingresa tu correo electrónico para acceder al sistema completo de Gatillos Invisibles de la Atracción y recibir el audiolibro de <u>regalo</u>.</p>
+                        <p class="capture-subtitle">Haz clic en el botón para acceder al sistema completo de Gatillos Invisibles de la Atracción y recibir el audiolibro de <u>regalo</u>.</p>
                         
                         <div class="price-info">
                             <div class="price-regular">Valor Normal: <span>7500 pesos</span></div>
@@ -322,26 +322,22 @@
                             <div class="price-discount"><strong>33% DE DESCUENTO</strong></div>
                         </div>
                         
-                        <form id="email-form" class="email-form">
-                            <div class="form-group">
-                                <label for="email">Tu correo electrónico:</label>
-                                <div class="input-wrapper">
-                                    <input type="email" id="email" name="email" placeholder="Tu mejor correo electrónico" required>
-                                    <button type="submit" class="submit-button">OBTENER <strong>AHORA</strong></button>
-                                </div>
+                        <div class="buttons-container">
+                            <button id="obtener-btn" class="submit-button">OBTENER <strong>AHORA</strong></button>
+                            
+                        </div>
+                        
+                        <div class="form-info">
+                            <div class="security-note">
+                                <i class="fas fa-lock"></i> Tu información está <strong>100% segura</strong>
                             </div>
-                            <div class="form-info">
-                                <div class="security-note">
-                                    <i class="fas fa-lock"></i> Tu información está <strong>100% segura</strong>
-                                </div>
-                                <div class="payment-icons">
-                                    <i class="fab fa-cc-visa"></i>
-                                    <i class="fab fa-cc-mastercard"></i>
-                                    <i class="fab fa-cc-amex"></i>
-                                    <i class="fab fa-cc-paypal"></i>
-                                </div>
+                            <div class="payment-icons">
+                                <i class="fab fa-cc-visa"></i>
+                                <i class="fab fa-cc-mastercard"></i>
+                                <i class="fab fa-cc-amex"></i>
+                                <i class="fab fa-cc-paypal"></i>
                             </div>
-                        </form>
+                        </div>
                         
                         <div class="final-testimonial">
                             <p>"Mi ex pasó de 'necesitamos seguir caminos diferentes' a <strong>llamarme cinco veces al día</strong> y decir que no puede imaginar su vida sin mí. La transformación fue tan <u>rápida e intensa</u> que hasta mis amigas están pidiendo aprender este método!"</p>
@@ -371,6 +367,35 @@
                 </div>
             </div>
         </footer>
+    </div>
+    
+    <!-- Modal de formulario -->
+    <div id="contact-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3>Solicitar Acceso al Método</h3>
+            <p>Complete el formulario para recibir el método completo y el audiolibro de regalo.</p>
+            
+            <form id="contact-form" action="form-processor.php" method="POST">
+                <div class="form-group">
+                    <label for="name">Nombre:</label>
+                    <input type="text" id="name" name="name" placeholder="Tu nombre completo" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="modal-email">Email:</label>
+                    <input type="email" id="modal-email" name="email" placeholder="Tu mejor correo electrónico" required>
+                </div>
+                
+                <div class="form-submit">
+                    <button type="submit" class="modal-submit-btn"><span>OBTENER ACCESO</span></button>
+                    <div class="loading-indicator">
+                        <div class="spinner"></div>
+                        <span>Preparando tu acceso...</span>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
     
     <script src="assets/js/script.js"></script>

@@ -48,7 +48,7 @@
     },
     "black": {
         "prelanding": {
-            "action": "folder",
+            "action": "none",
             "folders": [
                 "preland"
             ]
@@ -57,7 +57,11 @@
             "action": "folder",
             "folder": {
                 "names": [
+<<<<<<< HEAD
                     "landing"
+=======
+                    "Gatillos-Invisibles-de-la-Atraccion"
+>>>>>>> Gatillos-Invisibles-de-la-Atraccion
                 ],
                 "conversions": {
                     "script": "form-processor.php",

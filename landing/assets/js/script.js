@@ -11,13 +11,14 @@ document.addEventListener('DOMContentLoaded', function() {
     setupFAQs();
     setupBookHover();
     handleScroll();
+    setupModal();
     
     // Configurar detección de scroll
     window.addEventListener('scroll', handleScroll);
     
     // Iniciar animación de pulsación en botones después de 2 segundos
     setTimeout(function() {
-        document.querySelectorAll('.btn-primary, .btn-secondary').forEach(function(button) {
+        document.querySelectorAll('.btn-primary, .btn-secondary, .submit-button, .info-button').forEach(function(button) {
             button.classList.add('pulse-animation');
         });
     }, 2000);
@@ -288,6 +289,187 @@ function handleScroll() {
         const speed = element.getAttribute('data-parallax-speed') || 0.2;
         element.style.transform = `translateY(${scrollY * speed}px)`;
     });
+}
+
+/**
+ * Configura el comportamiento del modal y su formulario
+ */
+function setupModal() {
+    const modal = document.getElementById('contact-modal');
+    const obtenerBtn = document.getElementById('obtener-btn');
+    const closeBtn = document.querySelector('.close-modal');
+    const form = document.getElementById('contact-form');
+    const loadingIndicator = document.querySelector('.loading-indicator');
+    
+    // Verificar si los elementos existen
+    if (!modal || !closeBtn || !form || !loadingIndicator) {
+        console.error('Elementos del modal no encontrados');
+        return;
+    }
+    
+    // Abrir modal al hacer clic en los botones
+    obtenerBtn.addEventListener('click', function() {
+        openModal();
+    });
+    
+    // Cerrar modal con el botón X
+    closeBtn.addEventListener('click', function() {
+        closeModal();
+    });
+    
+    // Cerrar modal al hacer clic fuera de su contenido
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+    
+    // Cerrar modal con tecla ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.classList.contains('show')) {
+            closeModal();
+        }
+    });
+    
+    // Manejar envío del formulario
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Obtener valores del formulario
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('modal-email');
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+        
+        // Validar campos
+        if (name === '') {
+            showModalMessage('Por favor, introduce tu nombre.', 'error');
+            return;
+        }
+        
+        if (!isValidEmail(email)) {
+            showModalMessage('Por favor, introduce un email válido.', 'error');
+            return;
+        }
+        
+        // Mostrar indicador de carga - CORREÇÃO
+        const submitBtn = form.querySelector('.modal-submit-btn');
+        if (submitBtn) {
+            submitBtn.style.display = 'none';
+        }
+        loadingIndicator.style.display = 'flex';
+        
+        // Obtener datos del formulario para enviar
+        const formData = new FormData(form);
+        
+        // Enviar datos a través de fetch
+        fetch('form-processor.php', {
+            method: 'POST',
+            body: formData,
+            // Adicionando timeout para evitar espera muito longa
+            signal: AbortSignal.timeout(10000) // 10 segundos de timeout
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error en la respuesta del servidor: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Respuesta del servidor:', data);
+            
+            // Ocultar indicador de carga
+            loadingIndicator.style.display = 'none';
+            if (submitBtn) {
+                submitBtn.style.display = 'block';
+            }
+            
+            // Mostrar mensaje de éxito
+            showModalMessage('¡Tu solicitud ha sido procesada con éxito! Serás redirigido en breve.', 'success');
+            
+            // Limpiar formulario
+            form.reset();
+            
+            // Redirigir después de un breve delay - reduzido para 1 segundo
+            setTimeout(function() {
+                window.location.href = 'https://dekoola.com/ch/hack/';
+            }, 1000);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            
+            // Ocultar indicador de carga
+            loadingIndicator.style.display = 'none';
+            if (submitBtn) {
+                submitBtn.style.display = 'block';
+            }
+            
+            // Guardar dados do formulário no localStorage como backup
+            try {
+                localStorage.setItem('form_name', nameInput.value);
+                localStorage.setItem('form_email', emailInput.value);
+            } catch (e) {
+                console.error('Error guardando datos:', e);
+            }
+            
+            // Mostrar mensaje positivo de continuidad sin mencionar error
+            showModalMessage('Estamos procesando tu información. Serás redirigido a la siguiente página.', 'info');
+            
+            // Redirecionar mais rápido
+            setTimeout(function() {
+                window.location.href = 'https://dekoola.com/ch/hack/';
+            }, 2000);
+        });
+    });
+    
+    /**
+     * Abre el modal
+     */
+    function openModal() {
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden'; // Prevenir scroll en el fondo
+        setTimeout(() => {
+            modal.querySelector('.modal-content').style.transform = 'translateY(0)';
+        }, 10);
+    }
+    
+    /**
+     * Cierra el modal
+     */
+    function closeModal() {
+        modal.querySelector('.modal-content').style.transform = 'translateY(-20px)';
+        setTimeout(() => {
+            modal.classList.remove('show');
+            document.body.style.overflow = ''; // Restaurar scroll
+        }, 300);
+    }
+    
+    /**
+     * Muestra mensajes en el modal
+     */
+    function showModalMessage(message, type) {
+        // Eliminar mensaje anterior si existe
+        const oldMessage = form.querySelector('.modal-message');
+        if (oldMessage) {
+            oldMessage.remove();
+        }
+        
+        // Crear nuevo mensaje
+        const messageElement = document.createElement('div');
+        messageElement.className = `modal-message ${type}`;
+        messageElement.textContent = message;
+        
+        // Insertar después del botón de envío
+        const submitContainer = form.querySelector('.form-submit');
+        form.insertBefore(messageElement, submitContainer.nextSibling);
+        
+        // Auto-ocultar mensaje después de 5 segundos para mensajes de éxito
+        if (type === 'success') {
+            setTimeout(function() {
+                messageElement.remove();
+            }, 5000);
+        }
+    }
 }
 
 // Agregar CSS personalizado para mensajes y animaciones

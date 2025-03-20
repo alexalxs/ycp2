@@ -27,7 +27,7 @@
 - [x] Reorganização do conteúdo seguindo padrão TSL
 - [x] Posicionamento do Header e Hero Section na parte inferior da página
 - [x] Adicionado botão que redireciona o usuário para a página de compra após
-      capturar o e-mail (https://dekoola.com/ch/hack/)
+      capturar o e-mail ( redirect_link/)
 - [x] Implementado indicador de processamento durante a submissão do formulário
 - [x] Configurado envio de e-mail via POST para a API Autonami
 - [x] Adicionado formatação em negrito (bold) para palavras de poder (Agora,
