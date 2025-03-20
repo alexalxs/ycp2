@@ -984,22 +984,11 @@ a:hover {
     border-color: var(--color-accent);
 }
 
-.submit-button {
-    background-color: var(--color-black);
-    color: var(--color-white);
-    font-family: var(--font-secondary);
-    font-size: 1.4rem;
-    font-weight: 700;
-    letter-spacing: 0.1rem;
-    text-transform: uppercase;
-    padding: 0 var(--spacing-md);
-    border: none;
-    cursor: pointer;
-    transition: background-color var(--transition-normal);
-}
-
-.submit-button:hover {
-    background-color: var(--color-accent);
+#contact-form input[type="text"]:focus,
+#contact-form input[type="email"]:focus {
+    border-color: var(--color-accent);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(187, 140, 74, 0.1);
 }
 
 .form-info {
@@ -1420,25 +1409,6 @@ a:hover {
     box-shadow: 0 0 0 3px rgba(187, 140, 74, 0.1);
 }
 
-.form-submit {
-    margin-top: 20px;
-    position: relative;
-}
-
-.modal-submit-btn {
-    display: block;
-    width: 100%;
-    padding: 14px 20px;
-    background-color: var(--color-accent);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
 .modal-submit-btn:hover {
     background-color: #a67a3e;
 }
@@ -1455,10 +1425,7 @@ a:hover {
     justify-content: center;
     align-items: center;
     gap: 10px;
-}
-
-.loading-indicator.show {
-    display: flex;
+    z-index: 5;
 }
 
 .spinner {
@@ -1477,39 +1444,126 @@ a:hover {
 
 /* Estilos para mensagens */
 .modal-message {
-    padding: 12px 15px;
+    padding: 15px;
     margin-top: 15px;
     border-radius: 4px;
     font-size: 14px;
+    position: relative;
+    padding-left: 45px;
+    line-height: 1.5;
+}
+
+.modal-message::before {
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
 }
 
 .modal-message.success {
-    background-color: rgba(209, 250, 229, 0.8);
-    color: #0c6e47;
-    border-left: 4px solid #10b981;
+    background-color: #f0fff4;
+    border: 1px solid #c6f6d5;
+    color: var(--color-success);
+}
+
+.modal-message.success::before {
+    content: '\f00c'; /* Check icon */
+    color: var(--color-success);
 }
 
 .modal-message.error {
-    background-color: rgba(254, 226, 226, 0.8);
-    color: #b91c1c;
-    border-left: 4px solid #ef4444;
+    background-color: #fdf2f2;
+    border: 1px solid #fed7d7;
+    color: var(--color-error);
+}
+
+.modal-message.error::before {
+    content: '\f071'; /* Warning icon */
+    color: var(--color-error);
 }
 
 .modal-message.info {
-    background-color: rgba(219, 234, 254, 0.8);
-    color: #1e40af;
-    border-left: 4px solid #3b82f6;
+    background-color: #e6f7ff;
+    border: 1px solid #bae7ff;
+    color: #0070cc;
+}
+
+.modal-message.info::before {
+    content: '\f05a'; /* Info circle icon */
+    color: #0070cc;
 }
 
 /* Responsividade para dispositivos móveis */
 @media (max-width: 767px) {
     .modal-content {
-        margin: 15% auto;
+        width: 95%;
         padding: 20px;
-        max-width: 90%;
     }
     
     .buttons-container {
-        max-width: 100%;
+        flex-direction: column;
     }
+}
+
+.form-submit {
+    margin-top: var(--spacing-md);
+    position: relative;
+}
+
+.modal-submit-btn {
+    display: block;
+    width: 100%;
+    padding: 1.4rem 2.5rem;
+    background-color: var(--color-accent);
+    color: var(--color-white);
+    border: none;
+    border-radius: 4px;
+    font-family: var(--font-secondary);
+    font-size: 1.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.modal-submit-btn:hover {
+    background-color: var(--color-accent-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.modal-submit-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.modal-submit-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s ease-out;
+    z-index: 1;
+}
+
+.modal-submit-btn:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+.modal-submit-btn span {
+    position: relative;
+    z-index: 2;
 } 

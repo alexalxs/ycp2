@@ -7,6 +7,7 @@ sequenceDiagram
     participant FormProc as Processador de Formulário (form-processor.php)
     participant Sistema as Sistema
     participant BD as Banco de Dados JSON
+    participant Storage as LocalStorage
     participant AdminUI as Interface Administrativa
     participant Webhook as Webhook Externo
     participant Redir as URL de Redirecionamento
@@ -20,16 +21,17 @@ sequenceDiagram
     Usuario->>LP: Preenche email e outros dados
     Usuario->>LP: Clica no botão de envio
     Note over LP: Estado: "Formulário submetido"
+    LP->>LP: Mostra indicador de carregamento "Preparando tu acceso..."
     
     %% Processamento do formulário no servidor
-    LP->>FormProc: Submete formulário para /form-processor.php (POST)<br>Payload: {name, email, phone}
+    LP->>FormProc: Submete formulário para /form-processor.php (POST)<br>Payload: {name, email, phone}<br>Com timeout de 10s
     Note over FormProc: Estado: "Processando dados do formulário"
     
     %% Processamento no servidor
     FormProc->>Sistema: Recebe e valida dados (email, nome, etc.)
     Sistema->>Sistema: Gera/recupera subid do cookie
     
-    alt Dados válidos
+    alt Dados válidos e servidor responde dentro do timeout
         %% Registro do lead
         Sistema->>BD: Registra lead (subid, nome, email, etc.)
         Note over BD: Estado: "Lead registrado"
@@ -39,11 +41,16 @@ sequenceDiagram
         Sistema->>Sistema: Verifica black_land_redirect_url
         
         alt black_land_redirect_url está definido
-            Sistema->>Redir: Redireciona para URL personalizada<br>Ex: "https://dekoola.com/ch/hack/"
+            FormProc-->>LP: Resposta de sucesso (JSON)
+            LP->>LP: Exibe mensagem de sucesso (verde)
+            LP->>Usuario: Exibe "¡Tu solicitud ha sido procesada con éxito! Serás redirigido en breve."
+            LP->>Redir: Redireciona para URL personalizada (após 1s)<br>Ex: "https://dekoola.com/ch/hack/"
             Note over Usuario: Estado: "Redirecionado para URL externa"
         else black_land_redirect_url não definido
             %% Com a correção, não precisamos mais verificar thankyou.php
-            Sistema->>Redir: Redireciona para /thankyou.html
+            FormProc-->>LP: Resposta de sucesso (JSON)
+            LP->>LP: Exibe mensagem de sucesso (verde)
+            LP->>Redir: Redireciona para /thankyou.html (após 1s)
             Note over Usuario: Estado: "Página de agradecimento padrão exibida"
         end
         
@@ -53,13 +60,24 @@ sequenceDiagram
             Note over Webhook: Estado: "Processando dados externos"
             Webhook-->>Sistema: Resposta (sucesso/erro)
         end
-    else Dados inválidos
-        Sistema-->>Usuario: Retorna mensagem de erro
-        Note over Usuario: Estado: "Erro de validação exibido"
+    else Dados inválidos ou erro no servidor ou timeout
+        alt Dados inválidos
+            FormProc-->>LP: Retorna mensagem de erro (JSON)
+            LP->>LP: Exibe mensagem de erro (vermelho)
+            LP->>Usuario: Exibe "Por favor, introduce un email válido." ou outro erro específico
+            Note over Usuario: Estado: "Erro de validação exibido"
+        else Erro no servidor ou timeout
+            Note over LP: Sistema de tratamento de erro aprimorado ativado
+            LP->>Storage: Armazena dados do formulário (nome, email) no localStorage
+            LP->>LP: Exibe mensagem informativa (azul)
+            LP->>Usuario: Exibe "Estamos procesando tu información. Serás redirigido a la siguiente página."
+            LP->>Redir: Redireciona para URL personalizada (após 2s)<br>Ex: "https://dekoola.com/ch/hack/"
+            Note over Usuario: Estado: "Redirecionado com experiência positiva mesmo após erro"
+        end
     end
     
     %% Processo de edição da URL de redirecionamento (área administrativa)
-    rect rgb(240, 240, 255)
+    rect rgb(2, 2, 85)
     note right of AdminUI: Problema identificado: Não é possível editar<br>a URL de redirecionamento na interface
     
     Usuario->>AdminUI: Acessa página de configurações (/admin/editsettings.php)
@@ -96,6 +114,14 @@ foreach($_POST as $key=>$value){
 - Se `black_land_redirect_url` estiver definido: redirecionar para essa URL
 - Caso contrário: redirecionar para `thankyou.html`
 
+### 3. Melhorias na experiência do usuário (UX)
+
+**Implementações**: 
+- Adicionado sistema de fallback que redireciona o usuário mesmo em caso de erro no servidor
+- Implementado armazenamento local de dados do formulário para possível recuperação
+- Otimizadas as mensagens para o usuário para manter uma experiência positiva
+- Adicionado timeout para evitar esperas prolongadas em caso de falha do servidor
+
 ## Análise do Estado de Transição Atualizado
 
 | Estado | Descrição | Evento de Transição | Próximo Estado |
@@ -106,6 +132,7 @@ foreach($_POST as $key=>$value){
 | Lead registrado | Dados armazenados no banco de dados | N/A | N/A |
 | Redirecionado para URL externa | Usuário é enviado para URL definida em `black_land_redirect_url` | N/A | N/A |
 | Página de agradecimento padrão exibida | Usuário visualiza thankyou.html | N/A | N/A |
+| Redirecionado com experiência positiva mesmo após erro | Usuário é redirecionado mesmo quando ocorre erro | N/A | N/A |
 
 ## Fontes de Dados Envolvidas
 
@@ -118,6 +145,10 @@ foreach($_POST as $key=>$value){
    - Parâmetros relevantes:
      - `black.landing.folder.redirect_url: "https://dekoola.com/ch/hack/"` - URL para redirecionamento após submissão do formulário
 
+3. **Armazenamento Local**
+   - `localStorage` do navegador - Usado para backup de dados do formulário em caso de falha
+   - Chaves: `form_name`, `form_email` - Armazenam dados do último envio com falha
+
 ## Detalhes das Requisições e Respostas
 
 ### Submissão do Formulário:
@@ -125,6 +156,7 @@ foreach($_POST as $key=>$value){
   - Método: `POST`
   - URL: `/form-processor.php`
   - Dados: `email=usuario@exemplo.com&name=Nome&phone=Telefone`
+  - Timeout: 10 segundos (para evitar esperas prolongadas)
   
 - **Processamento**:
   1. Validação de dados
@@ -132,5 +164,29 @@ foreach($_POST as $key=>$value){
   3. Registro no banco de dados
   4. Verificação da URL de redirecionamento
   
-- **Resposta**: 
-  - Redirecionamento para URL configurada em `black_land_redirect_url` ou para `/thankyou.html` como fallback 
+- **Resposta de Sucesso**: 
+  - Código HTTP: 200 OK
+  - Corpo: JSON com confirmação
+  - Ação do Cliente: Exibe mensagem de sucesso e redireciona para URL configurada ou fallback
+  
+- **Resposta de Erro ou Timeout**:
+  - Código HTTP: 4xx/5xx ou nenhuma resposta (timeout)
+  - Ação do Cliente: Salva dados no localStorage, exibe mensagem informativa e redireciona
+
+## Experiência do Usuário (UX)
+
+O sistema foi otimizado para proporcionar uma experiência de usuário consistente e positiva em todos os cenários:
+
+1. **Indicadores Visuais**:
+   - **Carregamento**: Texto "Preparando tu acceso..." com animação de spinner
+   - **Sucesso**: Mensagem em verde com ícone de verificação
+   - **Informação**: Mensagem em azul com ícone de informação (em vez de mensagem de erro)
+
+2. **Abordagem Positiva para Erros**:
+   - Em vez de mostrar mensagens de erro técnicas, apresentamos mensagens informativas
+   - Mesmo em caso de falha, garantimos que o usuário seja redirecionado para continuar sua jornada
+   - Melhor experiência para usuários em conexões lentas ou instáveis
+
+3. **Tempos de Redirecionamento**:
+   - Sucesso: Redirecionamento após 1 segundo
+   - Falha/Informação: Redirecionamento após 2 segundos (tempo suficiente para ler a mensagem) 
