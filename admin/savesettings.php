@@ -125,12 +125,16 @@ try {
     file_put_contents($log_file, date('[Y-m-d H:i:s] ') . "Configurações salvas com sucesso\n", FILE_APPEND);
     file_put_contents($log_file, date('[Y-m-d H:i:s] ') . "--- FIM DO PROCESSAMENTO ---\n\n", FILE_APPEND);
     
-    // Obter o nome da pasta dinamicamente
-    $dir_name = basename(dirname(dirname(__FILE__)));
-    file_put_contents($log_file, date('[Y-m-d H:i:s] ') . "Nome da pasta: $dir_name\n", FILE_APPEND);
+    // Obter o caminho base dinamicamente a partir do REQUEST_URI
+    $request_uri = $_SERVER['REQUEST_URI'] ?? '';
+    $path_parts = explode('/', trim($request_uri, '/'));
+    $base_path = !empty($path_parts[0]) ? ('/' . $path_parts[0]) : '';
     
-    // Adicionar informações sobre o redirecionamento de sucesso para debug
-    $success_url = 'admin/editsettings.php?password=' . $log_password . '&success=1';
+    file_put_contents($log_file, date('[Y-m-d H:i:s] ') . "REQUEST_URI: $request_uri\n", FILE_APPEND);
+    file_put_contents($log_file, date('[Y-m-d H:i:s] ') . "Caminho base calculado: $base_path\n", FILE_APPEND);
+    
+    // Construir a URL de redirecionamento com o caminho base
+    $success_url = $base_path . '/admin/editsettings.php?password=' . $log_password . '&success=1';
     file_put_contents($log_file, date('[Y-m-d H:i:s] ') . "Redirecionando para (sucesso): $success_url\n", FILE_APPEND);
     
     // Redirecionar com mensagem de sucesso
@@ -141,12 +145,16 @@ try {
     file_put_contents($log_file, date('[Y-m-d H:i:s] ') . "Trace: " . $e->getTraceAsString() . "\n", FILE_APPEND);
     file_put_contents($log_file, date('[Y-m-d H:i:s] ') . "--- FIM DO PROCESSAMENTO COM ERRO ---\n\n", FILE_APPEND);
     
-    // Obter o nome da pasta dinamicamente
-    $dir_name = basename(dirname(dirname(__FILE__)));
-    file_put_contents($log_file, date('[Y-m-d H:i:s] ') . "Nome da pasta: $dir_name\n", FILE_APPEND);
+    // Obter o caminho base dinamicamente a partir do REQUEST_URI
+    $request_uri = $_SERVER['REQUEST_URI'] ?? '';
+    $path_parts = explode('/', trim($request_uri, '/'));
+    $base_path = !empty($path_parts[0]) ? ('/' . $path_parts[0]) : '';
     
-    // Adicionar informações sobre o redirecionamento de erro para debug
-    $error_url = 'admin/editsettings.php?password=' . $log_password . '&error=' . urlencode($e->getMessage());
+    file_put_contents($log_file, date('[Y-m-d H:i:s] ') . "REQUEST_URI: $request_uri\n", FILE_APPEND);
+    file_put_contents($log_file, date('[Y-m-d H:i:s] ') . "Caminho base calculado: $base_path\n", FILE_APPEND);
+    
+    // Construir a URL de redirecionamento com o caminho base
+    $error_url = $base_path . '/admin/editsettings.php?password=' . $log_password . '&error=' . urlencode($e->getMessage());
     file_put_contents($log_file, date('[Y-m-d H:i:s] ') . "Redirecionando para (erro): $error_url\n", FILE_APPEND);
     
     // Redirecionar com mensagem de erro
