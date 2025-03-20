@@ -3,7 +3,7 @@
         "action": "folder",
         "folder": {
             "names": [
-                "white2"
+                "white"
             ]
         },
         "redirect": {
@@ -57,7 +57,7 @@
             "action": "folder",
             "folder": {
                 "names": [
-                    "landing"
+                    "site4"
                 ],
                 "conversions": {
                     "script": "form-processor.php",
@@ -191,7 +191,7 @@
         }
     ],
     "statistics": {
-        "password": "12345",
+        "password": "100Futebol!",
         "subnames": [
             {
                 "name": "adn",
